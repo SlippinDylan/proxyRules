@@ -1,0 +1,52 @@
+# start.me
+DOMAIN-SUFFIX,start.me
+
+# vpn
+DOMAIN-SUFFIX,mxwljsq.xyz
+DOMAIN-SUFFIX,tailscale.com
+
+# 磁力
+DOMAIN-SUFFIX,clm37.asia
+DOMAIN-KEYWORD,clm37
+
+# ipv6测试
+DOMAIN-SUFFIX,test-ipv6.com
+
+# PLEX
+DOMAIN-SUFFIX,plex.tv
+DOMAIN-KEYWORD,plex
+DOMAIN-SUFFIX,telghub.com
+
+# 编译op
+DOMAIN-SUFFIX,sourceware.org
+DOMAIN-SUFFIX,busybox.net
+DOMAIN-SUFFIX,netcologne.de
+DOMAIN-SUFFIX,leaseweb.com
+DOMAIN-SUFFIX,netfilter.org
+DOMAIN-SUFFIX,ipset.netfilter.org
+DOMAIN-SUFFIX,ucc.asn.au
+DOMAIN-SUFFIX,denx.de
+DOMAIN-SUFFIX,muppetlabs.com
+DOMAIN-SUFFIX,savannah.nongnu.org
+DOMAIN-SUFFIX,dereferenced.org
+DOMAIN-SUFFIX,infraroot.at
+DOMAIN-SUFFIX,immortalwrt.org
+DOMAIN-SUFFIX,jing.rocks
+DOMAIN-SUFFIX,2f30.org
+DOMAIN-SUFFIX,musl.libc.org
+DOMAIN-SUFFIX,quantum-mirror.hu
+DOMAIN-SUFFIX,fastlydns.net
+
+# dev
+DOMAIN-SUFFIX,warp.dev
+
+# Alpine
+DOMAIN-KEYWORD,alpinelinux
+IP-CIDR,151.101.90.132/32,no-resolve
+IP-CIDR,155.248.196.28/32,no-resolve
+IP-CIDR,74.50.98.131/32,no-resolve
+IP-CIDR,51.81.226.229/32,no-resolve
+IP-CIDR,108.61.73.244/32,no-resolve
+
+DOMAIN-KEYWORD,tgstat
+DOMAIN-SUFFIX,dynadot.com
