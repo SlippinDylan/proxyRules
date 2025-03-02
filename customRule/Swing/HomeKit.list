@@ -1,7 +1,7 @@
 # HomeKit 相关规则
 
 DOMAIN-SUFFIX,hap.apple.com
-DOMAIN-SUFFIX,homekit.apple.com
+DOMAIN-SUFFIX,homekit.apple.com`
 DOMAIN,hap-storage.apple.com
 DOMAIN-SUFFIX,icloud.com
 DOMAIN,media.icloud-content.com
