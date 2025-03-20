@@ -21,6 +21,8 @@ DOMAIN-SUFFIX,golang.org
 DOMAIN-SUFFIX,launchpad.proxy.ustclug.org
 DOMAIN-SUFFIX,proxy.ustclug.org
 DOMAIN-SUFFIX,ustclug.org
+DOMAIN-SUFFIX,golang.org
+DOMAIN-SUFFIX,proxy.golang.org
 
 # Alpine
 DOMAIN-KEYWORD,alpinelinux
