@@ -1,3 +1,5 @@
+# 个人
 +.slippindylan.com
+# 公司
 jshi9.com
 +.jshi9.com

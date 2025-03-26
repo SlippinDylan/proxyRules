@@ -152,7 +152,9 @@ proxy-groups:
 rules:
   - RULE-SET,private_domain,🚥 直连访问
   - RULE-SET,category_ai_chat_notcn_domain,🤖 Intelligence
+  
   - RULE-SET,category_dev_domain,🐙 Develop
+  - RULE-SET,developer_domain,🐙 Develop
   - RULE-SET,linux_domain,🐙 Develop
   
   - RULE-SET,onedrive_domain,☁️ OneDrive
@@ -163,17 +165,15 @@ rules:
   
   - RULE-SET,spotify_domain,🎸 Spotify
   - RULE-SET,tiktok_domain,🎵 TikTok
-  - RULE-SET,netflix_domain,📽️ 国外流媒体
-  - RULE-SET,primevideo_domain,📽️ 国外流媒体
-  - RULE-SET,disney_domain,📽️ 国外流媒体
-  - RULE-SET,youtube_domain,📽️ 国外流媒体
-  - RULE-SET,hbo_domain,📽️ 国外流媒体
-  - RULE-SET,hulu_domain,📽️ 国外流媒体
-  - RULE-SET,discoveryplus_domain,📽️ 国外流媒体
-  - RULE-SET,category_media_cn_domain,🚥 直连访问
-  - RULE-SET,category_media_domain,🪜 翻墙代理
 
+  - RULE-SET,globalmedia_domain,📽️ 国外流媒体
+  - RULE-SET,category_media_domain,📽️ 国外流媒体
+  - RULE-SET,category_media_cn_domain,🚥 直连访问
+  - RULE-SET,chinamedia_domain,🚥 直连访问
+
+  - RULE-SET,gamedownloadcn_domain,🎮 游戏直连
   - RULE-SET,category_games_cn_domain,🎮 游戏直连
+  - RULE-SET,gamedownload_domain,🎮 游戏代理
   - RULE-SET,category_games_domain,🎮 游戏代理
 
   - RULE-SET,apple_domain,🍎 Apple
@@ -189,7 +189,8 @@ rules:
   - RULE-SET,google_ip,🔍 Google,no-resolve
   - RULE-SET,apple_ip,🍎 Apple,no-resolve
   - RULE-SET,telegram_ip,📱 Telegram,no-resolve
-  - RULE-SET,netflix_ip,📽️ 国外流媒体,no-resolve
+  - RULE-SET,globalmedia_ip,📽️ 国外流媒体,no-resolve
+  - RULE-SET,chinamedia_ip,🚥 直连访问,no-resolve
   - RULE-SET,cn_ip,🚥 直连访问
   - MATCH,🐠 漏网之鱼
 
@@ -209,6 +210,7 @@ rule-providers:
   category_ai_chat_notcn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-chat-!cn.mrs"}
   # 开发
   category_dev_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-dev.mrs"}
+  developer_domain: { <<: *domain, url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Developer/Developer_OCD_Domain.mrs"}
   linux_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/linux.mrs"}
   # google
   google_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}

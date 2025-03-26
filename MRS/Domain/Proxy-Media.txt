@@ -1,5 +1,11 @@
+# PLEX
+plex.tv
 +.plex.tv
-+.telghub.com
+# 熊猫
+embyclub.net
+embyclub.com
+embyclub.org
+embyclub.media
 +.embyclub.net
 +.embyclub.com
 +.embyclub.org

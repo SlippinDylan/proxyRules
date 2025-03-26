@@ -1,0 +1,17 @@
+# 下载
+clm37.asia
++.clm37.asia
+# 网络
+mxwljsq.xyz
++.mxwljsq.xyz
+tailscale.com
++.tailscale.com
+dynadot.com
++.dynadot.com
+test-ipv6.com
++.test-ipv6.com
+# 工具
+start.me
++.start.me
+telghub.com
++.telghub.com
