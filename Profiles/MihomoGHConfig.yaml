@@ -51,7 +51,7 @@ external-controller: 0.0.0.0:9090
 secret: "dylan1010"
 external-ui: "/etc/mihomo/run/ui"
 external-ui-name: zashboard
-external-ui-url: "https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip"
+external-ui-url: "https://gh-proxy.com/raw.githubusercontent.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
 
 # 嗅探  作用不是很大 在路由规则匹配的时候 如果是IP 通过嗅探匹配出对应 IP 的域名
 sniffer:
@@ -121,22 +121,25 @@ proxymain: &proxymain {type: select, proxies: [🇭🇰 香港自动, 🇨🇳 �
 directmain: &directmain {type: select, proxies: [🚥 直连访问, 🇭🇰 香港自动, 🇨🇳 台湾自动, 🇯🇵 日本自动, 🇸🇬 狮城自动, 🇺🇸 美国自动, 🗺 环球节点, 🚀 全部节点]}
 proxy-groups:
   - {name: 🪜 翻墙代理, <<: *proxymain}
+  - {name: 🚥 直连访问, type: select, proxies: [直连节点]}
   - {name: 🍎 Apple, <<: *directmain}
-  - {name: 🍎 ApplePro, <<: *proxymain}
+  - {name: 🍎 ApplePxy, <<: *proxymain}
   - {name: 🔍 Google, <<: *proxymain}
   - {name: Ⓜ️ Microsoft, <<: *proxymain}
+
   - {name: ☁️ OneDrive, <<: *directmain}
-  - {name: 🐙 Develop, <<: *proxymain}
   - {name: 🤖 Intelligence, type: select, proxies: [🇯🇵 日本自动, 🇺🇸 美国自动]}
+  - {name: 🐙 Develop, <<: *proxymain}
+  - {name: 📱 Telegram, type: select, proxies: [🇸🇬 狮城自动, 🇭🇰 香港自动, 🇨🇳 台湾自动, 🇯🇵 日本自动, 🇺🇸 美国自动, 🗺 环球节点, 🚀 全部节点]}
   - {name: 💰 Wallet, type: select, proxies: [🇨🇳 台湾自动, 🚥 直连访问, 🇭🇰 香港自动, 🇯🇵 日本自动, 🇸🇬 狮城自动, 🇺🇸 美国自动, 🗺 环球节点, 🚀 全部节点]}
   - {name: 🧭 Speedtest, <<: *directmain}
-  - {name: 📱 Telegram, type: select, proxies: [🇸🇬 狮城自动, 🇭🇰 香港自动, 🇨🇳 台湾自动, 🇯🇵 日本自动, 🇺🇸 美国自动, 🗺 环球节点, 🚀 全部节点]}
+
   - {name: 🎸 Spotify, type: select, proxies: [🇨🇳 台湾自动, 🚥 直连访问, 🇭🇰 香港自动, 🇯🇵 日本自动, 🇸🇬 狮城自动, 🇺🇸 美国自动, 🗺 环球节点, 🚀 全部节点]}
   - {name: 📽️ 国外流媒体, type: select, proxies: [📺 流媒自动, 直连节点]}
   - {name: 🎵 TikTok, type: select, proxies: [🇺🇸 美国自动, 直连节点]}
   - {name: 🎮 游戏直连, <<: *directmain}
   - {name: 🎮 游戏代理, <<: *proxymain}
-  - {name: 🚥 直连访问, type: select, proxies: [直连节点, 🇭🇰 香港自动, 🇨🇳 台湾自动, 🇯🇵 日本自动, 🇸🇬 狮城自动, 🇺🇸 美国自动, 🗺 环球节点, 🚀 全部节点]}
+
   - {name: 🐠 漏网之鱼, <<: *proxymain}
 
   - {name: 🇭🇰 香港自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(香港|HK|Hong Kong|🇭🇰|HongKong))^((?!(福利|301|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
@@ -151,16 +154,16 @@ proxy-groups:
 # 规则匹配 此规则部分没有做防泄露处理,因为弊严重大于利！注意顺序
 rules:
   - RULE-SET,private_domain,🚥 直连访问
-  - RULE-SET,per_direct,🚥 直连访问
-  - RULE-SET,per_proxy,🪜 翻墙代理
+  - RULE-SET,usr_direct,🚥 直连访问
+  - RULE-SET,usr_proxy,🪜 翻墙代理
 
   - RULE-SET,category_ai_chat_notcn_domain,🤖 Intelligence
-  - RULE-SET,per_proxy_intelligence,🤖 Intelligence
+  - RULE-SET,usr_proxy_intelligence,🤖 Intelligence
 
   - RULE-SET,category_dev_domain,🐙 Develop
-  - RULE-SET,developer_domain,🐙 Develop
+  - RULE-SET,develousr_domain,🐙 Develop
   - RULE-SET,linux_domain,🐙 Develop
-  - RULE-SET,per_proxy_develop,🐙 Develop
+  - RULE-SET,usr_proxy_develop,🐙 Develop
 
   - RULE-SET,onedrive_domain,☁️ OneDrive
   - RULE-SET,synology_domain,🚥 直连访问
@@ -171,7 +174,7 @@ rules:
   - RULE-SET,spotify_domain,🎸 Spotify
   - RULE-SET,tiktok_domain,🎵 TikTok
 
-  - RULE-SET,per_proxy_media,📽️ 国外流媒体
+  - RULE-SET,usr_proxy_media,📽️ 国外流媒体
   - RULE-SET,globalmedia_domain,📽️ 国外流媒体
   - RULE-SET,category_media_domain,📽️ 国外流媒体
   - RULE-SET,category_media_cn_domain,🚥 直连访问
@@ -183,7 +186,7 @@ rules:
   - RULE-SET,category_games_domain,🎮 游戏代理
 
   - RULE-SET,apple_domain,🍎 Apple
-  - RULE-SET,apple_notcn_domain,🍎 ApplePr
+  - RULE-SET,apple_notcn_domain,🍎 ApplePxy
   - RULE-SET,google_domain,🔍 Google
   - RULE-SET,microsoft_domain,Ⓜ️ Microsoft
 
@@ -192,7 +195,7 @@ rules:
   - RULE-SET,geolocation_notcn_domain,🪜 翻墙代理
   - RULE-SET,cn_domain,🚥 直连访问
 
-  - RULE-SET,per_proxy_develop_ip,🐙 Develop,no-resolve
+  - RULE-SET,usr_proxy_develop_ip,🐙 Develop,no-resolve
   - RULE-SET,telegram_ip,📱 Telegram,no-resolve
   - RULE-SET,globalmedia_ip,📽️ 国外流媒体,no-resolve
   - RULE-SET,chinamedia_ip,🚥 直连访问,no-resolve
@@ -217,7 +220,7 @@ rule-providers:
   category_ai_chat_notcn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-chat-!cn.mrs"}
   # 开发
   category_dev_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-dev.mrs"}
-  developer_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Developer/Developer_OCD_Domain.mrs"}
+  develousr_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Developer/Developer_OCD_Domain.mrs"}
   linux_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/linux.mrs"}
   # google
   google_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}
@@ -262,9 +265,9 @@ rule-providers:
   cn_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
   
   # 个人
-  per_proxy_develop_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/mrs/Proxy-Develop-IP.mrs"}
-  per_direct: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/mrs/Direct.mrs"}
-  per_proxy_develop: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/mrs/Proxy-Develop.mrs"}
-  per_proxy_intelligence: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/mrs/Proxy-Intelligence.mrs"}
-  per_proxy_media: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/mrs/Proxy-Media.mrs"}
-  per_proxy: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/mrs/Proxy.mrs"}
+  usr_proxy_develop_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/mrs/Proxy-Develop-IP.mrs"}
+  usr_direct: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/mrs/Direct.mrs"}
+  usr_proxy_develop: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/mrs/Proxy-Develop.mrs"}
+  usr_proxy_intelligence: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/mrs/Proxy-Intelligence.mrs"}
+  usr_proxy_media: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/mrs/Proxy-Media.mrs"}
+  usr_proxy: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/mrs/Proxy.mrs"}
