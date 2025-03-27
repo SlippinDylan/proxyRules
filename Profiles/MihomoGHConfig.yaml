@@ -134,7 +134,11 @@ proxy-groups:
 
   # AI和开发相关
   - {name: 🤖 Intelligence, type: select, proxies: [🇯🇵 日本自动, 🇺🇸 美国自动]}
-  - {name: 🐙 Develop, <<: *proxymain}
+  - {name: 🐙 Develop, type: select, proxies: [
+    🌏 亚洲自动, 🇭🇰 香港自动, 
+    🇨🇳 台湾自动, 🇯🇵 日本自动, 
+    🇸🇬 狮城自动, 🇺🇸 美国自动
+    ]}
 
   # 资料管理
   - {name: ☁️ OneDrive, <<: *directmain}
@@ -174,17 +178,19 @@ proxy-groups:
 
   # 地域自动选择
   - {name: 🇭🇰 香港自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
-     filter: "(?=.*(香港|HK|Hong Kong|🇭🇰|HongKong))^((?!(福利|301|0.1x-5x)).)*$"}
+     filter: "(?=.*(香港|HK|Hong Kong|🇭🇰|HongKong))^((?!(福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
   - {name: 🇨🇳 台湾自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
-     filter: "(?=.*(台湾|🇹🇼))^((?!(福利|0.1x-5x)).)*$"}
+     filter: "(?=.*(台湾|🇹🇼))^((?!(福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
   - {name: 🇯🇵 日本自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
-     filter: "(?=.*(日本|🇯🇵))^((?!(福利|0.1x-5x)).)*$"}
+     filter: "(?=.*(日本|🇯🇵))^((?!(福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
   - {name: 🇸🇬 狮城自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
-     filter: "(?=.*(新加坡|🇸🇬))^((?!(福利|301|0.1x-5x)).)*$"}
+     filter: "(?=.*(新加坡|🇸🇬))^((?!(福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
+  - {name: 🌏 亚洲自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
+     filter: "(?=.*(香港|HK|Hong Kong|🇭🇰|HongKong|台湾|🇹🇼|日本|🇯🇵|新加坡|🇸🇬))^((?!(福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
   - {name: 🇺🇸 美国自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
-     filter: "(?=.*(美国|🇺🇸))^((?!(福利|0.1x-5x)).)*$"}
+     filter: "(?=.*(美国|🇺🇸))^((?!(福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
   - {name: 📺 流媒自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
-     filter: "(?=.*(NF|Disney|HBO|Hulu))^((?!(福利|0.1x-5x)).)*$"}
+     filter: "(?=.*(NF|Disney|HBO|Hulu))^((?!(福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
 
   # 全局节点
   - {name: 🗺 环球节点, type: select, include-all: true, 
