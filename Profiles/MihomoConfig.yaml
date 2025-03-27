@@ -195,8 +195,6 @@ proxy-groups:
 rules:
   # 基础网络和隐私规则
   - RULE-SET,private_domain,🚥 直连访问
-  - RULE-SET,usr_direct,🚥 直连访问
-  - RULE-SET,usr_proxy,🪜 翻墙代理
   
   # AI和智能服务
   - RULE-SET,category_ai_chat_notcn_domain,🤖 Intelligence
@@ -241,6 +239,8 @@ rules:
   - RULE-SET,microsoft_domain,Ⓜ️ Microsoft
   
   # 全局代理
+  - RULE-SET,usr_direct,🚥 直连访问
+  - RULE-SET,usr_proxy,🪜 翻墙代理
   - RULE-SET,proxy_domain,🪜 翻墙代理
   - RULE-SET,gfw_domain,🪜 翻墙代理
   - RULE-SET,geolocation_notcn_domain,🪜 翻墙代理
@@ -270,11 +270,9 @@ rule-anchor:
 rule-providers:
   # 基础网络和隐私规则
   private_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
-  usr_direct: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/mrs/Direct.mrs"}
-  usr_proxy: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/mrs/Proxy.mrs"}
   
   # AI和智能服务
-  category_ai_chat_notcn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-chat-!cn.mrs"}
+  category_ai_chat_notcn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs"}
   usr_proxy_intelligence: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/mrs/Proxy-Intelligence.mrs"}
   
   # 开发
@@ -316,6 +314,8 @@ rule-providers:
   microsoft_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}
   
   # 全局代理
+  usr_direct: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/mrs/Direct.mrs"}
+  usr_proxy: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/mrs/Proxy.mrs"}
   proxy_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geosite/proxy.mrs"}
   gfw_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"}
   geolocation_notcn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}

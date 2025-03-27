@@ -3,3 +3,6 @@
 # 公司
 jshi9.com
 +.jshi9.com
+# 代理
+gh-proxy.com
++.gh-proxy.com
