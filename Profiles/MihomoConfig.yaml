@@ -129,19 +129,19 @@ proxy-groups:
   # 特定服务策略组
   - {name: 🍎 Apple, <<: *directmain}
   - {name: 🍎 ApplePxy, <<: *proxymain}
-  - {name: 🔍 Google, <<: *proxymain}
+  - {name: Ⓜ️ MicrosoftCN, <<: *directmain}
   - {name: Ⓜ️ Microsoft, <<: *proxymain}
+  - {name: 🔍 Google, <<: *proxymain}
 
   # AI和开发相关
-  - {name: 🤖 Intelligence, type: select, proxies: [🇯🇵 日本自动, 🇺🇸 美国自动]}
   - {name: 🐙 Develop, type: select, proxies: [
     🌏 亚洲自动, 🇭🇰 香港自动, 
     🇨🇳 台湾自动, 🇯🇵 日本自动, 
     🇸🇬 狮城自动, 🇺🇸 美国自动
     ]}
+  - {name: 🤖 Intelligence, type: select, proxies: [🇯🇵 日本自动, 🇺🇸 美国自动]}
 
   # 资料管理
-  - {name: ☁️ OneDrive, <<: *directmain}
   - {name: 💾 Synology, <<: *directmain}
 
   # 通讯和钱包
@@ -213,7 +213,7 @@ rules:
   - RULE-SET,usr_proxy_develop,🐙 Develop
   
   # 工具和实用服务
-  - RULE-SET,onedrive_domain,☁️ OneDrive
+  - RULE-SET,onedrive_domain,Ⓜ️ MicrosoftCN
   - RULE-SET,synology_domain,💾 Synology
   - RULE-SET,speedtest_domain,🧭 Speedtest
   
@@ -242,6 +242,7 @@ rules:
   - RULE-SET,apple_domain,🍎 Apple
   - RULE-SET,apple_notcn_domain,🍎 ApplePxy
   - RULE-SET,google_domain,🔍 Google
+  - RULE-SET,microsoft_cn_domain,Ⓜ️ MicrosoftCN
   - RULE-SET,microsoft_domain,Ⓜ️ Microsoft
   
   # 全局代理
@@ -317,6 +318,7 @@ rule-providers:
   apple_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.mrs"}
   apple_notcn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple%40cn.mrs"}
   google_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}
+  microsoft_cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft%40cn.mrs"}
   microsoft_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}
   
   # 全局代理
