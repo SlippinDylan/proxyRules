@@ -104,20 +104,22 @@ dns:
 proxymain: &proxymain {
   type: select, 
   proxies: [
-    🇭🇰 香港自动, 🇨🇳 台湾自动, 
-    🇯🇵 日本自动, 🇸🇬 狮城自动, 
-    🇺🇸 美国自动, 🗺 环球节点, 
-    🚀 全部节点, 🚥 直连访问
+    🌏 亚洲自动, 🇭🇰 香港自动, 
+    🇨🇳 台湾自动, 🇯🇵 日本自动, 
+    🇸🇬 狮城自动, 🇺🇸 美国自动, 
+    🗺 环球节点, 🚀 全部节点, 
+    🚥 直连访问
   ]
 }
 
 directmain: &directmain {
   type: select, 
   proxies: [
-    🚥 直连访问, 🇭🇰 香港自动, 
-    🇨🇳 台湾自动, 🇯🇵 日本自动, 
-    🇸🇬 狮城自动, 🇺🇸 美国自动, 
-    🗺 环球节点, 🚀 全部节点
+    🚥 直连访问, 🌏 亚洲自动, 
+    🇭🇰 香港自动, 🇨🇳 台湾自动, 
+    🇯🇵 日本自动, 🇸🇬 狮城自动, 
+    🇺🇸 美国自动, 🗺 环球节点, 
+    🚀 全部节点
   ]
 }
 
@@ -159,12 +161,8 @@ proxy-groups:
     ]}
 
   # 媒体和娱乐
-  - {name: 🎸 Spotify, type: select, proxies: [
-      🇨🇳 台湾自动, 🚥 直连访问, 
-      🇭🇰 香港自动, 🇯🇵 日本自动, 
-      🇸🇬 狮城自动, 🇺🇸 美国自动, 
-      🗺 环球节点, 🚀 全部节点
-    ]}
+  - {name: 🎸 Spotify, <<: *directmain}
+
   - {name: 🎵 TikTok, type: select, proxies: [🇺🇸 美国自动, 直连节点]}
   - {name: 📽️ 国外流媒体, type: select, proxies: [📺 流媒自动, 直连节点]}
 
@@ -186,7 +184,7 @@ proxy-groups:
   - {name: 🇸🇬 狮城自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
      filter: "(?=.*(新加坡|🇸🇬))^((?!(福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
   - {name: 🌏 亚洲自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
-     filter: "(?=.*(香港|HK|Hong Kong|🇭🇰|HongKong|台湾|🇹🇼|日本|🇯🇵|新加坡|🇸🇬))^((?!(福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
+     filter: "(?=.*(香港|HK|Hong Kong|🇭🇰|HongKong|日本|🇯🇵|新加坡|🇸🇬))^((?!(台湾|🇹🇼|福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
   - {name: 🇺🇸 美国自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
      filter: "(?=.*(美国|🇺🇸))^((?!(福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
   - {name: 📺 流媒自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
