@@ -118,11 +118,7 @@ proxy-groups:
   - {name: 🔍 Google, <<: *proxymain}
 
   # AI和开发相关
-  - {name: 🐙 Develop, type: select, proxies: [
-    🌏 亚洲自动, 🇭🇰 香港自动, 
-    🇨🇳 台湾自动, 🇯🇵 日本自动, 
-    🇸🇬 狮城自动, 🇺🇸 美国自动
-    ]}
+  - {name: 🐙 Develop, <<: *proxymain}
   - {name: 🤖 Intelligence, type: select, proxies: [🇯🇵 日本自动, 🇺🇸 美国自动]}
 
   # 资料管理
