@@ -258,3 +258,10 @@
 +.zephir.monocul.us
 +.zer0day.ch
 +.zer0day.to
++.ipv6.open-internet.nl
++.ipv6.tracker.harry.lu
++.open.demonii.si
++.open.facedatabg.net
++.open.upeer.org
++.torr.ws
++.0d.kebhana.mx
