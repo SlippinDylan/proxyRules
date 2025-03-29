@@ -201,6 +201,7 @@ rules:
   - RULE-SET,usr_proxy_intelligence,🤖 Intelligence
   
   # 开发
+  - RULE-SET,docker_domain,🐙 Develop
   - RULE-SET,category_dev_domain,🐙 Develop
   - RULE-SET,develousr_domain,🐙 Develop
   - RULE-SET,linux_domain,🐙 Develop
@@ -281,6 +282,7 @@ rule-providers:
   # 开发
   category_dev_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-dev.mrs"}
   develousr_domain: { <<: *domain, url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Developer/Developer_OCD_Domain.mrs"}
+  docker_domain: { <<: *domain, url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Docker/Docker_OCD_Domain.mrs"}
   linux_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/linux.mrs"}
   usr_proxy_develop: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Proxy-Develop.mrs"}
   
