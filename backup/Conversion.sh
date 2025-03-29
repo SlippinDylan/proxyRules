@@ -28,6 +28,10 @@ mihomo convert-ruleset ipcidr text Direct-IP.txt Direct-IP.mrs
 mihomo convert-ruleset ipcidr text Proxy-Develop-IP.txt Proxy-Develop-IP.mrs
 mihomo convert-ruleset ipcidr text Proxy-Tools-IP.txt Proxy-Tools-IP.mrs
 
+mihomo convert-ruleset ipcidr text Direct-IP.txt Direct-IP.mrs
+mihomo convert-ruleset ipcidr text Direct-Torrent-IP.txt Direct-Torrent-IP.mrs
+mihomo convert-ruleset domain text Direct-Torrent.txt Direct-Torrent.mrs
+
 
 
 mihomo convert-ruleset domain text Direct.txt Direct.mrs
