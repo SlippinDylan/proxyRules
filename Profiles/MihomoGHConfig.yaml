@@ -239,6 +239,7 @@ rules:
   - RULE-SET,google_domain,🔍 Google
   - RULE-SET,microsoft_cn_domain,Ⓜ️ MicrosoftCN
   - RULE-SET,microsoft_domain,Ⓜ️ Microsoft
+  - RULE-SET,xiaomi_domain,🚥 直连访问
   
   # 全局代理
   - RULE-SET,usr_direct,🚥 直连访问
@@ -256,12 +257,13 @@ rules:
   - RULE-SET,telegram_ip,📱 Telegram,no-resolve
   ## 流媒体服务
   - RULE-SET,globalmedia_ip,📽️ 国外流媒体,no-resolve
-  - RULE-SET,chinamedia_ip,🚥 直连访问,no-resolve
+  - RULE-SET,chinamedia_ip,🚥 直连访问
   ## 互联网巨头服务
   - RULE-SET,google_ip,🔍 Google,no-resolve
-  - RULE-SET,apple_ip,🍎 Apple,no-resolve
+  - RULE-SET,apple_ip,🍎 Apple
+  - RULE-SET,xiaomi_ip,🚥 直连访问
   ## 全局代理
-  - RULE-SET,direct_torrent_ip,🚥 直连访问,no-resolve
+  - RULE-SET,direct_torrent_ip,🚥 直连访问
   - RULE-SET,cn_ip,🚥 直连访问
   - MATCH,🐠 漏网之鱼
 
@@ -318,6 +320,7 @@ rule-providers:
   google_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}
   microsoft_cn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft%40cn.mrs"}
   microsoft_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}
+  xiaomi_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/XiaoMi/XiaoMi_OCD_Domain.mrs"}
   
   # 全局代理
   usr_direct: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Direct.mrs"}
@@ -337,6 +340,7 @@ rule-providers:
   ## 互联网巨头服务
   google_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"}
   apple_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs"}
+  xiaomi_ip: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Direct-IP.mrs"}
   ## 全局代理
   direct_torrent: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Direct-Torrent.mrs"}
   cn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
