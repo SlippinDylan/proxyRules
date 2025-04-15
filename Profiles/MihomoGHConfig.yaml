@@ -340,9 +340,9 @@ rule-providers:
   ## 互联网巨头服务
   google_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"}
   apple_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs"}
-  xiaomi_ip: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Direct-IP.mrs"}
+  xiaomi_ip: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Xiaomi-IP.mrs"}
   ## 全局代理
   direct_torrent: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Direct-Torrent.mrs"}
-  cn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
   direct_torrent_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Direct-Torrent-IP.mrs"}
+  cn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
   cn_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
