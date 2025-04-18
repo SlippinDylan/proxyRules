@@ -28,7 +28,7 @@ mixed-port: 7893
 tproxy-port: 7894
 allow-lan: true
 bind-address: "*"
-ipv6: false
+ipv6: true
 unified-delay: true
 tcp-concurrent: true
 log-level: warning
@@ -81,13 +81,15 @@ sniffer:
 dns:
   enable: true
   listen: 0.0.0.0:1053
-  ipv6: false
+  ipv6: true
   respect-rules: true
+  enable-dnssec: true
   enhanced-mode: fake-ip
-  fake-ip-range: 28.0.0.1/8
+  fake-ip-range: 198.18.0.1/16
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
     - "rule-set:private_domain,cn_domain"
+    - "rule-set:private_domain,xiaomi_domain"
     - "+.services.googleapis.cn"
     - "+.xn--ngstr-lra8j.com"
     - "+.ntp.tencent.com"
@@ -96,19 +98,35 @@ dns:
     - "+.ntp.ntsc.ac.cn"
     - "+.pool.ntp.org"
     - "+.cn.ntp.org.cn"
+    - "+.mi.com"
+    - "*.mi.com"
+    - "+.xiaomi.com"
+    - "+.mijia.com"
+    - "+.mi-img.com"
+    - "+.ot.io.mi.com"
+    - "ot.io.mi.com"
   default-nameserver:
-    - 221.5.203.98
-    - 223.5.5.5
     - 119.29.29.29
+    - 223.5.5.5
+    - '2400:3200::1'  # 阿里 IPv6
+    - '2402:4e00::'    # 腾讯 IPv6
   proxy-server-nameserver:
-    - 221.5.203.98
-    - 223.5.5.5
     - 119.29.29.29
+    - 223.5.5.5
+    - '2400:3200::1'  # 阿里 IPv6
+    - '2402:4e00::'    # 腾讯 IPv6
   nameserver:
-    - 221.5.203.98
-    - 223.5.5.5
     - 119.29.29.29
- 
+    - 223.5.5.5
+    - '2400:3200::1'  # 阿里 IPv6
+    - '2402:4e00::'    # 腾讯 IPv6
+  nameserver-policy:
+    'ot.io.mi.com': [223.5.5.5, 119.29.29.29]
+    '*.mi.com': [223.5.5.5, 119.29.29.29]
+    '*.xiaomi.com': [223.5.5.5, 119.29.29.29]
+    '*.mijia.com': [223.5.5.5, 119.29.29.29]
+
+
 # 出站策略定义
 proxymain: &proxymain {
   type: select, 
@@ -270,7 +288,6 @@ rules:
   ## 互联网巨头服务
   - RULE-SET,google_ip,🔍 Google,no-resolve
   - RULE-SET,apple_ip,🍎 Apple
-  - RULE-SET,xiaomi_ip,🚥 直连访问
   ## 全局代理
   - RULE-SET,direct_torrent_ip,🚥 直连访问
   - RULE-SET,cn_ip,🚥 直连访问
@@ -349,7 +366,6 @@ rule-providers:
   ## 互联网巨头服务
   google_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"}
   apple_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs"}
-  xiaomi_ip: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Xiaomi-IP.mrs"}
   ## 全局代理
   direct_torrent: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Direct-Torrent.mrs"}
   direct_torrent_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Direct-Torrent-IP.mrs"}
