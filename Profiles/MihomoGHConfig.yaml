@@ -3,7 +3,7 @@ proxy-providers:
   Pander:
     url: "机场订阅"
     type: http
-    interval: 43200
+    interval: 14400
     # 健康检查配置
     health-check:
       enable: true
@@ -45,6 +45,8 @@ disable-keep-alive: false
 profile:
   store-selected: true
   store-fake-ip: true
+  tracing: true  # 启用配置文件及其资源的自动更新
+  interval: 14400  # 每24小时更新一次
 
 # 自动同步时间以防止时间不准导致无法正常联网
 ntp:
@@ -338,9 +340,9 @@ rules:
 
 # 规则集锚点定义
 rule-anchor:
-  domain: &domain {type: http, interval: 86400, behavior: domain, format: mrs}
-  class: &class {type: http, interval: 86400, behavior: classical, format: text}
-  ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs}
+  domain: &domain {type: http, interval: 14400, behavior: domain, format: mrs}
+  class: &class {type: http, interval: 14400, behavior: classical, format: text}
+  ip: &ip {type: http, interval: 14400, behavior: ipcidr, format: mrs}
 
 rule-providers:
   # 基础网络和隐私规则
