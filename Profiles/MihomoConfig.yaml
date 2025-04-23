@@ -3,12 +3,14 @@ proxy-providers:
   Pander:
     url: "机场订阅"
     type: http
-    interval: 86400
+    interval: 43200
     # 健康检查配置
     health-check:
       enable: true
       url: https://www.gstatic.com/generate_204
       interval: 300
+      lazy: false
+      tolerance: 50
     proxy: 直连节点
     header:
       User-Agent: ["Clash", "mihomo", "Clash.meta"]
@@ -98,13 +100,28 @@ dns:
     - "+.ntp.ntsc.ac.cn"
     - "+.pool.ntp.org"
     - "+.cn.ntp.org.cn"
+    # 小米相关
     - "+.mi.com"
     - "*.mi.com"
+    - "io.mi.com"
+    - "+.io.mi.com"
+    - "+.ot.io.mi.com"
+    - "ot.io.mi.com"
+    - "ha.mqtt.io.mi.com"
     - "+.xiaomi.com"
     - "+.mijia.com"
     - "+.mi-img.com"
-    - "+.ot.io.mi.com"
-    - "ot.io.mi.com"
+    - "+.miui.com"
+    - "dev.mi.com"
+    - "home.mi.com"
+    - "open.account.xiaomi.com"
+    - "+.mqtt.io.mi.com"
+    - "+.fds.api.mi-img.com"
+    - "+.sec.miui.com"
+    - "font.sec.miui.com"
+    - "*.mqtt.io.mi.com"
+    - "*.fds.api.mi-img.com"
+    - "*.sec.miui.com"
   default-nameserver:
     - 119.29.29.29
     - 223.5.5.5
@@ -121,11 +138,36 @@ dns:
     - '2400:3200::1'
     - '2402:4e00::'
   nameserver-policy:
-    'ot.io.mi.com': [223.5.5.5, 119.29.29.29]
-    '*.mi.com': [223.5.5.5, 119.29.29.29]
-    '*.xiaomi.com': [223.5.5.5, 119.29.29.29]
-    '*.mijia.com': [223.5.5.5, 119.29.29.29]
-
+    "+.mi.com": [223.5.5.5, 119.29.29.29]
+    "*.mi.com": [223.5.5.5, 119.29.29.29]
+    "io.mi.com": [223.5.5.5, 119.29.29.29]
+    "+.io.mi.com": [223.5.5.5, 119.29.29.29]
+    "+.ot.io.mi.com": [223.5.5.5, 119.29.29.29]
+    "ot.io.mi.com": [223.5.5.5, 119.29.29.29]
+    "ha.mqtt.io.mi.com": [223.5.5.5, 119.29.29.29]
+    "+.xiaomi.com": [223.5.5.5, 119.29.29.29]
+    "+.mijia.com": [223.5.5.5, 119.29.29.29]
+    "+.mi-img.com": [223.5.5.5, 119.29.29.29]
+    "+.miui.com": [223.5.5.5, 119.29.29.29]
+    "dev.mi.com": [223.5.5.5, 119.29.29.29]
+    "home.mi.com": [223.5.5.5, 119.29.29.29]
+    "open.account.xiaomi.com": [223.5.5.5, 119.29.29.29]
+    "+.mqtt.io.mi.com": [223.5.5.5, 119.29.29.29]
+    "+.fds.api.mi-img.com": [223.5.5.5, 119.29.29.29]
+    "+.sec.miui.com": [223.5.5.5, 119.29.29.29]
+    "font.sec.miui.com": [223.5.5.5, 119.29.29.29]
+    "*.mqtt.io.mi.com": [223.5.5.5, 119.29.29.29]
+    "*.fds.api.mi-img.com": [223.5.5.5, 119.29.29.29]
+    "*.sec.miui.com": [223.5.5.5, 119.29.29.29]
+  # 添加预热配置
+  preload-domain: true
+  preload-domain-task: 15
+  # name-resolve-format: ipv4-only  # 如果只需要IPv4地址
+  
+  # 添加预解析域名
+  use-hosts: true
+  prefetch-domain: true
+  prefer-h3: false
 
 # 出站策略定义
 proxymain: &proxymain {
