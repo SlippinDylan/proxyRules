@@ -23,18 +23,19 @@ proxies:
   - {name: 直连节点, type: direct, udp: true}
 
 # 全局端口和网络配置
-port: 7890
-socks-port: 7891
-redir-port: 7892
-mixed-port: 7893
-tproxy-port: 7894
-allow-lan: true
-bind-address: "*"
+log-level: debug
+mode: rule
 ipv6: true
+port: 7890
 unified-delay: true
 tcp-concurrent: true
-log-level: warning
-mode: rule
+bind-address: "*"
+external-controller: 0.0.0.0:9090
+secret: "dylan1010"
+external-ui: "/etc/mihomo/run/ui"
+external-ui-name: zashboard
+external-ui-url: "https://raw.githubusercontent.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
+allow-lan: true
 
 # 系统和性能配置
 find-process-mode: 'off'
@@ -45,24 +46,20 @@ disable-keep-alive: false
 profile:
   store-selected: true
   store-fake-ip: true
-  tracing: true  # 启用配置文件及其资源的自动更新
-  interval: 14400  # 每24小时更新一次
+  tracing: true
+  interval: 14400
 
-# 自动同步时间以防止时间不准导致无法正常联网
-ntp:
-  enable: true
-  # 是否同步至系统时间，需要 root/管理员权限
-  write-to-system: false
-  server: time.apple.com
-  port: 123
-  interval: 30
 
-# 控制面板配置
-external-controller: 0.0.0.0:9090
-secret: "dylan1010"
-external-ui: "/etc/mihomo/run/ui"
-external-ui-name: zashboard
-external-ui-url: "https://raw.githubusercontent.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
+# GeoX数据配置
+geodata-mode: true
+geodata-loader: standard
+geox-url:
+  geosite: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  geoip-mmdb: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.metadb"
+  geoip-dat: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
+  asn: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+geox-auto-update: true
+geox-update-interval: 24
 
 # 嗅探配置
 sniffer:
@@ -70,15 +67,21 @@ sniffer:
   # 端口嗅探设置
   sniff:
     HTTP: {ports: [80, 8080-8880], override-destination: true}
-    TLS: {ports: [443, 8443]}
-    QUIC: {ports: [443, 8443]}
+    TLS: {ports: [443, 8443], override-destination: true}
+    QUIC: {ports: [443, 8443], override-destination: true}
   force-domain: ["+.v2ex.com"]
   skip-domain: [
-    "rule-set:private_domain,cn_domain", "dlg.io.mi.com", 
+    "rule-set:private_domain,xiaomi_domain,cn_domain", "dlg.io.mi.com", 
     "+.push.apple.com", "+.apple.com", "+.wechat.com", 
     "+.qpic.cn", "+.qq.com", "+.wechatapp.com", 
     "+.vivox.com", "+.oray.com", "+.sunlogin.net", 
-    "+.msftconnecttest.com", "+.msftncsi.com"
+    "+.msftconnecttest.com", "+.msftncsi.com", "+.mi.com", 
+    "*.mi.com", "io.mi.com", "+.io.mi.com", "+.ot.io.mi.com", 
+    "ot.io.mi.com", "ha.mqtt.io.mi.com", "+.xiaomi.com", 
+    "+.mijia.com", "+.mi-img.com", "+.miui.com", "dev.mi.com", 
+    "home.mi.com", "open.account.xiaomi.com", "+.mqtt.io.mi.com", 
+    "+.fds.api.mi-img.com", "+.sec.miui.com", "font.sec.miui.com", 
+    "*.mqtt.io.mi.com", "*.fds.api.mi-img.com", "*.sec.miui.com"
   ]
 
 # DNS模块
@@ -90,6 +93,7 @@ dns:
   enable-dnssec: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
+  fake-ip-cache: true
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
     - "rule-set:private_domain,cn_domain"
@@ -161,15 +165,6 @@ dns:
     "*.mqtt.io.mi.com": [223.5.5.5, 119.29.29.29]
     "*.fds.api.mi-img.com": [223.5.5.5, 119.29.29.29]
     "*.sec.miui.com": [223.5.5.5, 119.29.29.29]
-  # 添加预热配置
-  preload-domain: true
-  preload-domain-task: 15
-  # name-resolve-format: ipv4-only  # 如果只需要IPv4地址
-  
-  # 添加预解析域名
-  use-hosts: true
-  prefetch-domain: true
-  prefer-h3: false
 
 # 出站策略定义
 proxymain: &proxymain {
@@ -416,3 +411,23 @@ rule-providers:
   direct_torrent_ip: { <<: *ip, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Direct-Torrent-IP.mrs"}
   cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
   cn_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
+
+#ntp:
+#  enable: true
+#  # 是否同步至系统时间，需要 root/管理员权限
+#  write-to-system: false
+#  server: time.apple.com
+#  port: 123
+#  interval: 30
+
+# DNS模块
+# dns:
+# 添加预热配置
+# preload-domain: true
+# preload-domain-task: 15
+# name-resolve-format: ipv4-only  # 如果只需要IPv4地址
+
+# 添加预解析域名
+# use-hosts: true
+# prefetch-domain: true
+# prefer-h3: false
