@@ -64,25 +64,18 @@ geox-update-interval: 24
 sniffer:
   enable: true
   # 端口嗅探设置
-  sniff:
-    HTTP: {ports: [80, 8080-8880], override-destination: true}
-    TLS: {ports: [443, 8443], override-destination: true}
+  sniff: {
+    HTTP: {ports: [80, 8080-8880], override-destination: true},
+    TLS: {ports: [443, 8443], override-destination: true},
     QUIC: {ports: [443, 8443], override-destination: true}
+  }
   force-domain: ["+.v2ex.com"]
   skip-domain: [
-    "rule-set:private_domain,xiaomi_domain,cn_domain", "dlg.io.mi.com", 
+    "rule-set:private_domain,xiaomi_domain,tencent_domain,xiaohongshu_domain,cn_domain", 
     "+.push.apple.com", "+.apple.com", "+.wechat.com", 
-    "+.qpic.cn", "+.qq.com", "+.wechatapp.com", 
-    "+.vivox.com", "+.oray.com", "+.sunlogin.net", 
-    "+.msftconnecttest.com", "+.msftncsi.com", "+.mi.com", 
-    "*.mi.com", "io.mi.com", "+.io.mi.com", "+.ot.io.mi.com", 
-    "ot.io.mi.com", "ha.mqtt.io.mi.com", "+.xiaomi.com", 
-    "+.mijia.com", "+.mi-img.com", "+.miui.com", "dev.mi.com", 
-    "home.mi.com", "open.account.xiaomi.com", "+.mqtt.io.mi.com", 
-    "+.fds.api.mi-img.com", "+.sec.miui.com", "font.sec.miui.com", 
-    "*.mqtt.io.mi.com", "*.fds.api.mi-img.com", "*.sec.miui.com", "Mijia Cloud", 
-    "+.debian.org", "+.tsinghua.edu.cn", "github.com", "+.github.com", 
-    "+.githubusercontent.com", "+.yarnpkg.com", "+.ustclug.org"
+    "+.qpic.cn", "+.wechatapp.com", "+.vivox.com", "+.oray.com", "+.sunlogin.net", 
+    "+.msftconnecttest.com", "+.msftncsi.com", "Mijia Cloud", 
+    "+.tsinghua.edu.cn"
   ]
 
 # DNS模块
@@ -96,76 +89,36 @@ dns:
   fake-ip-range: 198.18.0.1/16
   fake-ip-cache: true
   fake-ip-filter-mode: blacklist
-  fake-ip-filter:
-    - "rule-set:private_domain,cn_domain"
-    - "rule-set:private_domain,xiaomi_domain"
-    - "+.services.googleapis.cn"
-    - "+.xn--ngstr-lra8j.com"
-    - "+.ntp.tencent.com"
-    - "+.ntp1.aliyun.com"
-    - "time.*.com"
-    - "+.ntp.ntsc.ac.cn"
-    - "+.pool.ntp.org"
-    - "+.cn.ntp.org.cn"
-    # 小米相关
-    - "+.mi.com"
-    - "*.mi.com"
-    - "io.mi.com"
-    - "+.io.mi.com"
-    - "+.ot.io.mi.com"
-    - "ot.io.mi.com"
-    - "ha.mqtt.io.mi.com"
-    - "+.xiaomi.com"
-    - "+.mijia.com"
-    - "+.mi-img.com"
-    - "+.miui.com"
-    - "dev.mi.com"
-    - "home.mi.com"
-    - "open.account.xiaomi.com"
-    - "+.mqtt.io.mi.com"
-    - "+.fds.api.mi-img.com"
-    - "+.sec.miui.com"
-    - "font.sec.miui.com"
-    - "*.mqtt.io.mi.com"
-    - "*.fds.api.mi-img.com"
-    - "*.sec.miui.com"
-  default-nameserver:
-    - 119.29.29.29
-    - 223.5.5.5
-    - '2400:3200::1'
-    - '2402:4e00::'
-  proxy-server-nameserver:
-    - 119.29.29.29
-    - 223.5.5.5
-    - '2400:3200::1'
-    - '2402:4e00::'
-  nameserver:
-    - 119.29.29.29
-    - 223.5.5.5
-    - '2400:3200::1'
-    - '2402:4e00::'
-  nameserver-policy:
-    "+.mi.com": [223.5.5.5, 119.29.29.29]
-    "*.mi.com": [223.5.5.5, 119.29.29.29]
-    "io.mi.com": [223.5.5.5, 119.29.29.29]
-    "+.io.mi.com": [223.5.5.5, 119.29.29.29]
-    "+.ot.io.mi.com": [223.5.5.5, 119.29.29.29]
-    "ot.io.mi.com": [223.5.5.5, 119.29.29.29]
-    "ha.mqtt.io.mi.com": [223.5.5.5, 119.29.29.29]
-    "+.xiaomi.com": [223.5.5.5, 119.29.29.29]
-    "+.mijia.com": [223.5.5.5, 119.29.29.29]
-    "+.mi-img.com": [223.5.5.5, 119.29.29.29]
-    "+.miui.com": [223.5.5.5, 119.29.29.29]
-    "dev.mi.com": [223.5.5.5, 119.29.29.29]
-    "home.mi.com": [223.5.5.5, 119.29.29.29]
-    "open.account.xiaomi.com": [223.5.5.5, 119.29.29.29]
-    "+.mqtt.io.mi.com": [223.5.5.5, 119.29.29.29]
-    "+.fds.api.mi-img.com": [223.5.5.5, 119.29.29.29]
-    "+.sec.miui.com": [223.5.5.5, 119.29.29.29]
-    "font.sec.miui.com": [223.5.5.5, 119.29.29.29]
-    "*.mqtt.io.mi.com": [223.5.5.5, 119.29.29.29]
-    "*.fds.api.mi-img.com": [223.5.5.5, 119.29.29.29]
-    "*.sec.miui.com": [223.5.5.5, 119.29.29.29]
+  
+  # 使用流式格式和分组提高可读性
+  fake-ip-filter: [
+    # 规则集合
+    "rule-set:private_domain,xiaomi_domain,tencent_domain,xiaohongshu_domain,cn_domain", 
+    "rule-set:docker_domain,category_dev_domain,develousr_domain,linux_domain,usr_proxy_develop", 
+    # 其他域名
+    "+.services.googleapis.cn", "+.xn--ngstr-lra8j.com", 
+    # NTP服务
+    "+.ntp.tencent.com", "+.ntp1.aliyun.com", "time.*.com", 
+    "+.ntp.ntsc.ac.cn", "+.pool.ntp.org", "+.cn.ntp.org.cn", 
+    # 开发服务
+    "+.yarnpkg.com", "+.ustclug.org"
+  ]
+  
+  # DNS服务器配置
+  default-nameserver: &cn_dns [119.29.29.29, 223.5.5.5, '2400:3200::1', '2402:4e00::']
+  proxy-server-nameserver: *cn_dns
+  nameserver: *cn_dns
+  
+  # 国外域名使用Google DNS和Cloudflare DNS
+  nameserver-policy: {
+    # GitHub相关
+    "+.github.com": [8.8.8.8, 1.1.1.1], "github.com": [8.8.8.8, 1.1.1.1], 
+    "+.githubusercontent.com": [8.8.8.8, 1.1.1.1],
+    # 开源社区
+    "+.debian.org": [8.8.8.8, 1.1.1.1], "+.yarnpkg.com": [8.8.8.8, 1.1.1.1], 
+    "+.ustclug.org": [8.8.8.8, 1.1.1.1], "+.immortalwrt.org": [8.8.8.8, 1.1.1.1], 
+    "+.openwrt.org": [8.8.8.8, 1.1.1.1]
+  }
 
 # 出站策略定义
 proxymain: &proxymain {
@@ -307,6 +260,8 @@ rules:
   - RULE-SET,google_domain,🔍 Google
   - RULE-SET,microsoft_cn_domain,Ⓜ️ MicrosoftCN
   - RULE-SET,microsoft_domain,Ⓜ️ Microsoft
+  - RULE-SET,tencent_domain,🚥 直连访问
+  - RULE-SET,xiaohongshu_domain,🚥 直连访问
   - RULE-SET,xiaomi_domain,🚥 直连访问
   
   # 全局代理
@@ -387,7 +342,9 @@ rule-providers:
   google_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}
   microsoft_cn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft%40cn.mrs"}
   microsoft_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}
+  tencent_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent.mrs"}
   xiaomi_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/XiaoMi/XiaoMi_OCD_Domain.mrs"}
+  xiaohongshu_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xiaohongshu.mrs"}
   
   # 全局代理
   usr_direct: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Direct.mrs"}
