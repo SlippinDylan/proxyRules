@@ -4,7 +4,6 @@ proxy-providers:
     url: "机场订阅"
     type: http
     interval: 14400
-    # 健康检查配置
     health-check:
       enable: true
       url: https://www.gstatic.com/generate_204
@@ -54,10 +53,10 @@ profile:
 geodata-mode: true
 geodata-loader: standard
 geox-url:
-  geosite: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
-  geoip-mmdb: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.metadb"
-  geoip-dat: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
-  asn: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+  geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  geoip-mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.metadb"
+  geoip-dat: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
+  asn: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
 geox-auto-update: true
 geox-update-interval: 24
 
@@ -81,7 +80,9 @@ sniffer:
     "+.mijia.com", "+.mi-img.com", "+.miui.com", "dev.mi.com", 
     "home.mi.com", "open.account.xiaomi.com", "+.mqtt.io.mi.com", 
     "+.fds.api.mi-img.com", "+.sec.miui.com", "font.sec.miui.com", 
-    "*.mqtt.io.mi.com", "*.fds.api.mi-img.com", "*.sec.miui.com"
+    "*.mqtt.io.mi.com", "*.fds.api.mi-img.com", "*.sec.miui.com", "Mijia Cloud", 
+    "+.debian.org", "+.tsinghua.edu.cn", "github.com", "+.github.com", 
+    "+.githubusercontent.com", "+.yarnpkg.com", "+.ustclug.org"
   ]
 
 # DNS模块
