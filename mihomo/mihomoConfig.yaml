@@ -53,10 +53,10 @@ profile:
 geodata-mode: true
 geodata-loader: standard
 geox-url:
-  geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
-  geoip-mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.metadb"
-  geoip-dat: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
-  asn: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+  geosite: "https://https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  geoip-mmdb: "https://https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.metadb"
+  geoip-dat: "https://https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
+  asn: "https://https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
 geox-auto-update: true
 geox-update-interval: 24
 
@@ -346,14 +346,14 @@ rule-providers:
   
   # AI和智能服务
   category_ai_chat_notcn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs"}
-  usr_proxy_intelligence: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Proxy-Intelligence.mrs"}
+  usr_proxy_intelligence: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Proxy-Intelligence.mrs"}
   
   # 开发
   category_dev_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-dev.mrs"}
   develousr_domain: { <<: *domain, url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Developer/Developer_OCD_Domain.mrs"}
   docker_domain: { <<: *domain, url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Docker/Docker_OCD_Domain.mrs"}
   linux_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/linux.mrs"}
-  usr_proxy_develop: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Proxy-Develop.mrs"}
+  usr_proxy_develop: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Proxy-Develop.mrs"}
   
   # 工具和实用服务
   onedrive_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs"}
@@ -369,7 +369,7 @@ rule-providers:
   tiktok_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"}
   
   # 流媒体服务
-  usr_proxy_media: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Proxy-Media.mrs"}
+  usr_proxy_media: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Proxy-Media.mrs"}
   globalmedia_domain: { <<: *domain, url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/GlobalMedia/GlobalMedia_OCD_Domain.mrs"}
   category_media_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-media.mrs"}
   category_media_cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-media-cn.mrs"}
@@ -390,15 +390,15 @@ rule-providers:
   xiaomi_domain: { <<: *domain, url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/XiaoMi/XiaoMi_OCD_Domain.mrs"}
   
   # 全局代理
-  usr_direct: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Direct.mrs"}
-  usr_proxy: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Proxy.mrs"}
+  usr_direct: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Direct.mrs"}
+  usr_proxy: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Proxy.mrs"}
   proxy_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geosite/proxy.mrs"}
   gfw_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"}
   geolocation_notcn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}
   
   # IP规则
   ## 开发
-  usr_proxy_develop_ip: { <<: *ip, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Proxy-Develop-IP.mrs"}
+  usr_proxy_develop_ip: { <<: *ip, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Proxy-Develop-IP.mrs"}
   ## 通讯服务
   telegram_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"}
   ## 流媒体服务
@@ -408,8 +408,8 @@ rule-providers:
   google_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"}
   apple_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs"}
   ## 全局代理
-  direct_torrent: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Direct-Torrent.mrs"}
-  direct_torrent_ip: { <<: *ip, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/MRS/Direct-Torrent-IP.mrs"}
+  direct_torrent: { <<: *domain, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Direct-Torrent.mrs"}
+  direct_torrent_ip: { <<: *ip, url: "https://raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Direct-Torrent-IP.mrs"}
   cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
   cn_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
 

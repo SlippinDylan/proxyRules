@@ -1,0 +1,134 @@
+# 本地局域网
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/private.mrs
+
+# ai
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/category-ai-chat-!cn.mrs
+
+# 开发
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/category-dev.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/linux.mrs
+
+# google
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/google.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geoip/google.mrs
+
+# 微软
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/onedrive.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/microsoft.mrs
+
+# 苹果
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/apple%40cn.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/apple.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo-lite/geoip/apple.mrs
+
+
+# 金融
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/paypal.mrs
+
+# telegram
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/telegram.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geoip/telegram.mrs
+
+
+# 媒体
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/category-media-cn.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/category-media.mrs
+
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/spotify.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/tiktok.mrs
+
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/netflix.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/primevideo.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/amazon.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/disney.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/youtube.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geoip/netflix.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/hbo.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/hulu.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/discoveryplus.mrs
+
+
+
+
+
+# 工具
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/speedtest.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/synology.mrs
+
+# 游戏
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/category-games%40cn.list
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/category-games.list
+
+
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo-lite/geosite/proxy.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/gfw.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/geolocation-!cn.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/cn.mrs
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geoip/cn.mrs
+
+
+
+
+# ai
+category-ai-chat-!cn
+
+# 开发
+category-dev
+linux
+
+# google
+google
+ip-google
+
+# 微软
+onedrive
+microsoft
+
+# 苹果
+apple%40cn
+apple
+ip-apple
+
+
+# 金融
+paypal
+
+# telegram
+telegram
+ip-telegram
+
+
+# 媒体
+category-media-cn
+category-media
+
+spotify
+tiktok
+
+netflix
+primevideo
+amazon
+disney
+youtube
+ip-netflix
+hbo
+hulu
+discoveryplus
+
+
+
+
+# 工具
+speedtest
+synology
+
+# 游戏
+category-games%40cn
+category-games
+
+
+proxy
+gfw
+geolocation-!cn
+cn
+ip-cn
