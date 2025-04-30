@@ -71,7 +71,7 @@ sniffer:
   }
   force-domain: ["+.v2ex.com"]
   skip-domain: [
-    "rule-set:private_domain,xiaomi_domain,tencent_domain,xiaohongshu_domain,cn_domain", 
+    "rule-set:private_domain,aliyun_domain,alibaba_domain,tencent_domain,xiaomi_domain,xiaohongshu_domain,cn_domain", 
     "+.push.apple.com", "+.apple.com", "+.wechat.com", 
     "+.qpic.cn", "+.wechatapp.com", "+.vivox.com", "+.oray.com", "+.sunlogin.net", 
     "+.msftconnecttest.com", "+.msftncsi.com", "Mijia Cloud", 
@@ -93,7 +93,7 @@ dns:
   # 使用流式格式和分组提高可读性
   fake-ip-filter: [
     # 规则集合
-    "rule-set:private_domain,xiaomi_domain,tencent_domain,xiaohongshu_domain,cn_domain", 
+    "rule-set:private_domain,aliyun_domain,alibaba_domain,tencent_domain,xiaomi_domain,xiaohongshu_domain,cn_domain", 
     "rule-set:docker_domain,category_dev_domain,develousr_domain,linux_domain,usr_proxy_develop", 
     # 其他域名
     "+.services.googleapis.cn", "+.xn--ngstr-lra8j.com", 
@@ -260,9 +260,13 @@ rules:
   - RULE-SET,google_domain,🔍 Google
   - RULE-SET,microsoft_cn_domain,Ⓜ️ MicrosoftCN
   - RULE-SET,microsoft_domain,Ⓜ️ Microsoft
+  
+  # 互联网巨头服务(国内)
+  - RULE-SET,aliyun_domain,🚥 直连访问
+  - RULE-SET,alibaba_domain,🚥 直连访问
   - RULE-SET,tencent_domain,🚥 直连访问
-  - RULE-SET,xiaohongshu_domain,🚥 直连访问
   - RULE-SET,xiaomi_domain,🚥 直连访问
+  - RULE-SET,xiaohongshu_domain,🚥 直连访问
   
   # 全局代理
   - RULE-SET,usr_direct,🚥 直连访问
@@ -342,6 +346,10 @@ rule-providers:
   google_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}
   microsoft_cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft%40cn.mrs"}
   microsoft_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}
+  
+  # 互联网巨头服务（国内）
+  aliyun_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/aliyun.mrs"}
+  alibaba_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/alibaba.mrs"}
   tencent_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent.mrs"}
   xiaomi_domain: { <<: *domain, url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/XiaoMi/XiaoMi_OCD_Domain.mrs"}
   xiaohongshu_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xiaohongshu.mrs"}
