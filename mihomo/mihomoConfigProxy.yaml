@@ -29,11 +29,6 @@ port: 7890
 unified-delay: true
 tcp-concurrent: true
 bind-address: "*"
-external-controller: 0.0.0.0:9090
-secret: "dylan1010"
-external-ui: "/etc/mihomo/run/ui"
-external-ui-name: zashboard
-external-ui-url: "https://gh-proxy.com/raw.githubusercontent.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
 allow-lan: true
 
 # 系统和性能配置
@@ -71,8 +66,8 @@ sniffer:
   }
   force-domain: ["+.v2ex.com"]
   skip-domain: [
-    "rule-set:private_domain,aliyun_domain,alibaba_domain,tencent_domain,xiaomi_domain,xiaohongshu_domain,cn_domain", 
-    "+.push.apple.com", "+.apple.com", "+.wechat.com", 
+    "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,aliyun_domain,alibaba_domain,tencent_domain,xiaomi_domain,xiaohongshu_domain,cn_domain,usr_direct,private_domain,direct_torrent", 
+    "+.push.apple.com", "+.apple.com", "+.wechat.com", "start.me","+.start.me",
     "+.qpic.cn", "+.wechatapp.com", "+.vivox.com", "+.oray.com", "+.sunlogin.net", 
     "+.msftconnecttest.com", "+.msftncsi.com", "Mijia Cloud", 
     "+.tsinghua.edu.cn"
@@ -89,11 +84,9 @@ dns:
   fake-ip-range: 198.18.0.1/16
   fake-ip-cache: true
   fake-ip-filter-mode: blacklist
-  
-  # 使用流式格式和分组提高可读性
   fake-ip-filter: [
     # 规则集合
-    "rule-set:private_domain,aliyun_domain,alibaba_domain,tencent_domain,xiaomi_domain,xiaohongshu_domain,cn_domain", 
+    "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,aliyun_domain,alibaba_domain,tencent_domain,xiaomi_domain,xiaohongshu_domain,cn_domain,usr_direct,private_domain,direct_torrent", 
     "rule-set:docker_domain,category_dev_domain,develousr_domain,linux_domain,usr_proxy_develop", 
     # 其他域名
     "+.services.googleapis.cn", "+.xn--ngstr-lra8j.com", 
@@ -101,14 +94,17 @@ dns:
     "+.ntp.tencent.com", "+.ntp1.aliyun.com", "time.*.com", 
     "+.ntp.ntsc.ac.cn", "+.pool.ntp.org", "+.cn.ntp.org.cn", 
     # 开发服务
-    "+.yarnpkg.com", "+.ustclug.org"
+    "+.yarnpkg.com", "+.ustclug.org",
+    # 工具
+    "start.me","+.start.me",
+    # 自带的
+    "+.lan", "+.local", "geosite:cn"
+    
   ]
-  
   # DNS服务器配置
   default-nameserver: &cn_dns [119.29.29.29, 223.5.5.5, '2400:3200::1', '2402:4e00::']
   proxy-server-nameserver: *cn_dns
   nameserver: *cn_dns
-  
   # 国外域名使用Google DNS和Cloudflare DNS
   nameserver-policy: {
     # GitHub相关
