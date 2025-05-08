@@ -16,6 +16,23 @@ proxy-providers:
     override:
       udp: true
       skip-cert-verify: true
+  
+  Bocchi:
+    url: "机场订阅"
+    type: http
+    interval: 14400
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      lazy: false
+      tolerance: 50
+    proxy: 🌏 亚洲自动
+    header:
+      User-Agent: ["Clash", "mihomo", "Clash.meta"]
+    override:
+      udp: true
+      skip-cert-verify: true
 
 # 节点信息
 proxies:
@@ -53,7 +70,7 @@ geox-url:
   geoip-dat: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
   asn: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
 geox-auto-update: true
-geox-update-interval: 24
+geox-update-interval: 4
 
 # 嗅探配置
 sniffer:
@@ -86,8 +103,7 @@ dns:
   fake-ip-filter-mode: blacklist
   fake-ip-filter: [
     # 规则集合
-    "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,aliyun_domain,alibaba_domain,tencent_domain,xiaomi_domain,xiaohongshu_domain,cn_domain,usr_direct,private_domain,direct_torrent", 
-    "rule-set:docker_domain,category_dev_domain,develousr_domain,linux_domain,usr_proxy_develop", 
+    "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,aliyun_domain,alibaba_domain,tencent_domain,xiaomi_domain,xiaohongshu_domain,cn_domain,usr_direct,private_domain,direct_torrent,docker_domain,category_dev_domain,develousr_domain,linux_domain,usr_proxy_develop", 
     # 其他域名
     "+.services.googleapis.cn", "+.xn--ngstr-lra8j.com", 
     # NTP服务
@@ -120,7 +136,8 @@ dns:
 proxymain: &proxymain {
   type: select, 
   proxies: [
-    🌏 亚洲自动, 🇭🇰 香港自动, 
+    🌏 亚洲自动, 🧪 亚洲自动, 
+    🇭🇰 香港自动, 🧪 香港自动, 
     🇨🇳 台湾自动, 🇯🇵 日本自动, 
     🇸🇬 狮城自动, 🇺🇸 美国自动, 
     🗺 环球节点, 🚀 全部节点, 
@@ -131,11 +148,21 @@ proxymain: &proxymain {
 directmain: &directmain {
   type: select, 
   proxies: [
-    🚥 直连访问, 🌏 亚洲自动, 
+    🚥 直连访问, 🌏 亚洲自动, 🧪 亚洲自动, 
     🇭🇰 香港自动, 🇨🇳 台湾自动, 
     🇯🇵 日本自动, 🇸🇬 狮城自动, 
     🇺🇸 美国自动, 🗺 环球节点, 
     🚀 全部节点
+  ]
+}
+
+proxymainexperiment: &proxymainexperiment {
+  type: select, 
+  proxies: [
+    🌏 亚洲自动, 🧪 亚洲自动, 🇭🇰 香港自动, 
+    🇨🇳 台湾自动, 🇯🇵 日本自动, 🇸🇬 狮城自动, 
+    🇺🇸 美国自动, 🗺 环球节点, 🚀 全部节点, 
+    🚥 直连访问
   ]
 }
 
@@ -149,18 +176,18 @@ proxy-groups:
   - {name: 🍎 ApplePxy, <<: *proxymain}
   - {name: Ⓜ️ MicrosoftCN, <<: *directmain}
   - {name: Ⓜ️ Microsoft, <<: *proxymain}
-  - {name: 🔍 Google, <<: *proxymain}
+  - {name: 🔍 Google, <<: *proxymainexperiment}
 
   # AI和开发相关
   - {name: 🐙 Develop, <<: *proxymain}
-  - {name: 🤖 Intelligence, type: select, proxies: [🇯🇵 日本自动, 🇺🇸 美国自动]}
+  - {name: 🤖 Intelligence, type: select, proxies: [🇺🇸 美国自动, 🧪 美国自动, 🇯🇵 日本自动, 🧪 日本自动, 🇸🇬 狮城自动, 🇭🇰 香港自动, 🇨🇳 台湾自动]}
 
   # 资料管理
   - {name: 💾 Synology, <<: *directmain}
 
   # 通讯和钱包
   - {name: 📱 Telegram, type: select, proxies: [
-      🇸🇬 狮城自动, 🇭🇰 香港自动, 
+      🇸🇬 狮城自动, 🧪 狮城自动, 🇭🇰 香港自动, 
       🇨🇳 台湾自动, 🇯🇵 日本自动, 
       🇺🇸 美国自动, 🗺 环球节点, 
       🚀 全部节点
@@ -173,10 +200,14 @@ proxy-groups:
     ]}
 
   # 媒体和娱乐
-  - {name: 🎸 Spotify, <<: *directmain}
+  - {name: 🎸 Spotify, type: select, proxies: [
+      🚥 直连访问, 🌏 亚洲自动, 🧪 亚洲自动, 
+      🇭🇰 香港自动, 🇨🇳 台湾自动, 🇯🇵 日本自动, 
+      🇸🇬 狮城自动, 🇺🇸 美国自动, 🗺 环球节点, 🚀 全部节点
+    ]}
 
   - {name: 🎵 TikTok, type: select, proxies: [🇺🇸 美国自动, 直连节点]}
-  - {name: 📽️ 国外流媒体, type: select, proxies: [📺 流媒自动, 直连节点]}
+  - {name: 📽️ 国外流媒体, type: select, proxies: [📺 流媒自动, 🧪 亚洲自动]}
 
   # 游戏相关
   - {name: 🎮 游戏直连, <<: *directmain}
@@ -186,28 +217,44 @@ proxy-groups:
   - {name: 🧭 Speedtest, <<: *directmain}
   - {name: 🐠 漏网之鱼, <<: *proxymain}
 
-  # 地域自动选择
-  - {name: 🇭🇰 香港自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
-     filter: "(?=.*(香港|HK|Hong Kong|🇭🇰|HongKong))^((?!(福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
-  - {name: 🇨🇳 台湾自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
-     filter: "(?=.*(台湾|🇹🇼))^((?!(福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
-  - {name: 🇯🇵 日本自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
-     filter: "(?=.*(日本|🇯🇵))^((?!(福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
-  - {name: 🇸🇬 狮城自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
-     filter: "(?=.*(新加坡|🇸🇬))^((?!(福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
-  - {name: 🌏 亚洲自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
-     filter: "(?=.*(香港|HK|Hong Kong|🇭🇰|HongKong|日本|🇯🇵|新加坡|🇸🇬))^((?!(台湾|🇹🇼|福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
-  - {name: 🇺🇸 美国自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
-     filter: "(?=.*(美国|🇺🇸))^((?!(福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
-  - {name: 📺 流媒自动, type: url-test, include-all: true, tolerance: 20, interval: 300, 
-     filter: "(?=.*(NF|Disney|HBO|Hulu))^((?!(福利|V1|0.1x|0.2x|0.3x|0.4x|0.5x|0.6x|0.7x|0.8x|0.9x|3x|4x|5x)).)*$"}
-
-  # 全局节点
-  - {name: 🗺 环球节点, type: select, include-all: true, 
-     filter: "^((?!(香港|HK|Taiwan|日本|新加坡|美国|福利|新用户|直连)).)*$"}
+  # 区域自动测速分组
+  - {name: 🇭🇰 香港自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
+     filter: "(?=.*(香港|HK|Hong\\s?Kong|🇭🇰))^((?!(福利|V1|0\\.\\d+x|[3-5]x|HKT|Alice|Moe)).)*$"}
+  - {name: 🇨🇳 台湾自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
+     filter: "(?=.*(台湾|🇹🇼))^((?!(福利|V1|0\\.\\d+x|[3-5]x|Hinet|ByteVirt)).)*$"}
+  - {name: 🇯🇵 日本自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
+     filter: "(?=.*(日本|🇯🇵))^((?!(福利|V1|0\\.\\d+x|[3-5]x|Akari|Cogent)).)*$"}
+  - {name: 🇸🇬 狮城自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
+     filter: "(?=.*(新加坡|狮城|🇸🇬))^((?!(福利|V1|0\\.\\d+x|[3-5]x|Akari|Eons)).)*$"}
+  - {name: 🌏 亚洲自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
+     filter: "(?=.*(香港|HK|Hong\\s?Kong|日本|新加坡|🇭🇰|🇯🇵|🇸🇬))^((?!(台湾|🇹🇼|福利|V1|0\\.\\d+x|[3-5]x|HKT|Alice|Moe|Hinet|ByteVirt|Akari|Cogent|Eons|Fastnet)).)*$"}
+  - {name: 🇺🇸 美国自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
+     filter: "(?=.*(美国|🇺🇸))^((?!(福利|V1|0\\.\\d+x|[3-5]x|Cogent|Fastnet)).)*$"}
+  - {name: 📺 流媒自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
+     filter: "(?=.*(NF|Netflix|Disney|HBO|Hulu))^((?!(福利|V1|0\\.\\d+x|[3-5]x)).)*$"}
+  # 全局选择器
+  - {name: 🗺 环球节点, type: select, include-all: true,
+     filter: "^((?!(香港|HK|台湾|Taiwan|日本|新加坡|狮城|美国|福利|新用户|直连)).)*$"}
   - {name: 🚀 全部节点, type: select, include-all: true}
 
-# 规则匹配 此规则部分没有做防泄露处理,因为弊严重大于利！注意顺序
+  - {name: 🧪 香港自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
+     filter: "(?=.*(香港HKT|香港Alice|香港Moe))"}
+  - {name: 🧪 台湾自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
+     filter: "(?=.*(台湾Hinet|台湾ByteVirt))"}
+  - {name: 🧪 日本自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
+     filter: "(?=.*(日本Akari|日本Cogent))"}
+  - {name: 🧪 狮城自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
+     filter: "(?=.*(狮城Akari|狮城Eons))"}
+  - {name: 🧪 亚洲自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
+     filter: "(?=.*(香港HKT|香港Alice|香港Moe|台湾Hinet|台湾ByteVirt|日本Akari|日本Cogent|狮城Akari|狮城Eons))"}
+  - {name: 🧪 美国自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
+     filter: "(?=.*(美国Cogent|美国Fastnet))"}
+  # 全局选择器
+  - {name: 🧪 环球节点, type: select, include-all: true,
+     filter: "(?=.*(阿根廷Nato|韩国Oracle|土耳其Hostigger|英国Haruka|尼日利亚Melbikomas|德国Misaka|荷兰Liteserver|加拿大Oracle))"}
+
+
+# 规则匹配
 rules:
   # 基础网络和隐私规则
   - IP-CIDR,10.10.0.0/22,🚥 直连访问
