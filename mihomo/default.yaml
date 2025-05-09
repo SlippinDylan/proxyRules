@@ -180,7 +180,7 @@ proxy-groups:
 
   # AI和开发相关
   - {name: 🐙 Develop, <<: *proxymain}
-  - {name: 🤖 Intelligence, type: select, proxies: [🇺🇸 美国自动, 🧪 美国自动, 🇯🇵 日本自动, 🧪 日本自动, 🇸🇬 狮城自动, 🇭🇰 香港自动, 🇨🇳 台湾自动]}
+  - {name: 🤖 Intelligence, type: select, proxies: [🤖 AI自动, 🧪 AI自动, 🇺🇸 美国自动, 🧪 美国自动, 🇯🇵 日本自动, 🧪 日本自动]}
 
   # 资料管理
   - {name: 💾 Synology, <<: *directmain}
@@ -230,6 +230,8 @@ proxy-groups:
      filter: "(?=.*(香港|HK|Hong\\s?Kong|日本|新加坡|🇭🇰|🇯🇵|🇸🇬))^((?!(台湾|🇹🇼|福利|V1|0\\.\\d+x|[3-5]x|HKT|Alice|Moe|Hinet|ByteVirt|Akari|Cogent|Eons|Fastnet)).)*$"}
   - {name: 🇺🇸 美国自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
      filter: "(?=.*(美国|🇺🇸))^((?!(福利|V1|0\\.\\d+x|[3-5]x|Cogent|Fastnet)).)*$"}
+  - {name: 🤖 AI自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
+     filter: "(?=.*(日本|🇯🇵|美国|🇺🇸))^((?!(福利|V1|0\\.\\d+x|[3-5]x|Akari|Cogent|Cogent|Fastnet)).)*$"}
   - {name: 📺 流媒自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
      filter: "(?=.*(NF|Netflix|Disney|HBO|Hulu))^((?!(福利|V1|0\\.\\d+x|[3-5]x)).)*$"}
   # 全局选择器
@@ -249,6 +251,8 @@ proxy-groups:
      filter: "(?=.*(香港HKT|香港Alice|香港Moe|台湾Hinet|台湾ByteVirt|日本Akari|日本Cogent|狮城Akari|狮城Eons))"}
   - {name: 🧪 美国自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
      filter: "(?=.*(美国Cogent|美国Fastnet))"}
+  - {name: 🧪 AI自动, type: url-test, include-all: true, interval: 300, tolerance: 20,
+     filter: "(?=.*(日本Akari|日本Cogent|美国Cogent|美国Fastnet))"}
   # 全局选择器
   - {name: 🧪 环球节点, type: select, include-all: true,
      filter: "(?=.*(阿根廷Nato|韩国Oracle|土耳其Hostigger|英国Haruka|尼日利亚Melbikomas|德国Misaka|荷兰Liteserver|加拿大Oracle))"}
