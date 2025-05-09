@@ -1,7 +1,7 @@
 # 机场订阅配置
 proxy-providers:
   Pander:
-    url: "机场订阅"
+    url: "订阅链接"
     type: http
     interval: 14400
     health-check:
@@ -18,7 +18,7 @@ proxy-providers:
       skip-cert-verify: true
   
   Bocchi:
-    url: "机场订阅"
+    url: "订阅链接"
     type: http
     interval: 14400
     health-check:
