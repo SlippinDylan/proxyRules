@@ -105,19 +105,13 @@ dns:
   fake-ip-cache: true
   fake-ip-filter-mode: blacklist
   fake-ip-filter: [
-    # 规则集合
     # "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,aliyun_domain,alibaba_domain,tencent_domain,xiaomi_domain,xiaohongshu_domain,cn_domain,usr_direct,private_domain,direct_torrent,docker_domain,category_dev_domain,develousr_domain,linux_domain,usr_proxy_develop", 
     "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,cn_domain,usr_direct,private_domain,direct_torrent,docker_domain,category_dev_domain,develousr_domain,linux_domain,usr_proxy_develop", 
-    # 其他域名
     "+.services.googleapis.cn", "+.xn--ngstr-lra8j.com", 
-    # NTP服务
     "+.ntp.tencent.com", "+.ntp1.aliyun.com", "time.*.com", 
     "+.ntp.ntsc.ac.cn", "+.pool.ntp.org", "+.cn.ntp.org.cn", 
-    # 开发服务
     "+.yarnpkg.com", "+.ustclug.org",
-    # 工具
     "start.me","+.start.me",
-    # 自带的
     "+.lan", "+.local", "geosite:cn"
     
   ]
@@ -125,12 +119,9 @@ dns:
   default-nameserver: &cn_dns [119.29.29.29, 223.5.5.5, '2400:3200::1', '2402:4e00::']
   proxy-server-nameserver: *cn_dns
   nameserver: *cn_dns
-  # 国外域名使用Google DNS和Cloudflare DNS
   nameserver-policy: {
-    # GitHub相关
     "+.github.com": [8.8.8.8, 1.1.1.1], "github.com": [8.8.8.8, 1.1.1.1], 
     "+.githubusercontent.com": [8.8.8.8, 1.1.1.1],
-    # 开源社区
     "+.debian.org": [8.8.8.8, 1.1.1.1], "+.yarnpkg.com": [8.8.8.8, 1.1.1.1], 
     "+.ustclug.org": [8.8.8.8, 1.1.1.1], "+.immortalwrt.org": [8.8.8.8, 1.1.1.1], 
     "+.openwrt.org": [8.8.8.8, 1.1.1.1]
@@ -139,7 +130,6 @@ dns:
 # 出站策略定义
 proxymain: &proxymain {type: select, proxies: [亚洲自动, 亚洲自动测试, 香港自动, 香港自动测试, 台湾自动, 日本自动, 狮城自动, 美国自动, 环球节点, 全部节点, 国内直连]}
 directmain: &directmain {type: select, proxies: [国内直连, 亚洲自动, 亚洲自动测试, 香港自动, 台湾自动, 日本自动, 狮城自动, 美国自动, 环球节点, 全部节点]}
-proxymainexperiment: &proxymainexperiment {type: select, proxies: [亚洲自动, 亚洲自动测试, 香港自动, 台湾自动, 日本自动, 狮城自动, 美国自动, 环球节点, 全部节点, 国内直连]}
 
 proxy-groups:
   # 核心代理策略组
@@ -150,16 +140,16 @@ proxy-groups:
   - {name: ApplePxy, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple_2.png"}
   - {name: MicrosoftCN, <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/OneDrive.png"}
   - {name: Microsoft, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Microsoft.png"}
-  - {name: Google, <<: *proxymainexperiment, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Google_Search.png"}
+  - {name: Google, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Google_Search.png"}
   # 工具软件
   - {name: Develop, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/GitHub.png"}
-  - {name: Intelligence, type: select, proxies: [AI自动, AI自动测试, 美国自动, 美国自动测试, 日本自动, 日本自动测试], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Copilot.png"}
+  - {name: Intelligence, type: select, proxies: [AI自动, AI自动测试], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Copilot.png"}
   - {name: Synology, <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Download.png"}
   # 通讯和钱包
-  - {name: Telegram, type: select, proxies: [狮城自动, 狮城自动测试, 香港自动, 台湾自动, 日本自动, 美国自动, 环球节点, 全部节点], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png"}
-  - {name: Wallet, type: select, proxies: [台湾自动, 国内直连, 香港自动, 日本自动, 狮城自动, 美国自动, 环球节点, 全部节点], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/PayPal.png"}
+  - {name: Telegram, type: select, proxies: [狮城自动测试, 狮城自动, 亚洲自动, 亚洲自动测试], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png"}
+  - {name: Wallet, type: select, proxies: [台湾自动, 国内直连, 全部节点], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/PayPal.png"}
   # 媒体和娱乐
-  - {name: Spotify, type: select, proxies: [国内直连, 亚洲自动, 亚洲自动测试, 香港自动, 台湾自动, 日本自动, 狮城自动, 美国自动, 环球节点, 全部节点], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Spotify.png"}
+  - {name: Spotify, type: select, proxies: [国内直连, 亚洲自动, 亚洲自动测试, 全部节点], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Spotify.png"}
   - {name: TikTok, type: select, proxies: [美国自动, 国内直连], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/TikTok.png"}
   - {name: 国外流媒体, type: select, proxies: [流媒自动, 亚洲自动测试], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ForeignMedia.png"}
   - {name: 游戏直连, <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Game.png"}
@@ -171,22 +161,21 @@ proxy-groups:
 
   # 区域自动测速分组
   - {name: 亚洲自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(香港|HK|Hong\\s?Kong|日本|新加坡|🇭🇰|🇯🇵|🇸🇬))^((?!(台湾|🇹🇼|福利|V1|0\\.\\d+x|[3-5]x|HKT|Alice|Moe|Hinet|ByteVirt|Akari|Cogent|Eons|Fastnet)).)*$", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Auto.png"}
-  - {name: 香港自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(香港|HK|Hong\\s?Kong|🇭🇰))^((?!(福利|V1|0\\.\\d+x|[3-5]x|HKT|Alice|Moe)).)*$", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Hong_Kong.png"}
-  - {name: 台湾自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(台湾|🇹🇼))^((?!(福利|V1|0\\.\\d+x|[3-5]x|Hinet|ByteVirt)).)*$", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Taiwan.png"}
-  - {name: 日本自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(日本|🇯🇵))^((?!(福利|V1|0\\.\\d+x|[3-5]x|Akari|Cogent)).)*$", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png"}
-  - {name: 狮城自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(新加坡|狮城|🇸🇬))^((?!(福利|V1|0\\.\\d+x|[3-5]x|Akari|Eons)).)*$", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Singapore.png"}
-  - {name: 美国自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(美国|🇺🇸))^((?!(福利|V1|0\\.\\d+x|[3-5]x|Cogent|Fastnet)).)*$", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png"}
-  
   - {name: 亚洲自动测试, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(香港HKT|香港Alice|香港Moe|台湾Hinet|台湾ByteVirt|日本Akari|日本Cogent|狮城Akari|狮城Eons))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/DE.png"}
+  - {name: 香港自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(香港|HK|Hong\\s?Kong|🇭🇰))^((?!(福利|V1|0\\.\\d+x|[3-5]x|HKT|Alice|Moe)).)*$", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Hong_Kong.png"}
   - {name: 香港自动测试, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(香港HKT|香港Alice|香港Moe))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/HK.png"}
+  - {name: 台湾自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(台湾|🇹🇼))^((?!(福利|V1|0\\.\\d+x|[3-5]x|Hinet|ByteVirt)).)*$", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Taiwan.png"}
   - {name: 台湾自动测试, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(台湾Hinet|台湾ByteVirt))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/TW.png"}
+  - {name: 日本自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(日本|🇯🇵))^((?!(福利|V1|0\\.\\d+x|[3-5]x|Akari|Cogent)).)*$", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png"}
   - {name: 日本自动测试, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(日本Akari|日本Cogent))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/JP.png"}
+  - {name: 狮城自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(新加坡|狮城|🇸🇬))^((?!(福利|V1|0\\.\\d+x|[3-5]x|Akari|Eons)).)*$", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Singapore.png"}
   - {name: 狮城自动测试, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(狮城Akari|狮城Eons))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/SG.png"}
+  - {name: 美国自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(美国|🇺🇸))^((?!(福利|V1|0\\.\\d+x|[3-5]x|Cogent|Fastnet)).)*$", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png"}
   - {name: 美国自动测试, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(美国Cogent|美国Fastnet))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/US.png"}
   
-  - {name: 流媒自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(NF|Netflix|Disney|HBO|Hulu))^((?!(福利|V1|0\\.\\d+x|[3-5]x)).)*$", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Media.png"}
   - {name: AI自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(日本|🇯🇵|美国|🇺🇸))^((?!(福利|V1|0\\.\\d+x|[3-5]x|Akari|Cogent|Cogent|Fastnet)).)*$", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png"}
-  - {name: AI自动测试, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(日本Akari|日本Cogent|美国Cogent|美国Fastnet))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png"}
+  - {name: AI自动测试, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(日本Akari|日本Cogent|美国Cogent|美国Fastnet))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/AIA.png"}
+  - {name: 流媒自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(NF|Netflix|Disney|HBO|Hulu))^((?!(福利|V1|0\\.\\d+x|[3-5]x)).)*$", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Media.png"}
   
 
   # 全局选择器
@@ -261,17 +250,12 @@ rules:
   - RULE-SET,cn_domain,国内直连
   
   # IP规则
-  ## 开发相关
   - RULE-SET,usr_proxy_develop_ip,Develop,no-resolve
-  ## 通讯服务
   - RULE-SET,telegram_ip,Telegram,no-resolve
-  ## 流媒体服务
   - RULE-SET,globalmedia_ip,国外流媒体,no-resolve
   - RULE-SET,chinamedia_ip,国内直连
-  ## 互联网巨头服务
   - RULE-SET,google_ip,Google,no-resolve
   - RULE-SET,apple_ip,Apple
-  ## 全局代理
   - RULE-SET,direct_torrent_ip,国内直连
   - RULE-SET,cn_ip,国内直连
   - MATCH,漏网之鱼
@@ -423,29 +407,24 @@ rule-providers:
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"
   
   # IP规则
-  ## 开发
   usr_proxy_develop_ip:
    <<: *ip
    url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Proxy-Develop-IP.mrs"
-  ## 通讯服务
   telegram_ip:
    <<: *ip
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"
-  ## 流媒体服务
   globalmedia_ip:
    <<: *ip
    url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/GlobalMedia/GlobalMedia_OCD_IP.mrs"
   chinamedia_ip:
    <<: *ip
    url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/ChinaMedia/ChinaMedia_OCD_IP.mrs"
-  ## 互联网巨头服务
   google_ip:
    <<: *ip
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"
   apple_ip:
    <<: *ip
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs"
-  ## 全局代理
   direct_torrent:
    <<: *domain
    url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Direct-Torrent.mrs"
