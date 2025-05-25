@@ -1,17 +1,17 @@
 ######### 锚点 start #######
 # 策略组相关
-proxymain: &proxymain {type: select, proxies: [亚洲自动, 亚洲自动测试, 香港自动, 香港自动, 台湾自动, 日本自动, 狮城自动, 美国自动, 环球节点, 全部节点, 国内直连]}
-directmain: &directmain {type: select, proxies: [国内直连, 亚洲自动, 亚洲自动测试, 香港自动, 台湾自动, 日本自动, 狮城自动, 美国自动, 环球节点, 全部节点]}
+proxymain: &proxymain {type: select, proxies: [🌏 B 亚洲自动, 🌏 A 亚洲自动, 🌏 P 亚洲自动, 🌍环球节点, 🛰全部节点, 国内直连]}
+directmain: &directmain {type: select, proxies: [国内直连, 🌏 B 亚洲自动, 🌏 A 亚洲自动, 🌏 P 亚洲自动, 🌍环球节点, 🛰全部节点]}
 #这里是订阅更新和延迟测试相关的
-p: &p {type: http, interval: 14400, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 300, lazy: false, tolerance: 50}, proxy: 国内直连, override: {udp: true, skip-cert-verify: true}}
+p: &p {type: http, interval: 7200, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 300, lazy: false, tolerance: 50}, proxy: 国内直连, override: {udp: true, skip-cert-verify: true}}
 ######### 锚点 end #######
 
 # 机场订阅配置
 proxy-providers:
-  pander:
+  Pander:
     <<: *p
     url: "订阅链接"
-  bocchi:
+  Bocchi:
     <<: *p
     url: "订阅链接"
 
@@ -31,7 +31,7 @@ profile:
   store-selected: true
   store-fake-ip: true
   tracing: true
-  interval: 14400
+  interval: 7200
 
 # DNS模块
 dns:
@@ -102,38 +102,49 @@ proxy-groups:
 - {name: Microsoft, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Microsoft.png"}
 - {name: Google, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Google_Search.png"}
 - {name: Develop, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/GitHub.png"}
-- {name: Intelligence, type: select, proxies: [AI自动, AI自动测试], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Copilot.png"}
+- {name: Intelligence, type: select, proxies: [🤖 B AI自动, 🤖 A AI自动, 🤖 P AI自动], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Copilot.png"}
 - {name: Synology, <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Download.png"}
-- {name: Telegram, type: select, proxies: [狮城自动测试, 狮城自动, 亚洲自动, 亚洲自动测试], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png"}
-- {name: Wallet, type: select, proxies: [台湾自动, 国内直连, 全部节点], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/PayPal.png"}
-- {name: Spotify, type: select, proxies: [国内直连, 亚洲自动, 亚洲自动测试, 全部节点], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Spotify.png"}
-- {name: TikTok, type: select, proxies: [美国自动, 国内直连], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/TikTok.png"}
-- {name: 国外流媒体, type: select, proxies: [流媒自动, 亚洲自动测试], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ForeignMedia.png"}
+- {name: Telegram, type: select, proxies: [🇸🇬 B 狮城自动, 🇸🇬 A 狮城自动, 🇸🇬 P 狮城自动, 🌏 B 亚洲自动, 🌏 P 亚洲自动, 🌏 A 亚洲自动], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png"}
+- {name: Wallet, type: select, proxies: [🇹🇼 B 台湾自动, 🇹🇼 A 台湾自动, 🇹🇼 P 台湾自动, 国内直连, 🛰全部节点], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/PayPal.png"}
+- {name: Spotify, type: select, proxies: [国内直连, 🌏 B 亚洲自动, 🌏 A 亚洲自动, 🌏 P 亚洲自动, 🛰全部节点], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Spotify.png"}
+- {name: TikTok, type: select, proxies: [🇺🇸 B 美国自动, 🇺🇸 A 美国自动, 🇺🇸 P 美国自动, 国内直连], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/TikTok.png"}
+- {name: 国外流媒体, type: select, proxies: [📺 B 流媒体自动, 📺 A 流媒体自动, 📺 P 流媒体自动, 🌏 B 亚洲自动, 🌏 A 亚洲自动, 🌏 P 亚洲自动], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ForeignMedia.png"}
 - {name: 游戏直连, <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Game.png"}
 - {name: 游戏代理, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Steam.png"}
 - {name: Speedtest, <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Speedtest.png"}
 - {name: 漏网之鱼, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png"}
 
-- {name: 亚洲自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(港|hk|hongkong|hong kong|日本|jp|japan|新加坡|sg|singapore|狮城)(?!.*(?:台湾|tw|taiwan|福利|V1|0\\.\\d+x|[3-5]x|HKT|Alice|Moe|Hinet|ByteVirt|Akari|Cogent|Eons|Fastnet))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Auto.png"}
-- {name: 亚洲自动测试, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(港|hk|hongkong|hong kong|日本|jp|japan|新加坡|sg|singapore|狮城)(?!.*(?:台湾|tw|taiwan|福利|V1|0\\.\\d+x|[3-5]x))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/DE.png"}
-- {name: 香港自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(港|hk|hongkong|hong kong)(?!.*(?:福利|V1|0\\.\\d+x|[3-5]x|HKT|Alice|Moe))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Hong_Kong.png"}
-- {name: 香港自动测试, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(港|hk|hongkong|hong kong)(?!.*(?:福利|V1|0\\.\\d+x|[3-5]x))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/HK.png"}
-- {name: 台湾自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(台|tw|taiwan)(?!.*(?:福利|V1|0\\.\\d+x|[3-5]x|Hinet|ByteVirt))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Taiwan.png"}
-- {name: 台湾自动测试, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(台|tw|taiwan)(?!.*(?:福利|V1|0\\.\\d+x|[3-5]x))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/TW.png"}
-- {name: 日本自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(日|jp|japan)(?!.*(?:福利|V1|0\\.\\d+x|[3-5]x|Akari|Cogent))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png"}
-- {name: 日本自动测试, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(日|jp|japan)(?!.*(?:福利|V1|0\\.\\d+x|[3-5]x))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/JP.png"}
-- {name: 狮城自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(新|sg|singapore|狮城)(?!.*(?:福利|V1|0\\.\\d+x|[3-5]x|Akari|Eons))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Singapore.png"}
-- {name: 狮城自动测试, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(新|sg|singapore|狮城)(?!.*(?:福利|V1|0\\.\\d+x|[3-5]x))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/SG.png"}
-- {name: 美国自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(美|us|unitedstates|united states)(?!.*(?:福利|V1|0\\.\\d+x|[3-5]x|Cogent|Fastnet))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png"}
-- {name: 美国自动测试, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(美|us|unitedstates|united states)(?!.*(?:福利|V1|0\\.\\d+x|[3-5]x))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/US.png"}
+# === Bocchi ===
+- {name: 🌏 B 亚洲自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(港|hk|hongkong|hong kong|日本|jp|japan|新加坡|sg|singapore|狮城|香港|🇭🇰|🇯🇵|🇸🇬)(?!.*(?:福利|01))"}
+- {name: 🇭🇰 B 香港自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(港|hk|hongkong|hong kong|香港|🇭🇰)(?!.*(?:福利|01))"}
+- {name: 🇹🇼 B 台湾自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(台湾|tw|taiwan|🇹🇼)(?!.*(?:福利|01))"}
+- {name: 🇯🇵 B 日本自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(日本|jp|japan|🇯🇵)(?!.*(?:福利|01))"}
+- {name: 🇸🇬 B 狮城自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(新加坡|sg|singapore|狮城|🇸🇬)(?!.*(?:福利|01))"}
+- {name: 🇺🇸 B 美国自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(美国|us|usa|united states|🇺🇸)(?!.*(?:福利|01))"}
+- {name: 🤖 B AI自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(日本|jp|japan|🇯🇵|美国|us|usa|united states|🇺🇸)(?!.*(?:福利|01))"}
+- {name: 📺 B 流媒体自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(nf|netflix|disney|hbo|hulu)(?!.*(?:福利|01))"}
 
-- {name: AI自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(日本|jp|japan|美国|us|unitedstates|united states)(?!.*(?:福利|V1|0\\.\\d+x|[3-5]x|Akari|Cogent|Fastnet))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png"}
-- {name: AI自动测试, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(日本|jp|japan|美国|us|unitedstates|united states)(?!.*(?:福利|V1|0\\.\\d+x|[3-5]x))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/AIA.png"}
-- {name: 流媒自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(nf|netflix|disney|hbo|hulu)(?!.*(?:福利|V1|0\\.\\d+x|[3-5]x))", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Media.png"}
+# === All（混合）===
+- {name: 🌏 A 亚洲自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(港|hk|hongkong|hong kong|日本|jp|japan|新加坡|sg|singapore|狮城|香港|🇭🇰|🇯🇵|🇸🇬)(?!.*(?:福利|01|[2-9]x|1\\.[5-9]x))"}
+- {name: 🇭🇰 A 香港自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(港|hk|hongkong|hong kong|香港|🇭🇰)(?!.*(?:福利|01|[2-9]x|1\\.[5-9]x))"}
+- {name: 🇹🇼 A 台湾自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(台湾|tw|taiwan|🇹🇼)(?!.*(?:福利|01|[2-9]x|1\\.[5-9]x))"}
+- {name: 🇯🇵 A 日本自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(日本|jp|japan|🇯🇵)(?!.*(?:福利|01|[2-9]x|1\\.[5-9]x))"}
+- {name: 🇸🇬 A 狮城自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(新加坡|sg|singapore|狮城|🇸🇬)(?!.*(?:福利|01|[2-9]x|1\\.[5-9]x))"}
+- {name: 🇺🇸 A 美国自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(美国|us|usa|united states|🇺🇸)(?!.*(?:福利|01|[2-9]x|1\\.[5-9]x))"}
+- {name: 🤖 A AI自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(日本|jp|japan|🇯🇵|美国|us|usa|united states|🇺🇸)(?!.*(?:福利|01|[2-9]x|1\\.[5-9]x))"}
+- {name: 📺 A 流媒体自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?i)(?!直连)(nf|netflix|disney|hbo|hulu)(?!.*(?:福利|01|[2-9]x|1\\.[5-9]x))"}
+- {name: 🌍环球节点, type: select, include-all: true, filter: "(?i)(?!直连)(?!.*(港|hk|hongkong|hong kong|台湾|tw|taiwan|日本|jp|japan|新加坡|sg|singapore|狮城|美国|us|usa|united states|福利|新用户))"}
+- {name: 🛰全部节点, type: select, include-all: true}
 
-- {name: 环球节点, type: select, include-all: true, filter: "(?i)^(?!.*(?:港|hk|hongkong|hong kong|台|tw|taiwan|日本|jp|japan|新加坡|sg|singapore|狮城|美国|us|unitedstates|united states|福利|新用户|直连)).*$", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Global.png"}
-- {name: 全部节点, type: select, include-all: true, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Round_Robin_1.png"}
-# - {name: 环球节点测试, type: select, include-all: true, filter: "(?i)(阿根廷nato|韩国oracle|土耳其hostigger|英国haruka|尼日利亚melbikomas|德国misaka|荷兰liteserver|加拿大oracle)", icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/Global.png"}
+# === Pander ===
+- {name: 🌏 P 亚洲自动, type: url-test, use: [Pander], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(港|hk|hongkong|hong kong|日本|jp|japan|新加坡|sg|singapore|香港|🇭🇰|🇯🇵|🇸🇬)(?!.*(?:福利|IPLC-V0?01-)).*1(\\.([0-4]))?x"}
+- {name: 🇭🇰 P 香港自动, type: url-test, use: [Pander], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(港|hk|hongkong|hong kong|香港|🇭🇰)(?!.*(?:福利|IPLC-V0?01-)).*1(\\.([0-4]))?x"}
+- {name: 🇹🇼 P 台湾自动, type: url-test, use: [Pander], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(台湾|tw|taiwan|🇹🇼)(?!.*(?:福利|IPLC-V0?01-)).*1(\\.([0-4]))?x"}
+- {name: 🇯🇵 P 日本自动, type: url-test, use: [Pander], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(日本|jp|japan|🇯🇵)(?!.*(?:福利|IPLC-V0?01-)).*1(\\.([0-4]))?x"}
+- {name: 🇸🇬 P 狮城自动, type: url-test, use: [Pander], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(新加坡|sg|singapore|狮城|🇸🇬)(?!.*(?:福利|IPLC-V0?01-)).*1(\\.([0-4]))?x"}
+- {name: 🇺🇸 P 美国自动, type: url-test, use: [Pander], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(美国|us|usa|united states|🇺🇸)(?!.*(?:福利|IPLC-V0?01-)).*1(\\.([0-4]))?x"}
+- {name: 🤖 P AI自动, type: url-test, use: [Pander], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(日本|jp|japan|🇯🇵|美国|us|usa|united states|🇺🇸)(?!.*(?:福利|IPLC-V0?01-)).*1(\\.([0-4]))?x"}
+- {name: 📺 P 流媒体自动, type: url-test, use: [Pander], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(nf|netflix|disney|hbo|hulu)(?!.*(?:福利|IPLC-V0?01-)).*1(\\.([0-4]))?x"}
 
 rules:
 - IP-CIDR,10.10.0.0/22,国内直连
@@ -189,8 +200,8 @@ rules:
 - MATCH,漏网之鱼
 
 rule-anchor:
-  domain: &domain {type: http, interval: 14400, behavior: domain, format: text}
-  ip: &ip {type: http, interval: 14400, behavior: ipcidr, format: text}
+  domain: &domain {type: http, interval: 7200, behavior: domain, format: text}
+  ip: &ip {type: http, interval: 7200, behavior: ipcidr, format: text}
 rule-providers:
   private_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list"}
   category_ai_chat_notcn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.list"}
