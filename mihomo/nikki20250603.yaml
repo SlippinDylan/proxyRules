@@ -114,7 +114,7 @@ dns:
 # 出站策略定义
 proxymain: &proxymain {type: select, proxies: [🌏 亚洲自动, 🇺🇸 美国自动, 🌍环球节点, 🛰全部节点, 国内直连]}
 directmain: &directmain {type: select, proxies: [国内直连, 🌏 亚洲自动, 🇺🇸 美国自动, 🌍环球节点, 🛰全部节点]}
-aitmain: &aitmain {type: select, proxies: [🤖 AI自动, 🌏 亚洲自动, 🇺🇸 美国自动, 🌍环球节点, 🛰全部节点, 国内直连]}
+aimain: &aimain {type: select, proxies: [🤖 AI自动, 🌏 亚洲自动, 🇺🇸 美国自动, 🌍环球节点, 🛰全部节点, 国内直连]}
 
 proxy-groups:
   # 核心代理策略组
@@ -128,7 +128,7 @@ proxy-groups:
   - {name: Google, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Google_Search.png"}
   # 工具软件
   - {name: Develop, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/GitHub.png"}
-  - {name: Intelligence, <<: *aitmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Copilot.png"}
+  - {name: Intelligence, <<: *aimain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Copilot.png"}
   - {name: Synology, <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Download.png"}
   # 通讯和钱包
   - {name: Telegram, type: select, proxies: [🇸🇬 狮城自动, 🌏 亚洲自动, 🇺🇸 美国自动], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png"}
@@ -153,7 +153,7 @@ proxy-groups:
   - {name: 🇺🇸 美国自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?=.*(美国|🇺🇸))^((?!福利).)*((?!01).)*$"}
   - {name: 🤖 AI自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?=.*(日本|🇯🇵|美国|🇺🇸))^((?!福利).)*((?!01).)*$"}
 
-  - {name: 🌍环球节点, type: select, include-all: true, filter: "^((?!(香港|HK|台湾|Taiwan|日本|新加坡|狮城|美国|福利|新用户|直连)).)*$"}
+  - {name: 🌍环球节点, type: select, include-all: true, filter: "^((?!(香港|HK|台湾|Taiwan|日本|新加坡|狮城|美国|福利|新用户|直接)).)*$"}
   - {name: 🛰全部节点, type: select, include-all: true}
 
 # 规则匹配
