@@ -256,7 +256,7 @@ rule-providers:
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs"
   usr_proxy_intelligence:
    <<: *domain
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/ruleProvider/Proxy-Intelligence.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy-Intelligence.mrs"
   
   # 开发
   category_dev_domain:
@@ -273,7 +273,7 @@ rule-providers:
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/linux.mrs"
   usr_proxy_develop:
    <<: *domain
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/ruleProvider/Proxy-Develop.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy-Develop.mrs"
   
   # 工具和实用服务
   onedrive_domain:
@@ -305,7 +305,7 @@ rule-providers:
   # 流媒体服务
   usr_proxy_media:
    <<: *domain
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/ruleProvider/Proxy-Media.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy-Media.mrs"
   globalmedia_domain:
    <<: *domain
    url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/GlobalMedia/GlobalMedia_OCD_Domain.mrs"
@@ -353,10 +353,10 @@ rule-providers:
   # 全局代理
   usr_direct:
    <<: *domain
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/ruleProvider/Direct.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct.mrs"
   usr_proxy:
    <<: *domain
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/ruleProvider/Proxy.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy.mrs"
   proxy_domain:
    <<: *domain
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geosite/proxy.mrs"
@@ -370,7 +370,7 @@ rule-providers:
   # IP规则
   usr_proxy_develop_ip:
    <<: *ip
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/ruleProvider/Proxy-Develop-IP.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy-Develop-IP.mrs"
   telegram_ip:
    <<: *ip
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"
@@ -388,10 +388,10 @@ rule-providers:
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs"
   direct_torrent:
    <<: *domain
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/ruleProvider/Direct-Torrent.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct-Torrent.mrs"
   direct_torrent_ip:
    <<: *ip
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/ruleProvider/Direct-Torrent-IP.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct-Torrent-IP.mrs"
   cn_domain:
    <<: *domain
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"
