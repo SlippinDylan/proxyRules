@@ -84,7 +84,7 @@ sniffer:
   }
   force-domain: ["+.v2ex.com"]
   skip-domain: [
-    "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,cn_domain,usr_direct,private_domain,direct_torrent", 
+    "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,cn_domain,usr_direct,private_domain,usr_direct_torrent", 
     "+.push.apple.com", "+.apple.com", "+.wechat.com", "start.me","+.start.me",
     "+.qpic.cn", "+.wechatapp.com", "+.vivox.com", "+.oray.com", "+.sunlogin.net", 
     "+.msftconnecttest.com", "+.msftncsi.com", "Mijia Cloud", 
@@ -103,7 +103,7 @@ dns:
   fake-ip-cache: true
   fake-ip-filter-mode: blacklist
   fake-ip-filter: [
-    "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,cn_domain,usr_direct,private_domain,direct_torrent,docker_domain,category_dev_domain,develousr_domain,linux_domain,usr_proxy_develop", 
+    "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,cn_domain,usr_direct,private_domain,usr_direct_torrent,docker_domain,category_dev_domain,develousr_domain,linux_domain,usr_proxy_develop", 
     "+.services.googleapis.cn", "+.xn--ngstr-lra8j.com", 
     "+.ntp.tencent.com", "+.ntp1.aliyun.com", "time.*.com", 
     "+.ntp.ntsc.ac.cn", "+.pool.ntp.org", "+.cn.ntp.org.cn", 
@@ -154,6 +154,8 @@ proxy-groups:
   - {name: 游戏直连, <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Game.png"}
   - {name: 游戏代理, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Steam.png"}
   # 其他
+  - {name: Speedtest, <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Speedtest.png"}
+  - {name: Speedtest, <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Speedtest.png"}
   - {name: Speedtest, <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Speedtest.png"}
   - {name: 漏网之鱼, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png"}
 
@@ -256,7 +258,7 @@ rule-providers:
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs"
   usr_proxy_intelligence:
    <<: *domain
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy-Intelligence.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy_Intelligence.mrs"
   
   # 开发
   category_dev_domain:
@@ -273,7 +275,7 @@ rule-providers:
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/linux.mrs"
   usr_proxy_develop:
    <<: *domain
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy-Develop.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy_Develop.mrs"
   
   # 工具和实用服务
   onedrive_domain:
@@ -305,7 +307,7 @@ rule-providers:
   # 流媒体服务
   usr_proxy_media:
    <<: *domain
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy-Media.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy_Media.mrs"
   globalmedia_domain:
    <<: *domain
    url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/GlobalMedia/GlobalMedia_OCD_Domain.mrs"
@@ -370,10 +372,10 @@ rule-providers:
   # IP规则
   usr_proxy_ip:
    <<: *ip
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy-IP.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy_IP.mrs"
   usr_proxy_develop_ip:
    <<: *ip
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy-Develop-IP.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy_Develop_IP.mrs"
   telegram_ip:
    <<: *ip
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"
@@ -391,10 +393,10 @@ rule-providers:
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs"
   usr_direct_torrent:
    <<: *domain
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct-Torrent.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct_Torrent.mrs"
   usr_direct_torrent_ip:
    <<: *ip
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct-Torrent-IP.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct_Torrent_IP.mrs"
   cn_domain:
    <<: *domain
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"
