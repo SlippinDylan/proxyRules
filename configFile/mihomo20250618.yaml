@@ -155,8 +155,6 @@ proxy-groups:
   - {name: 游戏代理, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Steam.png"}
   # 其他
   - {name: Speedtest, <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Speedtest.png"}
-  - {name: Speedtest, <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Speedtest.png"}
-  - {name: Speedtest, <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Speedtest.png"}
   - {name: 漏网之鱼, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png"}
 
   - {name: 🌏 亚洲自动, type: url-test, include-all: true, interval: 180, tolerance: 10, filter: "(?=.*(香港|日本|新加坡|狮城|🇭🇰|🇯🇵|🇸🇬))(?!.*(福利|邀请|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"}
@@ -173,7 +171,6 @@ proxy-groups:
 # 规则匹配
 rules:
   # 基础网络和隐私规则
-  - IP-CIDR,10.10.0.0/22,国内直连
   - RULE-SET,private_domain,国内直连
   
   # AI和智能服务
@@ -219,24 +216,29 @@ rules:
   - RULE-SET,google_domain,Google
   - RULE-SET,microsoft_cn_domain,MicrosoftCN
   - RULE-SET,microsoft_domain,Microsoft
-  
-  # 全局代理
+
+  # 个人代理-域名
   - RULE-SET,usr_direct,国内直连
   - RULE-SET,usr_proxy,全球代理
+  - RULE-SET,usr_direct_torrent,国内直连
+
+  # 全局代理
   - RULE-SET,proxy_domain,全球代理
   - RULE-SET,gfw_domain,全球代理
   - RULE-SET,geolocation_notcn_domain,全球代理
-  - RULE-SET,usr_direct_torrent,国内直连
   - RULE-SET,cn_domain,国内直连
-  
+
+  - IP-CIDR,127.0.0.1/32,全球代理
+  - IP-CIDR,10.10.0.1/32,全球代理
+
   # IP规则
+  - RULE-SET,usr_direct_torrent_ip,国内直连
   - RULE-SET,usr_proxy_develop_ip,Develop,no-resolve
   - RULE-SET,telegram_ip,Telegram,no-resolve
   - RULE-SET,globalmedia_ip,国外流媒体,no-resolve
   - RULE-SET,chinamedia_ip,国内直连
   - RULE-SET,google_ip,Google,no-resolve
   - RULE-SET,apple_ip,Apple
-  - RULE-SET,usr_direct_torrent_ip,国内直连
   - RULE-SET,cn_ip,国内直连
   - MATCH,漏网之鱼
 
@@ -356,6 +358,9 @@ rule-providers:
   usr_direct:
    <<: *domain
    url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct.mrs"
+  usr_direct_torrent:
+   <<: *domain
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct_Torrent.mrs"
   usr_proxy:
    <<: *domain
    url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy.mrs"
@@ -370,9 +375,6 @@ rule-providers:
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"
   
   # IP规则
-  usr_proxy_ip:
-   <<: *ip
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy_IP.mrs"
   usr_proxy_develop_ip:
    <<: *ip
    url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy_Develop_IP.mrs"
@@ -391,9 +393,6 @@ rule-providers:
   apple_ip:
    <<: *ip
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs"
-  usr_direct_torrent:
-   <<: *domain
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct_Torrent.mrs"
   usr_direct_torrent_ip:
    <<: *ip
    url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct_Torrent_IP.mrs"

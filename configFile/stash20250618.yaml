@@ -126,50 +126,61 @@ proxy-groups:
   - {name: 🛰全部节点, type: select, include-all: true, filter: "(?i)(?!.*(福利|新用户|直接|邀请|com))"}
 
 rules:
-  - IP-CIDR,10.10.0.0/22,国内直连
+  # 基础网络和隐私规则
   - RULE-SET,private_domain,国内直连
+  # AI和智能服务
   - RULE-SET,category_ai_chat_notcn_domain,Intelligence
   - RULE-SET,usr_proxy_intelligence,Intelligence
+  # 开发
   - RULE-SET,docker_domain,Develop
   - RULE-SET,category_dev_domain,Develop
   - RULE-SET,develousr_domain,Develop
   - RULE-SET,linux_domain,Develop
   - RULE-SET,usr_proxy_develop,Develop
+  # 工具和实用服务
   - RULE-SET,onedrive_domain,MicrosoftCN
   - RULE-SET,synology_domain,Synology
   - RULE-SET,speedtest_domain,Speedtest
+  # 通讯服务
   - RULE-SET,telegram_domain,Telegram
   - RULE-SET,paypal_domain,Wallet
+  # 媒体服务
   - RULE-SET,spotify_domain,Spotify
   - RULE-SET,tiktok_domain,TikTok
+  # 流媒体服务
   - RULE-SET,usr_proxy_media,国外流媒体
   - RULE-SET,globalmedia_domain,国外流媒体
   - RULE-SET,category_media_domain,国外流媒体
   - RULE-SET,category_media_cn_domain,国内直连
   - RULE-SET,chinamedia_domain,国内直连
+  # 游戏
   - RULE-SET,gamedownloadcn_domain,游戏直连
   - RULE-SET,category_games_cn_domain,游戏直连
   - RULE-SET,gamedownload_domain,游戏代理
   - RULE-SET,category_games_domain,游戏代理
+  # 互联网巨头服务
   - RULE-SET,apple_domain,Apple
   - RULE-SET,apple_notcn_domain,ApplePxy
   - RULE-SET,google_domain,Google
   - RULE-SET,microsoft_cn_domain,MicrosoftCN
   - RULE-SET,microsoft_domain,Microsoft
+  # 个人代理-域名
   - RULE-SET,usr_direct,国内直连
-  - RULE-SET,usr_proxy,翻墙代理
-  - RULE-SET,proxy_domain,翻墙代理
-  - RULE-SET,gfw_domain,翻墙代理
-  - RULE-SET,geolocation_notcn_domain,翻墙代理
-  - RULE-SET,direct_torrent,国内直连
+  - RULE-SET,usr_proxy,全球代理
+  - RULE-SET,usr_direct_torrent,国内直连
+  # 全局代理
+  - RULE-SET,proxy_domain,全球代理
+  - RULE-SET,gfw_domain,全球代理
+  - RULE-SET,geolocation_notcn_domain,全球代理
   - RULE-SET,cn_domain,国内直连
+  # IP规则
+  - RULE-SET,usr_direct_torrent_ip,国内直连
   - RULE-SET,usr_proxy_develop_ip,Develop,no-resolve
   - RULE-SET,telegram_ip,Telegram,no-resolve
   - RULE-SET,globalmedia_ip,国外流媒体,no-resolve
   - RULE-SET,chinamedia_ip,国内直连
   - RULE-SET,google_ip,Google,no-resolve
   - RULE-SET,apple_ip,Apple
-  - RULE-SET,direct_torrent_ip,国内直连
   - RULE-SET,cn_ip,国内直连
   - MATCH,漏网之鱼
 
@@ -218,7 +229,7 @@ rule-providers:
   chinamedia_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/ChinaMedia/ChinaMedia_OCD_IP.txt"}
   google_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.list"}
   apple_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.list"}
-  direct_torrent: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct_Torrent.txt"}
-  direct_torrent_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct_Torrent_IP.txt"}
+  usr_direct_torrent: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct_Torrent.txt"}
+  usr_direct_torrent_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct_Torrent_IP.txt"}
   cn_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.list"}
   cn_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.list"}
