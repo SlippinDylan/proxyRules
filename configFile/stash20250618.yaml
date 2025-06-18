@@ -19,6 +19,7 @@ proxy-providers:
     url: "订阅链接"
     benchmark-url: https://www.gstatic.com/generate_204
     interval: 7200
+
 # 全局端口和网络配置
 mode: rule
 log-level: info
@@ -88,11 +89,11 @@ dns:
     '+.immortalwrt.org': 8.8.8.8
     '+.openwrt.org': 8.8.8.8
 
-
 proxies:
   - name: "直接连接"
     type: direct
     udp: true
+
 proxy-groups:
   - {name: 翻墙代理, !!merge <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png"}
   - {name: 国内直连, type: select, proxies: [直接连接], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/CN.png"}
@@ -171,9 +172,11 @@ rules:
   - RULE-SET,direct_torrent_ip,国内直连
   - RULE-SET,cn_ip,国内直连
   - MATCH,漏网之鱼
+
 rule-anchor:
   domain: &domain {type: http, interval: 7200, behavior: domain, format: text}
   ip: &ip {type: http, interval: 7200, behavior: ipcidr, format: text}
+
 rule-providers:
   private_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list"}
   category_ai_chat_notcn_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.list"}
