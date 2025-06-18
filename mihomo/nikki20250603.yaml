@@ -160,16 +160,16 @@ proxy-groups:
   - {name: Speedtest, <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Speedtest.png"}
   - {name: 漏网之鱼, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png"}
 
-  - {name: 🌏 亚洲自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(香港|日本|新加坡|狮城|🇭🇰|🇯🇵|🇸🇬))(?!.*(福利|倍))(?!.*01)"}
-  - {name: 🇭🇰 香港自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(香港|🇭🇰))(?!.*(福利|倍))(?!.*01)"}
-  - {name: 🇹🇼 台湾自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(台湾|🇹🇼))(?!.*(福利|倍))(?!.*01)"}
-  - {name: 🇯🇵 日本自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(日本|🇯🇵))(?!.*(福利|倍))(?!.*01)"}
-  - {name: 🇸🇬 狮城自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(新加坡|狮城|🇸🇬))(?!.*(福利|倍))(?!.*01)"}
-  - {name: 🇺🇸 美国自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(美国|🇺🇸))(?!.*(福利|倍))(?!.*01)"}
-  - {name: 🤖 AI自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(日本|🇯🇵|美国|🇺🇸))(?!.*(福利|倍))(?!.*01)"}
+  - {name: 🌏 亚洲自动, type: url-test, include-all: true, interval: 180, tolerance: 10, filter: "(?=.*(香港|日本|新加坡|狮城|🇭🇰|🇯🇵|🇸🇬))(?!.*(福利|邀请|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"}
+  - {name: 🇭🇰 香港自动, type: url-test, include-all: true, interval: 180, tolerance: 10, filter: "(?=.*(香港|🇭🇰))(?!.*(福利|邀请|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"}
+  - {name: 🇹🇼 台湾自动, type: url-test, include-all: true, interval: 180, tolerance: 10, filter: "(?=.*(台湾|🇹🇼))(?!.*(福利|邀请|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"}
+  - {name: 🇯🇵 日本自动, type: url-test, include-all: true, interval: 180, tolerance: 10, filter: "(?=.*(日本|🇯🇵))(?!.*(福利|邀请|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"}
+  - {name: 🇸🇬 狮城自动, type: url-test, include-all: true, interval: 180, tolerance: 10, filter: "(?=.*(新加坡|狮城|🇸🇬))(?!.*(福利|邀请|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"}
+  - {name: 🇺🇸 美国自动, type: url-test, include-all: true, interval: 180, tolerance: 10, filter: "(?=.*(美国|🇺🇸))(?!.*(福利|邀请|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"}
+  - {name: 🤖 AI自动, type: url-test, include-all: true, interval: 180, tolerance: 10, filter: "(?=.*(日本|🇯🇵|美国|🇺🇸))(?!.*(福利|邀请|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"}
 
-  - {name: 🌍环球节点, type: select, include-all: true, filter: "^((?!(香港|HK|台湾|Taiwan|日本|新加坡|狮城|美国|福利|新用户|直接)).)*$"}
-  - {name: 🛰全部节点, type: select, include-all: true}
+  - {name: 🌍环球节点, type: select, include-all: true, filter: "^((?!(香港|HK|台湾|Taiwan|日本|新加坡|狮城|美国|福利|新用户|直接|邀请|com)).)*$"}
+  - {name: 🛰全部节点, type: select, include-all: true, filter: "^((?!(福利|新用户|直接|邀请|com)).)*$"}
 
 # 规则匹配
 rules:

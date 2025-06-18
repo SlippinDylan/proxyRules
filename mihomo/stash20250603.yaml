@@ -14,6 +14,12 @@ proxy-providers:
     url: "订阅链接"
     benchmark-url: https://www.gstatic.com/generate_204
     interval: 7200
+  One:
+    !!merge <<: *p
+    url: "订阅链接"
+    benchmark-url: https://www.gstatic.com/generate_204
+    interval: 7200
+
 # 全局端口和网络配置
 mode: rule
 log-level: info
@@ -108,17 +114,17 @@ proxy-groups:
   - {name: 游戏代理, !!merge <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Steam.png"}
   - {name: Speedtest, !!merge <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Speedtest.png"}
   - {name: 漏网之鱼, !!merge <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png"}
-  # === Bocchi ===
-  - {name: 🌏 亚洲自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(港|hk|hongkong|hong kong|日本|jp|japan|新加坡|sg|singapore|狮城|香港|🇭🇰|🇯🇵|🇸🇬)(?!.*(?:福利|01))"}
-  - {name: 🇭🇰 香港自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(港|hk|hongkong|hong kong|香港|🇭🇰)(?!.*(?:福利|01))"}
-  - {name: 🇹🇼 台湾自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(台湾|tw|taiwan|🇹🇼)(?!.*(?:福利|01))"}
-  - {name: 🇯🇵 日本自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(日本|jp|japan|🇯🇵)(?!.*(?:福利|01))"}
-  - {name: 🇸🇬 狮城自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(新加坡|sg|singapore|狮城|🇸🇬)(?!.*(?:福利|01))"}
-  - {name: 🇺🇸 美国自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(美国|us|usa|united states|🇺🇸)(?!.*(?:福利|01))"}
-  - {name: 🤖 AI自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(日本|jp|japan|🇯🇵|美国|us|usa|united states|🇺🇸)(?!.*(?:福利|01))"}
-  - {name: 📺 流媒体自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?i)(?!直连)(nf|netflix|disney|hbo|hulu)(?!.*(?:福利|01))"}
-  - {name: 🌍环球节点, type: select, include-all: true, filter: "(?i)^((?!(直连|直接|香港|HK|hongkong|hong kong|台湾|Taiwan|tw|日本|jp|japan|新加坡|sg|singapore|狮城|美国|us|usa|united states|福利|新用户)).)*$"}
-  - {name: 🛰全部节点, type: select, include-all: true}
+
+  - {name: 🌏 亚洲自动, type: url-test, include-all: true, interval: 180, tolerance: 10, filter: "(?i)(?!.*(福利|邀请|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))(香港|日本|新加坡|狮城|🇭🇰|🇯🇵|🇸🇬|港|hk|jp|sg|japan|singapore)"}
+  - {name: 🇭🇰 香港自动, type: url-test, include-all: true, interval: 180, tolerance: 10, filter: "(?i)(?!.*(福利|邀请|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))(香港|🇭🇰|港|hk|hongkong|hong kong)"}
+  - {name: 🇹🇼 台湾自动, type: url-test, include-all: true, interval: 180, tolerance: 10, filter: "(?i)(?!.*(福利|邀请|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))(台湾|🇹🇼|tw|taiwan)"}
+  - {name: 🇯🇵 日本自动, type: url-test, include-all: true, interval: 180, tolerance: 10, filter: "(?i)(?!.*(福利|邀请|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))(日本|🇯🇵|jp|japan)"}
+  - {name: 🇸🇬 狮城自动, type: url-test, include-all: true, interval: 180, tolerance: 10, filter: "(?i)(?!.*(福利|邀请|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))(新加坡|狮城|🇸🇬|sg|singapore)"}
+  - {name: 🇺🇸 美国自动, type: url-test, include-all: true, interval: 180, tolerance: 10, filter: "(?i)(?!.*(福利|邀请|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))(美国|🇺🇸|us|usa|america)"}
+  - {name: 🤖 AI自动, type: url-test, include-all: true, interval: 180, tolerance: 10, filter: "(?i)(?!.*(福利|邀请|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))(日本|🇯🇵|jp|japan|美国|🇺🇸|us|usa|america)"}
+  - {name: 🌍环球节点, type: select, include-all: true, filter: "(?i)(?!.*(香港|hk|台湾|taiwan|日本|jp|新加坡|sg|狮城|singapore|美国|us|福利|新用户|直接|邀请|com))"}
+  - {name: 🛰全部节点, type: select, include-all: true, filter: "(?i)(?!.*(福利|新用户|直接|邀请|com))"}
+
 rules:
   - IP-CIDR,10.10.0.0/22,国内直连
   - RULE-SET,private_domain,国内直连
