@@ -84,7 +84,6 @@ sniffer:
   }
   force-domain: ["+.v2ex.com"]
   skip-domain: [
-    # "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,aliyun_domain,alibaba_domain,tencent_domain,xiaomi_domain,xiaohongshu_domain,cn_domain,usr_direct,private_domain,direct_torrent", 
     "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,cn_domain,usr_direct,private_domain,direct_torrent", 
     "+.push.apple.com", "+.apple.com", "+.wechat.com", "start.me","+.start.me",
     "+.qpic.cn", "+.wechatapp.com", "+.vivox.com", "+.oray.com", "+.sunlogin.net", 
@@ -104,7 +103,6 @@ dns:
   fake-ip-cache: true
   fake-ip-filter-mode: blacklist
   fake-ip-filter: [
-    # "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,aliyun_domain,alibaba_domain,tencent_domain,xiaomi_domain,xiaohongshu_domain,cn_domain,usr_direct,private_domain,direct_torrent,docker_domain,category_dev_domain,develousr_domain,linux_domain,usr_proxy_develop", 
     "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,cn_domain,usr_direct,private_domain,direct_torrent,docker_domain,category_dev_domain,develousr_domain,linux_domain,usr_proxy_develop", 
     "+.services.googleapis.cn", "+.xn--ngstr-lra8j.com", 
     "+.ntp.tencent.com", "+.ntp1.aliyun.com", "time.*.com", 
@@ -126,7 +124,6 @@ dns:
     "+.ustclug.org": [8.8.8.8, 1.1.1.1], "+.immortalwrt.org": [8.8.8.8, 1.1.1.1], 
     "+.openwrt.org": [8.8.8.8, 1.1.1.1], "+.vsean.net": [8.8.8.8, 1.1.1.1]
   }
-
 
 # 出站策略定义
 proxymain: &proxymain {type: select, proxies: [🌏 亚洲自动, 🇺🇸 美国自动, 🌍环球节点, 🛰全部节点, 国内直连]}
@@ -221,13 +218,6 @@ rules:
   - RULE-SET,microsoft_cn_domain,MicrosoftCN
   - RULE-SET,microsoft_domain,Microsoft
   
-  # 互联网巨头服务(国内)
-  # - RULE-SET,aliyun_domain,国内直连
-  # - RULE-SET,alibaba_domain,国内直连
-  # - RULE-SET,tencent_domain,国内直连
-  # - RULE-SET,xiaomi_domain,国内直连
-  # - RULE-SET,xiaohongshu_domain,国内直连
-  
   # 全局代理
   - RULE-SET,usr_direct,国内直连
   - RULE-SET,usr_proxy,全球代理
@@ -266,7 +256,7 @@ rule-providers:
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs"
   usr_proxy_intelligence:
    <<: *domain
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Proxy-Intelligence.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/ruleProvider/Proxy-Intelligence.mrs"
   
   # 开发
   category_dev_domain:
@@ -283,7 +273,7 @@ rule-providers:
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/linux.mrs"
   usr_proxy_develop:
    <<: *domain
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Proxy-Develop.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/ruleProvider/Proxy-Develop.mrs"
   
   # 工具和实用服务
   onedrive_domain:
@@ -315,7 +305,7 @@ rule-providers:
   # 流媒体服务
   usr_proxy_media:
    <<: *domain
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Proxy-Media.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/ruleProvider/Proxy-Media.mrs"
   globalmedia_domain:
    <<: *domain
    url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/GlobalMedia/GlobalMedia_OCD_Domain.mrs"
@@ -360,30 +350,13 @@ rule-providers:
    <<: *domain
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"
   
-  # 互联网巨头服务（国内）
-#aliyun_domain:
-#<<: *domain
-#url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/aliyun.mrs"
-#alibaba_domain:
-#<<: *domain
-#url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/alibaba.mrs"
-#tencent_domain:
-#<<: *domain
-#url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent.mrs"
-#xiaomi_domain:
-#<<: *domain
-#url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/XiaoMi/XiaoMi_OCD_Domain.mrs"
-#xiaohongshu_domain:
-#<<: *domain
-#url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xiaohongshu.mrs"
-  
   # 全局代理
   usr_direct:
    <<: *domain
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Direct.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/ruleProvider/Direct.mrs"
   usr_proxy:
    <<: *domain
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Proxy.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/ruleProvider/Proxy.mrs"
   proxy_domain:
    <<: *domain
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geosite/proxy.mrs"
@@ -397,7 +370,7 @@ rule-providers:
   # IP规则
   usr_proxy_develop_ip:
    <<: *ip
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Proxy-Develop-IP.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/ruleProvider/Proxy-Develop-IP.mrs"
   telegram_ip:
    <<: *ip
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"
@@ -415,33 +388,13 @@ rule-providers:
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs"
   direct_torrent:
    <<: *domain
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Direct-Torrent.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/ruleProvider/Direct-Torrent.mrs"
   direct_torrent_ip:
    <<: *ip
-   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/mihomo/MRS/Direct-Torrent-IP.mrs"
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/mihomoRules/master/ruleProvider/Direct-Torrent-IP.mrs"
   cn_domain:
    <<: *domain
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"
   cn_ip:
    <<: *ip
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"
-
-#ntp:
-#  enable: true
-#  # 是否同步至系统时间，需要 root/管理员权限
-#  write-to-system: false
-#  server: time.apple.com
-#  port: 123
-#  interval: 30
-
-# DNS模块
-# dns:
-# 添加预热配置
-# preload-domain: true
-# preload-domain-task: 15
-# name-resolve-format: ipv4-only  # 如果只需要IPv4地址
-
-# 添加预解析域名
-# use-hosts: true
-# prefetch-domain: true
-# prefer-h3: false

@@ -1,0 +1,99 @@
+# 嗅探配置
+sniffer:
+  enable: true
+  # 端口嗅探设置
+  sniff: {
+    HTTP: {ports: [80, 8080-8880], override-destination: true},
+    TLS: {ports: [443, 8443], override-destination: true},
+    QUIC: {ports: [443, 8443], override-destination: true}
+  }
+  force-domain: ["+.v2ex.com"]
+  skip-domain: [
+    # "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,aliyun_domain,alibaba_domain,tencent_domain,xiaomi_domain,xiaohongshu_domain,cn_domain,usr_direct,private_domain,direct_torrent", 
+    "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,cn_domain,usr_direct,private_domain,direct_torrent", 
+    "+.push.apple.com", "+.apple.com", "+.wechat.com", "start.me","+.start.me",
+    "+.qpic.cn", "+.wechatapp.com", "+.vivox.com", "+.oray.com", "+.sunlogin.net", 
+    "+.msftconnecttest.com", "+.msftncsi.com", "Mijia Cloud", 
+    "+.tsinghua.edu.cn"
+  ]
+
+# DNS模块
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  ipv6: true
+  respect-rules: true
+  enable-dnssec: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-cache: true
+  fake-ip-filter-mode: blacklist
+  fake-ip-filter: [
+    # "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,aliyun_domain,alibaba_domain,tencent_domain,xiaomi_domain,xiaohongshu_domain,cn_domain,usr_direct,private_domain,direct_torrent,docker_domain,category_dev_domain,develousr_domain,linux_domain,usr_proxy_develop", 
+    "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,cn_domain,usr_direct,private_domain,direct_torrent,docker_domain,category_dev_domain,develousr_domain,linux_domain,usr_proxy_develop", 
+    "+.services.googleapis.cn", "+.xn--ngstr-lra8j.com", 
+    "+.ntp.tencent.com", "+.ntp1.aliyun.com", "time.*.com", 
+    "+.ntp.ntsc.ac.cn", "+.pool.ntp.org", "+.cn.ntp.org.cn", 
+    "+.yarnpkg.com", "+.ustclug.org",
+    "start.me","+.start.me",
+    "+.lan", "+.local", "geosite:cn", 
+    "mirrors.vsean.net", "+.vsean.net"
+    
+  ]
+  # DNS服务器配置
+  default-nameserver: &cn_dns [119.29.29.29, 223.5.5.5, '2400:3200::1', '2402:4e00::']
+  proxy-server-nameserver: *cn_dns
+  nameserver: *cn_dns
+  nameserver-policy: {
+    "+.github.com": [8.8.8.8, 1.1.1.1], "github.com": [8.8.8.8, 1.1.1.1], 
+    "+.githubusercontent.com": [8.8.8.8, 1.1.1.1],
+    "+.debian.org": [8.8.8.8, 1.1.1.1], "+.yarnpkg.com": [8.8.8.8, 1.1.1.1], 
+    "+.ustclug.org": [8.8.8.8, 1.1.1.1], "+.immortalwrt.org": [8.8.8.8, 1.1.1.1], 
+    "+.openwrt.org": [8.8.8.8, 1.1.1.1], "+.vsean.net": [8.8.8.8, 1.1.1.1]
+  }
+
+  # 互联网巨头服务(国内)
+  # - RULE-SET,aliyun_domain,国内直连
+  # - RULE-SET,alibaba_domain,国内直连
+  # - RULE-SET,tencent_domain,国内直连
+  # - RULE-SET,xiaomi_domain,国内直连
+  # - RULE-SET,xiaohongshu_domain,国内直连
+
+  
+  # 互联网巨头服务（国内）
+#aliyun_domain:
+#<<: *domain
+#url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/aliyun.mrs"
+#alibaba_domain:
+#<<: *domain
+#url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/alibaba.mrs"
+#tencent_domain:
+#<<: *domain
+#url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent.mrs"
+#xiaomi_domain:
+#<<: *domain
+#url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/XiaoMi/XiaoMi_OCD_Domain.mrs"
+#xiaohongshu_domain:
+#<<: *domain
+#url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xiaohongshu.mrs"
+
+
+#ntp:
+#  enable: true
+#  # 是否同步至系统时间，需要 root/管理员权限
+#  write-to-system: false
+#  server: time.apple.com
+#  port: 123
+#  interval: 30
+
+# DNS模块
+# dns:
+# 添加预热配置
+# preload-domain: true
+# preload-domain-task: 15
+# name-resolve-format: ipv4-only  # 如果只需要IPv4地址
+
+# 添加预解析域名
+# use-hosts: true
+# prefetch-domain: true
+# prefer-h3: false
