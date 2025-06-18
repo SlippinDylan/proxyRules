@@ -16,6 +16,22 @@ proxy-providers:
     override:
       udp: true
       skip-cert-verify: true
+  One:
+    url: "订阅链接"
+    type: http
+    interval: 7200
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      lazy: false
+      tolerance: 50
+    proxy: 国内直连
+    header:
+      User-Agent: ["Clash", "mihomo", "Clash.meta"]
+    override:
+      udp: true
+      skip-cert-verify: true
 
 # 节点信息
 proxies: 
@@ -95,7 +111,8 @@ dns:
     "+.ntp.ntsc.ac.cn", "+.pool.ntp.org", "+.cn.ntp.org.cn", 
     "+.yarnpkg.com", "+.ustclug.org",
     "start.me","+.start.me",
-    "+.lan", "+.local", "geosite:cn"
+    "+.lan", "+.local", "geosite:cn", 
+    "mirrors.vsean.net", "+.vsean.net"
     
   ]
   # DNS服务器配置
@@ -107,14 +124,14 @@ dns:
     "+.githubusercontent.com": [8.8.8.8, 1.1.1.1],
     "+.debian.org": [8.8.8.8, 1.1.1.1], "+.yarnpkg.com": [8.8.8.8, 1.1.1.1], 
     "+.ustclug.org": [8.8.8.8, 1.1.1.1], "+.immortalwrt.org": [8.8.8.8, 1.1.1.1], 
-    "+.openwrt.org": [8.8.8.8, 1.1.1.1]
+    "+.openwrt.org": [8.8.8.8, 1.1.1.1], "+.vsean.net": [8.8.8.8, 1.1.1.1]
   }
 
 
 # 出站策略定义
 proxymain: &proxymain {type: select, proxies: [🌏 亚洲自动, 🇺🇸 美国自动, 🌍环球节点, 🛰全部节点, 国内直连]}
 directmain: &directmain {type: select, proxies: [国内直连, 🌏 亚洲自动, 🇺🇸 美国自动, 🌍环球节点, 🛰全部节点]}
-aimain: &aimain {type: select, proxies: [🤖 AI自动, 🌏 亚洲自动, 🇺🇸 美国自动, 🌍环球节点, 🛰全部节点, 国内直连]}
+aitmain: &aitmain {type: select, proxies: [🤖 AI自动, 🌏 亚洲自动, 🇺🇸 美国自动, 🌍环球节点, 🛰全部节点, 国内直连]}
 
 proxy-groups:
   # 核心代理策略组
@@ -128,7 +145,7 @@ proxy-groups:
   - {name: Google, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Google_Search.png"}
   # 工具软件
   - {name: Develop, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/GitHub.png"}
-  - {name: Intelligence, <<: *aimain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Copilot.png"}
+  - {name: Intelligence, <<: *aitmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Copilot.png"}
   - {name: Synology, <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Download.png"}
   # 通讯和钱包
   - {name: Telegram, type: select, proxies: [🇸🇬 狮城自动, 🌏 亚洲自动, 🇺🇸 美国自动], icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png"}
@@ -142,16 +159,14 @@ proxy-groups:
   # 其他
   - {name: Speedtest, <<: *directmain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Speedtest.png"}
   - {name: 漏网之鱼, <<: *proxymain, icon: "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png"}
-  - {name: ·, type: select, proxies: [国内直连]}
 
-  # === Bocchi ===
-  - {name: 🌏 亚洲自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?=.*(香港|日本|新加坡|狮城|🇭🇰|🇯🇵|🇸🇬))^((?!福利).)*((?!01).)*$"}
-  - {name: 🇭🇰 香港自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?=.*(香港|🇭🇰))^((?!福利).)*((?!01).)*$"}
-  - {name: 🇹🇼 台湾自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?=.*(台湾|🇹🇼))^((?!福利).)*((?!01).)*$"}
-  - {name: 🇯🇵 日本自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?=.*(日本|🇯🇵))^((?!福利).)*((?!01).)*$"}
-  - {name: 🇸🇬 狮城自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?=.*(新加坡|狮城|🇸🇬))^((?!福利).)*((?!01).)*$"}
-  - {name: 🇺🇸 美国自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?=.*(美国|🇺🇸))^((?!福利).)*((?!01).)*$"}
-  - {name: 🤖 AI自动, type: url-test, use: [Bocchi], interval: 300, tolerance: 20, filter: "(?=.*(日本|🇯🇵|美国|🇺🇸))^((?!福利).)*((?!01).)*$"}
+  - {name: 🌏 亚洲自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(香港|日本|新加坡|狮城|🇭🇰|🇯🇵|🇸🇬))(?!.*(福利|倍))(?!.*01)"}
+  - {name: 🇭🇰 香港自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(香港|🇭🇰))(?!.*(福利|倍))(?!.*01)"}
+  - {name: 🇹🇼 台湾自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(台湾|🇹🇼))(?!.*(福利|倍))(?!.*01)"}
+  - {name: 🇯🇵 日本自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(日本|🇯🇵))(?!.*(福利|倍))(?!.*01)"}
+  - {name: 🇸🇬 狮城自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(新加坡|狮城|🇸🇬))(?!.*(福利|倍))(?!.*01)"}
+  - {name: 🇺🇸 美国自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(美国|🇺🇸))(?!.*(福利|倍))(?!.*01)"}
+  - {name: 🤖 AI自动, type: url-test, include-all: true, interval: 300, tolerance: 20, filter: "(?=.*(日本|🇯🇵|美国|🇺🇸))(?!.*(福利|倍))(?!.*01)"}
 
   - {name: 🌍环球节点, type: select, include-all: true, filter: "^((?!(香港|HK|台湾|Taiwan|日本|新加坡|狮城|美国|福利|新用户|直接)).)*$"}
   - {name: 🛰全部节点, type: select, include-all: true}
