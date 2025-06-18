@@ -166,12 +166,12 @@ rules:
   - RULE-SET,microsoft_domain,Microsoft
   # 个人代理-域名
   - RULE-SET,usr_direct,国内直连
-  - RULE-SET,usr_proxy,全球代理
+  - RULE-SET,usr_proxy,翻墙代理
   - RULE-SET,usr_direct_torrent,国内直连
   # 全局代理
-  - RULE-SET,proxy_domain,全球代理
-  - RULE-SET,gfw_domain,全球代理
-  - RULE-SET,geolocation_notcn_domain,全球代理
+  - RULE-SET,proxy_domain,翻墙代理
+  - RULE-SET,gfw_domain,翻墙代理
+  - RULE-SET,geolocation_notcn_domain,翻墙代理
   - RULE-SET,cn_domain,国内直连
   # IP规则
   - RULE-SET,usr_direct_torrent_ip,国内直连
