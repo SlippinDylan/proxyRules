@@ -224,7 +224,7 @@ rules:
   - RULE-SET,proxy_domain,全球代理
   - RULE-SET,gfw_domain,全球代理
   - RULE-SET,geolocation_notcn_domain,全球代理
-  - RULE-SET,direct_torrent,国内直连
+  - RULE-SET,usr_direct_torrent,国内直连
   - RULE-SET,cn_domain,国内直连
   
   # IP规则
@@ -234,7 +234,7 @@ rules:
   - RULE-SET,chinamedia_ip,国内直连
   - RULE-SET,google_ip,Google,no-resolve
   - RULE-SET,apple_ip,Apple
-  - RULE-SET,direct_torrent_ip,国内直连
+  - RULE-SET,usr_direct_torrent_ip,国内直连
   - RULE-SET,cn_ip,国内直连
   - MATCH,漏网之鱼
 
@@ -368,6 +368,9 @@ rule-providers:
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"
   
   # IP规则
+  usr_proxy_ip:
+   <<: *ip
+   url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy-IP.mrs"
   usr_proxy_develop_ip:
    <<: *ip
    url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy-Develop-IP.mrs"
@@ -386,10 +389,10 @@ rule-providers:
   apple_ip:
    <<: *ip
    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs"
-  direct_torrent:
+  usr_direct_torrent:
    <<: *domain
    url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct-Torrent.mrs"
-  direct_torrent_ip:
+  usr_direct_torrent_ip:
    <<: *ip
    url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct-Torrent-IP.mrs"
   cn_domain:
