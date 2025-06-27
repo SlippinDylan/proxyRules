@@ -1,7 +1,7 @@
 # 机场订阅配置
 proxy-providers:
   Bocchi:
-    url: "订阅链接"
+    url: "订阅地址"
     type: http
     interval: 7200
     health-check:
@@ -17,7 +17,7 @@ proxy-providers:
       udp: true
       skip-cert-verify: true
   One:
-    url: "订阅链接"
+    url: "订阅地址"
     type: http
     interval: 7200
     health-check:
@@ -88,7 +88,7 @@ sniffer:
     "+.push.apple.com", "+.apple.com", "+.wechat.com", "start.me","+.start.me",
     "+.qpic.cn", "+.wechatapp.com", "+.vivox.com", "+.oray.com", "+.sunlogin.net", 
     "+.msftconnecttest.com", "+.msftncsi.com", "Mijia Cloud", 
-    "+.tsinghua.edu.cn"
+    "+.tsinghua.edu.cn", "+.slippindylan.com"
   ]
 
 # DNS模块
@@ -110,7 +110,7 @@ dns:
     "+.yarnpkg.com", "+.ustclug.org",
     "start.me","+.start.me",
     "+.lan", "+.local", "geosite:cn", 
-    "mirrors.vsean.net", "+.vsean.net"
+    "mirrors.vsean.net", "+.vsean.net", "+.slippindylan.com"
     
   ]
   # DNS服务器配置
@@ -124,6 +124,34 @@ dns:
     "+.ustclug.org": [8.8.8.8, 1.1.1.1], "+.immortalwrt.org": [8.8.8.8, 1.1.1.1], 
     "+.openwrt.org": [8.8.8.8, 1.1.1.1], "+.vsean.net": [8.8.8.8, 1.1.1.1]
   }
+
+hosts:
+  'netcore.slippindylan.com':  10.10.0.1
+  'netcoretest.slippindylan.com':  10.10.0.5
+  'mihomopanel.slippindylan.com':  10.10.0.1
+  'mihomotestpanel.slippindylan.com':  10.10.0.5
+  'h3core.slippindylan.com':  10.10.0.11
+  'esxivsw.slippindylan.com':  10.10.0.21
+  'synofilev.slippindylan.com':  10.10.0.32
+  'synodisk.slippindylan.com':  10.10.0.32
+  'plexstrm.slippindylan.com':  10.10.0.32
+  'authentik.slippindylan.com':  10.10.0.51
+  'container.slippindylan.com':  10.10.0.51
+  'dbfilev.slippindylan.com':  10.10.0.51
+  'ddnsgo.slippindylan.com':  10.10.0.51
+  'outline.slippindylan.com':  10.10.0.51
+  'scrypted.slippindylan.com':  10.10.0.51
+  'stash.slippindylan.com':  10.10.0.51
+  'strmflosr.slippindylan.com':  10.10.0.51
+  'strmflpwr.slippindylan.com':  10.10.0.51
+  'strmflqbt.slippindylan.com':  10.10.0.51
+  'strmflrdr.slippindylan.com':  10.10.0.51
+  'strmflsrr.slippindylan.com':  10.10.0.51
+  'trfkprx.slippindylan.com':  10.10.0.51
+  'webssh.slippindylan.com':  10.10.0.51
+  'xhs_pic_down.slippindylan.com':  10.10.0.51
+  'hassio.slippindylan.com':  10.10.1.1
+  'hiksvcv.slippindylan.com':  10.10.1.21
 
 # 出站策略定义
 proxymain: &proxymain {type: select, proxies: [🌏 亚洲自动, 🇺🇸 美国自动, 🌍环球节点, 🛰全部节点, 国内直连]}
