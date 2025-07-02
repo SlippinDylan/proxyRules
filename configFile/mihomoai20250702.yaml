@@ -15,13 +15,10 @@ proxy-providers:
 
 # 节点信息
 proxies: [{name: "直接连接", type: direct, udp: true}]
-
 # 全局端口和网络配置
 part1: {log-level: info, mode: rule, ipv6: true, port: 7890, unified-delay: true, tcp-concurrent: true, bind-address: "*", allow-lan: true}
-
 # 系统和性能配置
 part2: {find-process-mode: 'off', global-client-fingerprint: chrome, disable-keep-alive: false, keep-alive-interval: 15, keep-alive-idle: 600, profile: {store-selected: true, store-fake-ip: true, tracing: true, interval: 7200}}
-
 # GeoX数据配置
 part3: {geodata-mode: true, geodata-loader: standard, geox-url: {geosite: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat", geoip-mmdb: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.metadb", geoip-dat: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat", asn: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"}, geox-auto-update: true, geox-update-interval: 4}
 
@@ -77,11 +74,6 @@ dns:
     "+.openwrt.org": [8.8.8.8, 1.1.1.1], "+.vsean.net": [8.8.8.8, 1.1.1.1]
   }
 
-# 出站策略定义
-proxymain: &proxymain {type: select, proxies: [🌏 亚洲自动, 🇭🇰 香港自动, 🇹🇼 台湾自动, 🇯🇵 日本自动, 🇸🇬 狮城自动, 🇺🇸 美国自动, 🌍 环球节点, 🛰 全部节点, 🧱 备份节点, 国内直连]}
-directmain: &directmain {type: select, proxies: [国内直连, 🌏 亚洲自动, 🇭🇰 香港自动, 🇹🇼 台湾自动, 🇯🇵 日本自动, 🇸🇬 狮城自动, 🇺🇸 美国自动, 🌍 环球节点, 🛰 全部节点, 🧱 备份节点]}
-aimain: &aimain {type: select, proxies: [🤖 AI自动, 🌏 亚洲自动, 🇺🇸 美国自动, 🌍 环球节点, 🛰 全部节点, 🧱 备份节点, 国内直连]}
-
 icons:
   Proxy: &icon_proxy "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png"
   CN: &icon_cn "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/CN.png"
@@ -92,7 +84,6 @@ icons:
   Google: &icon_google "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Google_Search.png"
   GitHub: &icon_github "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/GitHub.png"
   Copilot: &icon_copilot "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Copilot.png"
-  Synology: &icon_synology "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Download.png"
   Telegram: &icon_telegram "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png"
   PayPal: &icon_paypal "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/PayPal.png"
   Spotify: &icon_spotify "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Spotify.png"
@@ -102,20 +93,17 @@ icons:
   Steam: &icon_steam "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Steam.png"
   Speedtest: &icon_speedtest "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Speedtest.png"
   Final: &icon_final "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png"
+filters: 
+  as: &as_filter "(?i)^.*(?=.*(香港|HK|Hong Kong|HongKong|🇭🇰|台湾|TW|TWN|Taiwan|🇹🇼|日本|JP|Japan|Tokyo|🇯🇵|新加坡|狮城|Singapore|SG|🇸🇬))(?!.*(福利|新用户|邀请|网址|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍)).*$"
+  ai: &ai_filter "(?i)^.*(?=.*(日本|JP|Japan|Tokyo|🇯🇵|美国|USA|US|America|United States|🇺🇸))(?!.*(福利|新用户|邀请|网址|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍)).*$"
+  us: &us_filter "(?i)^.*(?=.*(美国|USA|US|America|United States|🇺🇸))(?!.*(福利|新用户|邀请|网址|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍)).*$"
+  bak: &bak_filter "^((?!福利|新用户|邀请|网址|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍).)*$"
+  nas: &nas_filter "(?i)^((?!(香港|HK|Hong Kong|HongKong|🇭🇰|台湾|TW|TWN|Taiwan|🇹🇼|日本|JP|Japan|Tokyo|🇯🇵|新加坡|狮城|Singapore|SG|🇸🇬|美国|USA|US|America|United States|🇺🇸|福利|新用户|邀请|网址|com)).)*$"
+  all: &all_filter "^((?!福利|新用户|邀请|网址|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍).)*$"
 
-#==================== 节点筛选 ====================\\[SS\\]
-filters:
-  asia: &asia_filter "(?=.*(香港|HK|Hong Kong|HongKong|HONGKONG|🇭🇰|台湾|TW|TWN|Taiwan|🇹🇼|日本|JP|Japan|Tokyo|🇯🇵|新加坡|狮城|Singapore|SG|🇸🇬))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
-  hk: &hk_filter "(?=.*(香港|HK|Hong Kong|HongKong|HONGKONG|🇭🇰))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
-  tw: &tw_filter "(?=.*(台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|🇹🇼))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
-  jp: &jp_filter "(?=.*(日本|JP|Japan|Tokyo|🇯🇵))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
-  sg: &sg_filter "(?=.*(新加坡|狮城|Singapore|SG|🇸🇬))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
-  us: &us_filter "(?=.*(美国|USA|US|America|United States|🇺🇸))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
-  ai: &ai_filter "(?=.*(日本|JP|Japan|Tokyo|🇯🇵|美国|USA|US|America|United States|🇺🇸))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
-  bak: &bak_filter "(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
-  not_asia: &not_asia_filter "^((?!(香港|HK|Hong Kong|HongKong|HONGKONG|🇭🇰|台湾|TW|TWN|Taiwan|🇹🇼|日本|JP|Japan|Tokyo|🇯🇵|新加坡|狮城|Singapore|SG|🇸🇬|美国|USA|US|America|United States|🇺🇸|福利|新用户|直接|邀请|网址|com|\\[SS\\])).)*$"
-  all: &all_filter "^((?!(福利|新用户|直接|邀请|网址|com|\\[SS\\])).)*$"
-
+# 出站策略定义
+proxymain: &proxymain {type: select, proxies: [🌏 亚洲Smart, 🛰 全部节点, 🧱 备份Smart, 国内直连]}
+directmain: &directmain {type: select, proxies: [国内直连, 🌏 亚洲Smart, 🛰 全部节点, 🧱 备份Smart]}
 proxy-groups:
   # 核心代理策略组
   - {name: 翻墙代理, <<: *proxymain, icon: *icon_proxy}
@@ -128,33 +116,28 @@ proxy-groups:
   - {name: Google, <<: *proxymain, icon: *icon_google}
   # 工具软件
   - {name: Develop, <<: *proxymain, icon: *icon_github}
-  - {name: Intelligence, <<: *aimain, icon: *icon_copilot}
-  - {name: Synology, <<: *directmain, icon: *icon_synology}
+  - {name: Intelligence, type: select, proxies: [🤖 AISmart, 🛰 全部节点], icon: *icon_copilot}
   # 通讯和钱包
-  - {name: Telegram, type: select, proxies: [🇸🇬 狮城自动, 🌏 亚洲自动, 🇺🇸 美国自动], icon: *icon_telegram}
-  - {name: Wallet, type: select, proxies: [🇹🇼 台湾自动, 国内直连, 🛰 全部节点], icon: *icon_paypal}
+  - {name: Telegram, type: smart, include-all: true, interval: 60, uselightgbm: false, collectdata: true, filter: *as_filter, icon: *icon_telegram}
+  - {name: Wallet, type: select, include-all: true, interval: 60, filter: *all_filter, icon: *icon_paypal}
   # 媒体和娱乐
   - {name: Spotify, <<: *directmain, icon: *icon_spotify}
-  - {name: TikTok, type: select, proxies: [🇺🇸 美国自动, 🌏 亚洲自动], icon: *icon_tiktok}
+  - {name: TikTok, type: smart, include-all: true, interval: 60, uselightgbm: false, collectdata: true, filter: *us_filter, icon: *icon_tiktok}
   - {name: 国外流媒体, <<: *proxymain, icon: *icon_foreignmedia}
   - {name: 游戏直连, <<: *directmain, icon: *icon_game}
   - {name: 游戏代理, <<: *proxymain, icon: *icon_steam}
   # 其他
   - {name: Speedtest, <<: *directmain, icon: *icon_speedtest}
-  - {name: 漏网之鱼, type: select, proxies: [🧱 备份节点, 🌏 亚洲自动, 🇺🇸 美国自动, 🛰 全部节点, 国内直连], icon: *icon_final}
+  - {name: 漏网之鱼, type: select, proxies: [🧱 备份Smart, 🌏 亚洲Smart, 国内直连], icon: *icon_final}
 
-  - {name: 🌏 亚洲自动, type: url-test, use: [flyingBird], interval: 10, tolerance: 10, filter: *asia_filter}
-  - {name: 🇭🇰 香港自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *hk_filter}
-  - {name: 🇹🇼 台湾自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *tw_filter}
-  - {name: 🇯🇵 日本自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *jp_filter}
-  - {name: 🇸🇬 狮城自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *sg_filter}
-  - {name: 🇺🇸 美国自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *us_filter}
-  - {name: 🤖 AI自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *ai_filter}
-  - {name: 🧱 备份节点, type: fallback, use: [bocchi, yiYuan], interval: 10, tolerance: 10, filter: *bak_filter}
+  - {name: 🌏 亚洲Smart, type: smart, include-all: true, interval: 60, uselightgbm: false, collectdata: true, policy-priority: "(?i)香港|HK|Hong Kong|HongKong|🇭🇰:1.5;(?i)新加坡|狮城|Singapore|SG|🇸🇬:1.4;(?i)日本|JP|Japan|Tokyo|🇯🇵:1.3;(?i)台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|🇹🇼:1.2", filter: *as_filter}
+  - {name: 🤖 AISmart, type: smart, include-all: true, interval: 60, uselightgbm: false, collectdata: true, policy-priority: "(?i)日本|JP|Japan|Tokyo|🇯🇵:1.3;(?i)新加坡|狮城|Singapore|SG|🇸🇬:1.2;(?i)美国|USA|US|America|United States|🇺🇸:1.1", filter: *ai_filter}
+  - {name: 🧱 备份Smart, type: smart, use: [bocchi, yiYuan], interval: 60, uselightgbm: false, collectdata: true, policy-priority: "(?i)香港|HK|Hong Kong|HongKong|🇭🇰:1.5;(?i)新加坡|狮城|Singapore|SG|🇸🇬:1.4;(?i)日本|JP|Japan|Tokyo|🇯🇵:1.3;(?i)台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|🇹🇼:1.2", filter: *bak_filter}
 
-  - {name: 🌍 环球节点, type: select, include-all: true, filter: *not_asia_filter}
-  - {name: 🛰 全部节点, type: select, include-all: true, filter: *all_filter}
-
+  - {name: 🌏 亚洲代理, type: select, include-all: true, interval: 60, filter: *as_filter}
+  - {name: 🇺🇸 美国代理, type: select, include-all: true, interval: 60, filter: *us_filter}
+  - {name: 🌍 环球节点, type: select, include-all: true, interval: 60, filter: *nas_filter}
+  - {name: 🛰 全部节点, type: select, include-all: true, interval: 60, filter: *all_filter}
 
 # 规则匹配
 rules:
@@ -177,7 +160,7 @@ rules:
   
   # 工具和实用服务
   - RULE-SET,onedrive_domain,MicrosoftCN
-  - RULE-SET,synology_domain,Synology
+  - RULE-SET,synology_domain,国内直连
   - RULE-SET,speedtest_domain,Speedtest
   
   # 通讯服务
@@ -304,3 +287,18 @@ rule-providers:
   cn_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
 
 hosts: {'netcore.slippindylan.com': 10.10.0.1, 'mihomopanel.slippindylan.com': 10.10.0.1, 'netcoretest.slippindylan.com': 10.10.0.5, 'mihomotestpanel.slippindylan.com': 10.10.0.5, 'h3core.slippindylan.com': 10.10.0.11, 'esxivsw.slippindylan.com': 10.10.0.21, 'synofilev.slippindylan.com': 10.10.0.32, 'synodisk.slippindylan.com': 10.10.0.32, 'plexstrm.slippindylan.com': 10.10.0.32, 'authentik.slippindylan.com': 10.10.0.51, 'container.slippindylan.com': 10.10.0.51, 'dbfilev.slippindylan.com': 10.10.0.51, 'ddnsgo.slippindylan.com': 10.10.0.51, 'outline.slippindylan.com': 10.10.0.51, 'resume.slippindylan.com': 10.10.0.51, 'scrypted.slippindylan.com': 10.10.0.51, 'stash.slippindylan.com': 10.10.0.51, 'strmflosr.slippindylan.com': 10.10.0.51, 'strmflpwr.slippindylan.com': 10.10.0.51, 'strmflqbt.slippindylan.com': 10.10.0.51, 'strmflrdr.slippindylan.com': 10.10.0.51, 'strmflsrr.slippindylan.com': 10.10.0.51, 'trfkprx.slippindylan.com': 10.10.0.51, 'webssh.slippindylan.com': 10.10.0.51, 'xhs_pic_down.slippindylan.com': 10.10.0.51, 'hassio.slippindylan.com': 10.10.1.1, 'hiksvcv.slippindylan.com': 10.10.1.2}
+
+  #hk: &hk_filter "(?i)(?=.*(香港|HK|Hong Kong|HongKong|🇭🇰))(?!.*(福利|新用户|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
+  #tw: &tw_filter "(?i)(?=.*(台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|🇹🇼))(?!.*(福利|新用户|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
+  #jp: &jp_filter "(?i)(?=.*(日本|JP|Japan|Tokyo|🇯🇵))(?!.*(福利|新用户|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
+  #sg: &sg_filter "(?i)(?=.*(新加坡|狮城|Singapore|SG|🇸🇬))(?!.*(福利|新用户|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
+  # Synology: &icon_synology "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Download.png"
+  # - {name: Synology, <<: *directmain, icon: *icon_synology}
+  # - {name: TikTok, type: select, proxies: [🇺🇸 美国自动, 🌏 亚洲自动], icon: *icon_tiktok}
+  # - {name: 🌏 亚洲自动, type: url-test, use: [flyingBird], interval: 60, tolerance: 10, filter: *as_filter}
+  # - {name: 🇭🇰 香港自动, type: url-test, use: [flyingBird], interval: 60, tolerance: 10, filter: *hk_filter}
+  # - {name: 🇹🇼 台湾自动, type: url-test, use: [flyingBird], interval: 60, tolerance: 10, filter: *tw_filter}
+  # - {name: 🇯🇵 日本自动, type: url-test, use: [flyingBird], interval: 60, tolerance: 10, filter: *jp_filter}
+  # - {name: 🇸🇬 狮城自动, type: url-test, use: [flyingBird], interval: 60, tolerance: 10, filter: *sg_filter}
+  # - {name: 🤖 AI自动, type: url-test, use: [flyingBird], interval: 60, tolerance: 10, filter: *ai_filter}
+  # - {name: 🧱 备份节点, type: fallback, use: [bocchi, yiYuan], interval: 60, tolerance: 10, filter: *bak_filter}
