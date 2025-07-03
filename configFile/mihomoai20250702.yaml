@@ -20,7 +20,7 @@ part1: {log-level: info, mode: rule, ipv6: true, port: 7890, unified-delay: true
 # 系统和性能配置
 part2: {find-process-mode: 'off', global-client-fingerprint: chrome, disable-keep-alive: false, keep-alive-interval: 15, keep-alive-idle: 600, profile: {store-selected: true, store-fake-ip: true, tracing: true, interval: 7200}}
 # GeoX数据配置
-part3: {geodata-mode: true, geodata-loader: standard, geox-url: {geosite: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat", geoip-mmdb: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.metadb", geoip-dat: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat", asn: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"}, geox-auto-update: true, geox-update-interval: 4}
+part3: {geodata-mode: true, geodata-loader: standard, geox-url: {geosite: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat", geoip-mmdb: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.metadb", geoip-dat: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat", asn: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"}, geox-auto-update: true, geox-update-interval: 24}
 
 # 嗅探配置
 sniffer:
@@ -47,6 +47,7 @@ dns:
   ipv6: true
   respect-rules: true
   # enable-dnssec: true
+  doh-priority-http3: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   fake-ip-cache: true
@@ -60,12 +61,11 @@ dns:
     "start.me","+.start.me",
     "+.lan", "+.local", "geosite:cn", 
     "mirrors.vsean.net", "+.vsean.net", "+.slippindylan.com"
-    
   ]
   # DNS服务器配置
-  default-nameserver: &cn_dns [119.29.29.29, 223.5.5.5, '2400:3200::1', '2402:4e00::']
-  proxy-server-nameserver: *cn_dns
-  nameserver: *cn_dns
+  default-nameserver: [tls://1.12.12.12, tls://223.5.5.5, 119.29.29.29, "tls://[2402:4e00::]", "tls://[2400:3200::1]"]
+  proxy-server-nameserver: [https://doh.pub/dns-query, https://dns.alidns.com/dns-query]
+  nameserver: [https://doh.pub/dns-query, https://dns.alidns.com/dns-query]
   nameserver-policy: {
     "+.github.com": [8.8.8.8, 1.1.1.1], "github.com": [8.8.8.8, 1.1.1.1], 
     "+.githubusercontent.com": [8.8.8.8, 1.1.1.1],
