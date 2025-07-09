@@ -59,6 +59,23 @@ dns:
   # - RULE-SET,xiaomi_domain,国内直连
   # - RULE-SET,xiaohongshu_domain,国内直连
 
+
+
+
+  #hk: &hk_filter "(?i)(?=.*(香港|HK|Hong Kong|HongKong|🇭🇰))(?!.*(福利|新用户|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
+  #tw: &tw_filter "(?i)(?=.*(台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|🇹🇼))(?!.*(福利|新用户|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
+  #jp: &jp_filter "(?i)(?=.*(日本|JP|Japan|Tokyo|🇯🇵))(?!.*(福利|新用户|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
+  #sg: &sg_filter "(?i)(?=.*(新加坡|狮城|Singapore|SG|🇸🇬))(?!.*(福利|新用户|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
+  # - {name: Synology, <<: *directmain}
+  # - {name: 🎶 TikTok, type: select, proxies: [🇺🇸 美国自动, 🌏 亚洲自动]}
+  # - {name: 🌏 亚洲自动, type: url-test, use: [flyingBird], interval: 60, tolerance: 10, filter: *as_filter}
+  # - {name: 🇭🇰 香港自动, type: url-test, use: [flyingBird], interval: 60, tolerance: 10, filter: *hk_filter}
+  # - {name: 🇹🇼 台湾自动, type: url-test, use: [flyingBird], interval: 60, tolerance: 10, filter: *tw_filter}
+  # - {name: 🇯🇵 日本自动, type: url-test, use: [flyingBird], interval: 60, tolerance: 10, filter: *jp_filter}
+  # - {name: 🇸🇬 狮城自动, type: url-test, use: [flyingBird], interval: 60, tolerance: 10, filter: *sg_filter}
+  # - {name: 🤖 AI自动, type: url-test, use: [flyingBird], interval: 60, tolerance: 10, filter: *ai_filter}
+  # - {name: 🧱 备份节点, type: fallback, use: [bocchi, yiYuan], interval: 60, tolerance: 10, filter: *bak_filter}
+  
   
   # 互联网巨头服务（国内）
 #aliyun_domain:
@@ -97,3 +114,82 @@ dns:
 # use-hosts: true
 # prefetch-domain: true
 # prefer-h3: false
+
+# DNS模块
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  ipv6: true
+  respect-rules: true
+  # enable-dnssec: true
+  doh-priority-http3: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-cache: true
+  fake-ip-filter-mode: blacklist
+  fake-ip-filter: [
+    "rule-set:category_media_cn_domain,chinamedia_domain,gamedownloadcn_domain,category_games_cn_domain,cn_domain,usr_direct,private_domain,usr_direct_torrent,docker_domain,category_dev_domain,develousr_domain,linux_domain,usr_proxy_develop", 
+    "+.services.googleapis.cn", "+.xn--ngstr-lra8j.com", 
+    "+.ntp.tencent.com", "+.ntp1.aliyun.com", "time.*.com", "+.ntp.ntsc.ac.cn", "+.pool.ntp.org", "+.cn.ntp.org.cn", 
+    "+.yarnpkg.com", "+.ustclug.org",
+    "start.me","+.start.me",
+    "+.lan", "+.local", "geosite:cn", 
+    "mirrors.vsean.net", "+.vsean.net", "+.slippindylan.com"
+  ]
+  # DNS服务器配置
+  default-nameserver: [223.5.5.5, 119.29.29.29, 2402:4e00::, 2400:3200::1]
+  proxy-server-nameserver: [223.5.5.5, 119.29.29.29]
+  nameserver: [223.5.5.5, 119.29.29.29]
+  nameserver-policy: {
+    "+.github.com": [8.8.8.8, 1.1.1.1], "github.com": [8.8.8.8, 1.1.1.1], 
+    "+.githubusercontent.com": [8.8.8.8, 1.1.1.1],
+    "+.debian.org": [8.8.8.8, 1.1.1.1], "+.yarnpkg.com": [8.8.8.8, 1.1.1.1], 
+    "+.ustclug.org": [8.8.8.8, 1.1.1.1], "+.immortalwrt.org": [8.8.8.8, 1.1.1.1], 
+    "+.openwrt.org": [8.8.8.8, 1.1.1.1], "+.vsean.net": [8.8.8.8, 1.1.1.1]
+  }
+
+
+  # DNS服务器配置
+  # 基础服务器 (default-nameserver): 用于解析 DNS 服务器自身的域名，必须是纯 IP 地址
+  default-nameserver: [119.29.29.29, tls://223.5.5.5, tls://1.12.12.12, "tls://[2402:4e00::]", "tls://[2400:3200::1]"]
+  # 直接 DNS 服务器 (direct-nameserver): 用于解析不经过代理的域名，必须是纯 IP 地址
+  direct-nameserver: [119.29.29.29, 223.5.5.5]
+  # 直接 DNS 服务器跟随策略 (direct-nameserver-follow-policy): 是否跟随规则中的 nameserver-policy
+  direct-nameserver-follow-policy: false
+  # 代理节点解析服务器 (proxy-server-nameserver): 用于解析代理节点的域名，需通过代理访问
+  proxy-server-nameserver: [https://doh.pub/dns-query, https://dns.alidns.com/dns-query]
+  # 默认解析服务器 (nameserver): 处理大多数常规 DNS 查询
+  nameserver: [https://doh.pub/dns-query, https://dns.alidns.com/dns-query]
+  nameserver-policy: 
+    # 特定域名的 DNS 服务器策略
+    # "+.domain.com": [dns1, dns2]: 表示匹配以 domain.com 结尾的域名，使用 dns1 和 dns2 解析
+    # "domain.com": [dns1, dns2]: 表示匹配 domain.com 域名，使用 dns1 和 dns2 解析
+    # 注意：域名匹配规则支持通配符 "+"，表示匹配任意子域名
+    - 'github.com': [tls://8.8.8.8#🚀 翻墙代理, tls://1.1.1.1#🚀 翻墙代理&h3=true]
+    - '+.github.com': [tls://8.8.8.8#🚀 翻墙代理, tls://1.1.1.1#🚀 翻墙代理&h3=true]
+    - '+.*.github.com': [tls://8.8.8.8#🚀 翻墙代理, tls://1.1.1.1#🚀 翻墙代理&h3=true]
+    - '+.githubusercontent.com': [tls://8.8.8.8#🚀 翻墙代理, tls://1.1.1.1#🚀 翻墙代理&h3=true]
+    - '+.debian.org': [tls://8.8.8.8#🚀 翻墙代理, tls://1.1.1.1#🚀 翻墙代理&h3=true]
+    - '+.yarnpkg.com"': [tls://8.8.8.8#🚀 翻墙代理, tls://1.1.1.1#🚀 翻墙代理&h3=true]
+    - '+.ustclug.org': [tls://8.8.8.8#🚀 翻墙代理, tls://1.1.1.1#🚀 翻墙代理&h3=true]
+    - '+.immortalwrt.org': [tls://8.8.8.8#🚀 翻墙代理, tls://1.1.1.1#🚀 翻墙代理&h3=true]
+    - '+.openwrt.org': [tls://8.8.8.8#🚀 翻墙代理, tls://1.1.1.1#🚀 翻墙代理&h3=true]
+    - '+.vsean.net': [tls://8.8.8.8#🚀 翻墙代理, tls://1.1.1.1#🚀 翻墙代理&h3=true]
+    "rule-set:private_domain,category_media_cn_domain,chinamedia_domain,usr_direct,usr_direct_torrent,cn_domain":
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    "rule-set:usr_proxy,proxy_domain,gfw_domain":
+      - tls://8.8.8.8#🚀 翻墙代理
+      - tls://1.1.1.1#🚀 翻墙代理&h3=true
+
+
+  nameserver-policy: {
+    "+.github.com": [8.8.8.8, 1.1.1.1], "github.com": [8.8.8.8, 1.1.1.1], 
+    "+.githubusercontent.com": [8.8.8.8, 1.1.1.1],
+    "+.debian.org": [8.8.8.8, 1.1.1.1], "+.yarnpkg.com": [8.8.8.8, 1.1.1.1], 
+    "+.ustclug.org": [8.8.8.8, 1.1.1.1], "+.immortalwrt.org": [8.8.8.8, 1.1.1.1], 
+    "+.openwrt.org": [8.8.8.8, 1.1.1.1], "+.vsean.net": [8.8.8.8, 1.1.1.1]
+  }
+  default-nameserver: [223.5.5.5, 119.29.29.29, 2402:4e00::, 2400:3200::1]
+  proxy-server-nameserver: [223.5.5.5, 119.29.29.29]
+  nameserver: [223.5.5.5, 119.29.29.29]

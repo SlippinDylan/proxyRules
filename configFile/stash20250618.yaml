@@ -1,16 +1,25 @@
+# 订阅更新和延迟测试相关
+base-provider-template: &baseProvider {type: http, interval: 3600, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 180, lazy: false, tolerance: 10}, proxy: 🎯 国内直连, override: {udp: true, skip-cert-verify: true}}
+# 节点筛选相关
+filters:
+  asia: &asia_filter "(?=.*(香港|HK|Hong Kong|HongKong|HONGKONG|🇭🇰|台湾|TW|TWN|Taiwan|🇹🇼|日本|JP|Japan|Tokyo|🇯🇵|新加坡|狮城|Singapore|SG|🇸🇬))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
+  hk: &hk_filter "(?=.*(香港|HK|Hong Kong|HongKong|HONGKONG|🇭🇰))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
+  tw: &tw_filter "(?=.*(台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|🇹🇼))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
+  jp: &jp_filter "(?=.*(日本|JP|Japan|Tokyo|🇯🇵))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
+  sg: &sg_filter "(?=.*(新加坡|狮城|Singapore|SG|🇸🇬))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
+  us: &us_filter "(?=.*(美国|USA|US|America|United States|🇺🇸))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
+  ai: &ai_filter "(?=.*(日本|JP|Japan|Tokyo|🇯🇵|美国|USA|US|America|United States|🇺🇸))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
+  bak: &bak_filter "(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
+  not_asia: &not_asia_filter "^((?!(香港|HK|Hong Kong|HongKong|HONGKONG|🇭🇰|台湾|TW|TWN|Taiwan|🇹🇼|日本|JP|Japan|Tokyo|🇯🇵|新加坡|狮城|Singapore|SG|🇸🇬|美国|USA|US|America|United States|🇺🇸|福利|新用户|直接|邀请|网址|com|\\[SS\\])).)*$"
+  all: &all_filter "^((?!(福利|新用户|直接|邀请|网址|com|\\[SS\\])).)*$"
 # 策略组相关
-proxymain: &proxymain {type: select, proxies: [🌏 亚洲自动, 🇺🇸 美国自动, 🌍 环球节点, 🛰 全部节点, 国内直连]}
-directmain: &directmain {type: select, proxies: [国内直连, 🌏 亚洲自动, 🇺🇸 美国自动, 🌍 环球节点, 🛰 全部节点]}
-aimain: &aimain {type: select, proxies: [🤖 AI自动, 🌏 亚洲自动, 🇺🇸 美国自动, 🌍 环球节点, 🛰 全部节点, 国内直连]}
-#这里是订阅更新和延迟测试相关的
-base-provider-template: &baseProvider {type: http, interval: 3600, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 180, lazy: false, tolerance: 10}, proxy: 国内直连,  override: {udp: true, skip-cert-verify: true}}
+proxymain: &proxymain {type: select, proxies: [🌏 亚洲自动, 🛰 全部节点, 🎯 国内直连]}
+directmain: &directmain {type: select, proxies: [🎯 国内直连, 🌏 亚洲自动, 🛰 全部节点]}
+aimain: &aimain {type: select, proxies: [🤖 AI自动, 🌏 亚洲自动, 🛰 全部节点, 🎯 国内直连]}
 
 # 机场订阅配置
 proxy-providers:
   flyingBird:
-    !!merge <<: *baseProvider
-    url: "订阅链接"
-  bocchi:
     !!merge <<: *baseProvider
     url: "订阅链接"
   yiYuan:
@@ -23,8 +32,11 @@ part1: {mode: rule, log-level: info, ipv6: true, mixed-port: 7890, unified-delay
 # DNS模块
 dns:
   enable: true
+  listen: 0.0.0.0:1053
   ipv6: true
+  respect-rules: true
   enable-dnssec: true
+  doh-priority-http3: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   fake-ip-cache: true
@@ -40,11 +52,14 @@ dns:
     - "+.cn.ntp.org.cn"
     - "+.yarnpkg.com"
     - "+.ustclug.org"
-    - "start.me"
-    - "+.start.me"
+    - "mirrors.vsean.net"
+    - "+.vsean.net"
     - "+.lan"
     - "+.local"
     - "geosite:cn"
+    - "+.slippindylan.com"
+    - "start.me"
+    - "+.start.me"
     - rule-set:category_media_cn_domain
     - rule-set:chinamedia_domain
     - rule-set:gamedownloadcn_domain
@@ -52,80 +67,59 @@ dns:
     - rule-set:cn_domain
     - rule-set:usr_direct
     - rule-set:private_domain
-    - rule-set:direct_torrent
+    - rule-set:usr_direct_torrent
     - rule-set:docker_domain
     - rule-set:category_dev_domain
     - rule-set:develousr_domain
     - rule-set:linux_domain
     - rule-set:usr_proxy_develop
-  default-nameserver: &cn_dns [119.29.29.29, 223.5.5.5, '2400:3200::1', '2402:4e00::']
-  proxy-server-nameserver: *cn_dns
-  nameserver: *cn_dns
+  default-nameserver: &basic_dns [119.29.29.29, tls://223.5.5.5, tls://1.12.12.12, "tls://[2402:4e00::]", "tls://[2400:3200::1]"]
+  direct-nameserver: &direct_dns [119.29.29.29, 223.5.5.5]
+  direct-nameserver-follow-policy: false
+  proxy-server-nameserver: &domestic_dns [https://doh.pub/dns-query, https://dns.alidns.com/dns-query]
+  nameserver: *domestic_dns
   nameserver-policy:
-    '+.github.com': 8.8.8.8
-    'github.com': 8.8.8.8
-    '+.githubusercontent.com': 8.8.8.8
-    '+.debian.org': 8.8.8.8
-    '+.yarnpkg.com': 8.8.8.8
-    '+.ustclug.org': 8.8.8.8
-    '+.immortalwrt.org': 8.8.8.8
-    '+.openwrt.org': 8.8.8.8
+    'github.com': tls://8.8.8.8
+    '+.github.com': tls://8.8.8.8
+    '+.*.github.com': tls://8.8.8.8
+    '+.githubusercontent.com': tls://8.8.8.8
+    '+.debian.org': tls://8.8.8.8
+    '+.yarnpkg.com': tls://8.8.8.8
+    '+.ustclug.org': tls://8.8.8.8
+    '+.immortalwrt.org': tls://8.8.8.8
+    '+.openwrt.org': tls://8.8.8.8
+    '+.vsean.net': tls://8.8.8.8
+    'rule-set:private_domain': https://doh.pub/dns-query
+    'rule-set:category_media_cn_domain': https://doh.pub/dns-query
+    'rule-set:chinamedia_domain': https://doh.pub/dns-query
+    'rule-set:usr_direct': https://doh.pub/dns-query
+    'rule-set:usr_direct_torrent': https://doh.pub/dns-query
+    'rule-set:cn_domain': https://doh.pub/dns-query
+    'rule-set:usr_proxy': tls://8.8.8.8
+    'rule-set:proxy_domain': tls://8.8.8.8
+    'rule-set:gfw_domain': tls://8.8.8.8
 
 proxies: [{name: "直接连接", type: direct, udp: true}]
 
-icons:
-  Proxy: &icon_proxy "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png"
-  CN: &icon_cn "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/CN.png"
-  Apple: &icon_apple "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple_1.png"
-  ApplePxy: &icon_applepxy "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple_2.png"
-  Microsoft: &icon_ms "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Microsoft.png"
-  OneDrive: &icon_onedrive "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/OneDrive.png"
-  Google: &icon_google "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Google_Search.png"
-  GitHub: &icon_github "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/GitHub.png"
-  Copilot: &icon_copilot "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Copilot.png"
-  Synology: &icon_synology "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Download.png"
-  Telegram: &icon_telegram "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png"
-  PayPal: &icon_paypal "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/PayPal.png"
-  Spotify: &icon_spotify "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Spotify.png"
-  TikTok: &icon_tiktok "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/TikTok.png"
-  ForeignMedia: &icon_foreignmedia "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ForeignMedia.png"
-  Game: &icon_game "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Game.png"
-  Steam: &icon_steam "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Steam.png"
-  Speedtest: &icon_speedtest "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Speedtest.png"
-  Final: &icon_final "https://gh-proxy.com/raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png"
-
-filters:
-  asia: &asia_filter "(?=.*(香港|HK|Hong Kong|HongKong|HONGKONG|🇭🇰|台湾|TW|TWN|Taiwan|🇹🇼|日本|JP|Japan|Tokyo|🇯🇵|新加坡|狮城|Singapore|SG|🇸🇬))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
-  hk: &hk_filter "(?=.*(香港|HK|Hong Kong|HongKong|HONGKONG|🇭🇰))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
-  tw: &tw_filter "(?=.*(台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|🇹🇼))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
-  jp: &jp_filter "(?=.*(日本|JP|Japan|Tokyo|🇯🇵))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
-  sg: &sg_filter "(?=.*(新加坡|狮城|Singapore|SG|🇸🇬))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
-  us: &us_filter "(?=.*(美国|USA|US|America|United States|🇺🇸))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
-  ai: &ai_filter "(?=.*(日本|JP|Japan|Tokyo|🇯🇵|美国|USA|US|America|United States|🇺🇸))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
-  bak: &bak_filter "(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
-  not_asia: &not_asia_filter "^((?!(香港|HK|Hong Kong|HongKong|HONGKONG|🇭🇰|台湾|TW|TWN|Taiwan|🇹🇼|日本|JP|Japan|Tokyo|🇯🇵|新加坡|狮城|Singapore|SG|🇸🇬|美国|USA|US|America|United States|🇺🇸|福利|新用户|直接|邀请|网址|com|\\[SS\\])).)*$"
-  all: &all_filter "^((?!(福利|新用户|直接|邀请|网址|com|\\[SS\\])).)*$"
-
 proxy-groups:
-  - {name: 翻墙代理, !!merge <<: *proxymain, icon: *icon_proxy}
-  - {name: 国内直连, type: select, proxies: [直接连接], icon: *icon_cn}
-  - {name: Apple, !!merge <<: *directmain, icon: *icon_applepxy}
-  - {name: ApplePxy, !!merge <<: *proxymain, icon: *icon_applepxy}
-  - {name: MicrosoftCN, !!merge <<: *directmain, icon: *icon_onedrive}
-  - {name: Microsoft, !!merge <<: *proxymain, icon: *icon_ms}
-  - {name: Google, !!merge <<: *proxymain, icon: *icon_google}
-  - {name: Develop, !!merge <<: *proxymain, icon: *icon_github}
-  - {name: Intelligence, !!merge <<: *aimain, icon: *icon_copilot}
-  - {name: Synology, !!merge <<: *directmain, icon: *icon_synology}
-  - {name: Telegram, type: select, proxies: [🇸🇬 狮城自动, 🌏 亚洲自动, 🇺🇸 美国自动], icon: *icon_telegram}
-  - {name: Wallet, type: select, proxies: [🇹🇼 台湾自动, 国内直连, 🛰 全部节点], icon: *icon_paypal}
-  - {name: Spotify, !!merge <<: *directmain, icon: *icon_spotify}
-  - {name: TikTok, type: select, proxies: [🇺🇸 美国自动, 🌏 亚洲自动], icon: *icon_tiktok}
-  - {name: 国外流媒体, !!merge <<: *proxymain, icon: *icon_foreignmedia}
-  - {name: 游戏直连, !!merge <<: *directmain, icon: *icon_game}
-  - {name: 游戏代理, !!merge <<: *proxymain, icon: *icon_steam}
-  - {name: Speedtest, !!merge <<: *directmain, icon: *icon_speedtest}
-  - {name: 漏网之鱼, type: select, proxies: [🧱 备份节点, 🌏 亚洲自动, 🇺🇸 美国自动, 🛰 全部节点, 国内直连], icon: *icon_final}
+  - {name: 🚀 翻墙代理, !!merge <<: *proxymain}
+  - {name: 🎯 国内直连, type: select, proxies: [直接连接]}
+  - {name: 🍎 Apple, !!merge <<: *directmain}
+  - {name: 🍎 ApplePxy, !!merge <<: *proxymain}
+  - {name: ☁️ MicrosoftCN, !!merge <<: *directmain}
+  - {name: Ⓜ️ Microsoft, !!merge <<: *proxymain}
+  - {name: 🔍 Google, !!merge <<: *proxymain}
+  - {name: 🦑 Develop, !!merge <<: *proxymain}
+  - {name: 🧠 Intelligence, !!merge <<: *aimain}
+  - {name: 🛩️ Telegram, type: select, proxies: [🇸🇬 狮城自动, 🌏 亚洲自动, 🇺🇸 美国自动]}
+  - {name: 💰 Wallet, type: select, proxies: [🇹🇼 台湾自动, 🎯 国内直连, 🛰 全部节点]}
+  - {name: 🎵 Spotify, !!merge <<: *directmain}
+  - {name: 🎶 TikTok, type: select, proxies: [🇺🇸 美国自动, 🌏 亚洲自动]}
+  - {name: 📺 国外流媒体, !!merge <<: *proxymain}
+  - {name: 🕹️ 游戏直连, !!merge <<: *directmain}
+  - {name: 🎮 游戏代理, !!merge <<: *proxymain}
+  - {name: ⏱ Speedtest, !!merge <<: *directmain}
+  - {name: 🐠 漏网之鱼, type: select, proxies: [🧱 备份节点, 🌏 亚洲自动, 🇺🇸 美国自动, 🛰 全部节点, 🎯 国内直连]}
 
   - {name: 🌏 亚洲自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *asia_filter}
   - {name: 🇭🇰 香港自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *hk_filter}
@@ -134,69 +128,67 @@ proxy-groups:
   - {name: 🇸🇬 狮城自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *sg_filter}
   - {name: 🇺🇸 美国自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *us_filter}
   - {name: 🤖 AI自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *ai_filter}
-  - {name: 🧱 备份节点, type: fallback, use: [bocchi, yiYuan], interval: 10, tolerance: 10, filter: *bak_filter}
-
+  - {name: 🧱 备份节点, type: fallback, use: [flyingBird, yiYuan], interval: 10, tolerance: 10, filter: *bak_filter}
   - {name: 🌍 环球节点, type: select, include-all: true, filter: *not_asia_filter}
   - {name: 🛰 全部节点, type: select, include-all: true, filter: *all_filter}
 
 rules:
   # 基础网络和隐私规则
-  - RULE-SET,private_domain,国内直连
+  - RULE-SET,private_domain,🎯 国内直连
   # AI和智能服务
-  - RULE-SET,category_ai_chat_notcn_domain,Intelligence
-  - RULE-SET,usr_proxy_intelligence,Intelligence
+  - RULE-SET,category_ai_chat_notcn_domain,🧠 Intelligence
+  - RULE-SET,usr_proxy_intelligence,🧠 Intelligence
   # 开发
-  - RULE-SET,docker_domain,Develop
-  - RULE-SET,category_dev_domain,Develop
-  - RULE-SET,develousr_domain,Develop
-  - RULE-SET,linux_domain,Develop
-  - RULE-SET,usr_proxy_develop,Develop
+  - RULE-SET,docker_domain,🦑 Develop
+  - RULE-SET,category_dev_domain,🦑 Develop
+  - RULE-SET,develousr_domain,🦑 Develop
+  - RULE-SET,linux_domain,🦑 Develop
+  - RULE-SET,usr_proxy_develop,🦑 Develop
   # 工具和实用服务
-  - RULE-SET,onedrive_domain,MicrosoftCN
-  - RULE-SET,synology_domain,Synology
-  - RULE-SET,speedtest_domain,Speedtest
+  - RULE-SET,onedrive_domain,☁️ MicrosoftCN
+  - RULE-SET,speedtest_domain,⏱ Speedtest
   # 通讯服务
-  - RULE-SET,telegram_domain,Telegram
-  - RULE-SET,paypal_domain,Wallet
+  - RULE-SET,telegram_domain,🛩️ Telegram
+  - RULE-SET,paypal_domain,💰 Wallet
   # 媒体服务
-  - RULE-SET,spotify_domain,Spotify
-  - RULE-SET,tiktok_domain,TikTok
+  - RULE-SET,spotify_domain,🎵 Spotify
+  - RULE-SET,tiktok_domain,🎶 TikTok
   # 流媒体服务
-  - RULE-SET,usr_proxy_media,国外流媒体
-  - RULE-SET,globalmedia_domain,国外流媒体
-  - RULE-SET,category_media_domain,国外流媒体
-  - RULE-SET,category_media_cn_domain,国内直连
-  - RULE-SET,chinamedia_domain,国内直连
+  - RULE-SET,usr_proxy_media,📺 国外流媒体
+  - RULE-SET,globalmedia_domain,📺 国外流媒体
+  - RULE-SET,category_media_domain,📺 国外流媒体
+  - RULE-SET,category_media_cn_domain,🎯 国内直连
+  - RULE-SET,chinamedia_domain,🎯 国内直连
   # 游戏
-  - RULE-SET,gamedownloadcn_domain,游戏直连
-  - RULE-SET,category_games_cn_domain,游戏直连
-  - RULE-SET,gamedownload_domain,游戏代理
-  - RULE-SET,category_games_domain,游戏代理
+  - RULE-SET,gamedownloadcn_domain,🕹️ 游戏直连
+  - RULE-SET,category_games_cn_domain,🕹️ 游戏直连
+  - RULE-SET,gamedownload_domain,🎮 游戏代理
+  - RULE-SET,category_games_domain,🎮 游戏代理
   # 互联网巨头服务
-  - RULE-SET,apple_domain,Apple
-  - RULE-SET,apple_notcn_domain,ApplePxy
-  - RULE-SET,google_domain,Google
-  - RULE-SET,microsoft_cn_domain,MicrosoftCN
-  - RULE-SET,microsoft_domain,Microsoft
+  - RULE-SET,apple_domain,🍎 Apple
+  - RULE-SET,apple_notcn_domain,🍎 ApplePxy
+  - RULE-SET,google_domain,🔍 Google
+  - RULE-SET,microsoft_cn_domain,☁️ MicrosoftCN
+  - RULE-SET,microsoft_domain,Ⓜ️ Microsoft
   # 个人代理-域名
-  - RULE-SET,usr_direct,国内直连
-  - RULE-SET,usr_proxy,翻墙代理
-  - RULE-SET,usr_direct_torrent,国内直连
+  - RULE-SET,usr_direct,🎯 国内直连
+  - RULE-SET,usr_proxy,🚀 翻墙代理
+  - RULE-SET,usr_direct_torrent,🎯 国内直连
   # 全局代理
-  - RULE-SET,proxy_domain,翻墙代理
-  - RULE-SET,gfw_domain,翻墙代理
-  - RULE-SET,geolocation_notcn_domain,翻墙代理
-  - RULE-SET,cn_domain,国内直连
+  - RULE-SET,proxy_domain,🚀 翻墙代理
+  - RULE-SET,gfw_domain,🚀 翻墙代理
+  - RULE-SET,geolocation_notcn_domain,🚀 翻墙代理
+  - RULE-SET,cn_domain,🎯 国内直连
   # IP规则
-  - RULE-SET,usr_direct_torrent_ip,国内直连
-  - RULE-SET,usr_proxy_develop_ip,Develop,no-resolve
-  - RULE-SET,telegram_ip,Telegram,no-resolve
-  - RULE-SET,globalmedia_ip,国外流媒体,no-resolve
-  - RULE-SET,chinamedia_ip,国内直连
-  - RULE-SET,google_ip,Google,no-resolve
-  - RULE-SET,apple_ip,Apple
-  - RULE-SET,cn_ip,国内直连
-  - MATCH,漏网之鱼
+  - RULE-SET,usr_direct_torrent_ip,🎯 国内直连
+  - RULE-SET,usr_proxy_develop_ip,🦑 Develop,no-resolve
+  - RULE-SET,telegram_ip,🛩️ Telegram,no-resolve
+  - RULE-SET,globalmedia_ip,📺 国外流媒体,no-resolve
+  - RULE-SET,chinamedia_ip,🎯 国内直连
+  - RULE-SET,google_ip,🔍 Google,no-resolve
+  - RULE-SET,apple_ip,🍎 Apple
+  - RULE-SET,cn_ip,🎯 国内直连
+  - MATCH,🐠 漏网之鱼
 
 rule-anchor:
   domain: &domain {type: http, interval: 7200, behavior: domain, format: text}
@@ -212,7 +204,6 @@ rule-providers:
   linux_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/linux.list"}
   usr_proxy_develop: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy_Develop.txt"}
   onedrive_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.list"}
-  synology_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/synology.list"}
   speedtest_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/speedtest.list"}
   telegram_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.list"}
   paypal_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.list"}

@@ -1,0 +1,51 @@
+
+# DNS模块
+dns:
+  enable: true
+  ipv6: true
+  enable-dnssec: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-cache: true
+  fake-ip-filter-mode: blacklist
+  fake-ip-filter:
+    - "+.services.googleapis.cn"
+    - "+.xn--ngstr-lra8j.com"
+    - "+.ntp.tencent.com"
+    - "+.ntp1.aliyun.com"
+    - "time.*.com"
+    - "+.ntp.ntsc.ac.cn"
+    - "+.pool.ntp.org"
+    - "+.cn.ntp.org.cn"
+    - "+.yarnpkg.com"
+    - "+.ustclug.org"
+    - "start.me"
+    - "+.start.me"
+    - "+.lan"
+    - "+.local"
+    - "geosite:cn"
+    - rule-set:category_media_cn_domain
+    - rule-set:chinamedia_domain
+    - rule-set:gamedownloadcn_domain
+    - rule-set:category_games_cn_domain
+    - rule-set:cn_domain
+    - rule-set:usr_direct
+    - rule-set:private_domain
+    - rule-set:direct_torrent
+    - rule-set:docker_domain
+    - rule-set:category_dev_domain
+    - rule-set:develousr_domain
+    - rule-set:linux_domain
+    - rule-set:usr_proxy_develop
+  default-nameserver: &cn_dns [119.29.29.29, 223.5.5.5, '2400:3200::1', '2402:4e00::']
+  proxy-server-nameserver: *cn_dns
+  nameserver: *cn_dns
+  nameserver-policy:
+    '+.github.com': 8.8.8.8
+    'github.com': 8.8.8.8
+    '+.githubusercontent.com': 8.8.8.8
+    '+.debian.org': 8.8.8.8
+    '+.yarnpkg.com': 8.8.8.8
+    '+.ustclug.org': 8.8.8.8
+    '+.immortalwrt.org': 8.8.8.8
+    '+.openwrt.org': 8.8.8.8
