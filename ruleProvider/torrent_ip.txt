@@ -83,3 +83,12 @@
 222.0.152.70/32
 27.115.216.125/32
 126.126.221.5/32
+
+develop_domain.txt 
+develop_ip.txt 
+direct_domain.txt 
+intelligence_domain.txt 
+proxy_domain.txt 
+proxy_ip.txt 
+torrent_domain.txt 
+torrent_ip.txt 

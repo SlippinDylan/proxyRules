@@ -15,34 +15,12 @@ mihomo convert-ruleset domain text XXX.yaml XXX.mrs
 
 mihomo convert-ruleset ipcidr text XXX.yaml XXX.mrs
 
-mihomo convert-ruleset domain text Direct.txt Direct.mrs
-mihomo convert-ruleset domain text Proxy-Develop.txt Proxy-Develop.mrs
-mihomo convert-ruleset domain text Proxy-Download.txt Proxy-Download.mrs
-mihomo convert-ruleset domain text Proxy-Intelligence.txt Proxy-Intelligence.mrs
-mihomo convert-ruleset domain text Proxy-Media.txt Proxy-Media.mrs
-mihomo convert-ruleset domain text Proxy-Network.txt Proxy-Network.mrs
-mihomo convert-ruleset domain text Proxy-Tools.txt Proxy-Tools.mrs
+mihomo convert-ruleset domain text develop_domain.txt develop_domain.mrs  && \
+mihomo convert-ruleset ipcidr text develop_ip.txt develop_ip.mrs  && \
+mihomo convert-ruleset domain text direct_domain.txt direct_domain.mrs  && \
+mihomo convert-ruleset domain text intelligence_domain.txt intelligence_domain.mrs  && \
+mihomo convert-ruleset domain text proxy_domain.txt proxy_domain.mrs  && \
+mihomo convert-ruleset ipcidr text proxy_ip.txt proxy_ip.mrs  && \
+mihomo convert-ruleset domain text torrent_domain.txt torrent_domain.mrs  && \
+mihomo convert-ruleset ipcidr text torrent_ip.txt torrent_ip.mrs
 
-
-mihomo convert-ruleset ipcidr text Direct-IP.txt Direct-IP.mrs
-mihomo convert-ruleset ipcidr text Proxy-Develop-IP.txt Proxy-Develop-IP.mrs
-mihomo convert-ruleset ipcidr text Proxy-Tools-IP.txt Proxy-Tools-IP.mrs
-
-mihomo convert-ruleset ipcidr text Direct-IP.txt Direct-IP.mrs
-mihomo convert-ruleset ipcidr text Direct-Torrent-IP.txt Direct-Torrent-IP.mrs
-
-mihomo convert-ruleset ipcidr text Direct-Torrent-IP.txt Direct-Torrent-IP.mrs
-mihomo convert-ruleset ipcidr text Proxy-IP.txt Proxy-IP.mrs
-
-mihomo convert-ruleset domain text Direct-Torrent.txt Direct-Torrent.mrs
-
-
-
-mihomo convert-ruleset domain text Direct.txt Direct.mrs
-mihomo convert-ruleset domain text Proxy-Develop.txt Proxy-Develop.mrs
-mihomo convert-ruleset domain text Proxy-Intelligence.txt Proxy-Intelligence.mrs
-mihomo convert-ruleset domain text Proxy-Media.txt Proxy-Media.mrs
-mihomo convert-ruleset domain text Proxy.txt Proxy.mrs
-mihomo convert-ruleset ipcidr text Direct-IP.txt Direct-IP.mrs
-mihomo convert-ruleset ipcidr text Proxy-Develop-IP.txt Proxy-Develop-IP.mrs
-mihomo convert-ruleset ipcidr text Proxy-IP.txt Proxy-IP.mrs
