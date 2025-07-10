@@ -18,9 +18,8 @@ directmain: &directmain {type: select, proxies: [🎯 国内直连, 🌏 亚洲�
 aimain: &aimain {type: select, proxies: [🤖 AI自动, 🌏 亚洲自动, 🛰 全部节点, 🎯 国内直连]}
 # 规则集锚点定义
 rule-anchor:
-  domain: &domain {type: http, interval: 21600, behavior: domain, format: mrs}
-  ip: &ip {type: http, interval: 21600, behavior: ipcidr, format: mrs}
-  class: &class {type: http, interval: 21600, behavior: classical, format: text}
+  ip: &ip {type: http, interval: 21600, behavior: ipcidr, format: text}
+  domain: &domain {type: http, interval: 21600, behavior: domain, format: text}
 
 # 机场订阅配置
 proxy-providers:
@@ -66,14 +65,14 @@ dns:
     - "start.me"
     - "+.start.me"
     - rule-set:cn_domain
-    - rule-set:mine_direct
+    - rule-set:mine_direct_domain
     - rule-set:private_domain
-    - rule-set:mine_direct_torrent
+    - rule-set:mine_torrent_domain
     - rule-set:docker_domain
     - rule-set:category_dev_domain
     - rule-set:develousr_domain
     - rule-set:linux_domain
-    - rule-set:mine_proxy_develop
+    - rule-set:mine_develop_domain
   default-nameserver: &basic_dns [119.29.29.29, tls://223.5.5.5, tls://1.12.12.12, "tls://[2402:4e00::]", "tls://[2400:3200::1]"]
   direct-nameserver: &direct_dns [119.29.29.29, 223.5.5.5]
   direct-nameserver-follow-policy: false
@@ -91,10 +90,10 @@ dns:
     '+.openwrt.org': tls://8.8.8.8
     '+.vsean.net': tls://8.8.8.8
     'rule-set:private_domain': https://doh.pub/dns-query
-    'rule-set:mine_direct': https://doh.pub/dns-query
-    'rule-set:mine_direct_torrent': https://doh.pub/dns-query
+    'rule-set:mine_direct_domain': https://doh.pub/dns-query
+    'rule-set:mine_torrent_domain': https://doh.pub/dns-query
     'rule-set:cn_domain': https://doh.pub/dns-query
-    'rule-set:mine_proxy': tls://8.8.8.8
+    'rule-set:mine_proxy_domain': tls://8.8.8.8
     'rule-set:proxy_domain': tls://8.8.8.8
     'rule-set:gfw_domain': tls://8.8.8.8
 
@@ -135,17 +134,16 @@ rules:
   - IP-CIDR,127.0.0.1/32,🚀 翻墙代理
   - IP-CIDR,10.10.0.1/32,🚀 翻墙代理
   - RULE-SET,private_domain,🎯 国内直连
-  - RULE-SET,mine_direct,🎯 国内直连
-  - RULE-SET,mine_direct_torrent,🎯 国内直连
-  - RULE-SET,mine_proxy,🚀 翻墙代理
-  - RULE-SET,proxylite,🚀 翻墙代理
+  - RULE-SET,mine_direct_domain,🎯 国内直连
+  - RULE-SET,mine_torrent_domain,🎯 国内直连
+  - RULE-SET,mine_proxy_domain,🚀 翻墙代理
   
   # AI和智能服务
-  - RULE-SET,mine_proxy_intelligence,🧠 Intelligence
+  - RULE-SET,mine_intelligence_domain,🧠 Intelligence
   - RULE-SET,category_ai_chat_notcn_domain,🧠 Intelligence
   
   # 开发
-  - RULE-SET,mine_proxy_develop,🦑 Develop
+  - RULE-SET,mine_develop_domain,🦑 Develop
   - RULE-SET,docker_ocd_domain,🦑 Develop
   - RULE-SET,linux_domain,🦑 Develop
   - RULE-SET,category_dev_domain,🦑 Develop
@@ -162,7 +160,6 @@ rules:
   - RULE-SET,telegram_domain,🛩️ Telegram
   - RULE-SET,spotify_domain,🎵 Spotify
   - RULE-SET,tiktok_domain,🎶 TikTok
-  - RULE-SET,mine_proxy_media,📺 国外流媒体
   - RULE-SET,globalmedia_ocd_domain,📺 国外流媒体
   - RULE-SET,category_media_domain,📺 国外流媒体
 
@@ -177,65 +174,65 @@ rules:
   - RULE-SET,cn_domain,🎯 国内直连
 
   # IP规则
-  - RULE-SET,mine_proxy_develop_ip,🦑 Develop,no-resolve
+  - RULE-SET,mine_develop_ip,🦑 Develop,no-resolve
   - RULE-SET,apple_ip,🍎 Apple
   - RULE-SET,globalmedia_ocd_ip,📺 国外流媒体,no-resolve
   - RULE-SET,google_ip,🅖 Google,no-resolve
   - RULE-SET,telegram_ip,🛩️ Telegram,no-resolve
-  - RULE-SET,mine_direct_torrent_ip,🎯 国内直连
+  - RULE-SET,mine_prox1y_ip,🚀 翻墙代理
+  - RULE-SET,mine_torrent_ip,🎯 国内直连
   - RULE-SET,cn_ip,🎯 国内直连
   - MATCH,🐠 漏网之鱼
 
 rule-providers:
   # 基础网络和隐私规则
-  private_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
-  proxylite: {!!merge <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/qichiyuhub/rule/refs/heads/main/proxy.list"}
+  private_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list"}
   # AI & 开发
-  category_ai_chat_notcn_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs"}
-  docker_ocd_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Docker/Docker_OCD_Domain.mrs"}
-  linux_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/linux.mrs"}
-  category_dev_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-dev.mrs"}
-  developer_ocd_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Developer/Developer_OCD_Domain.mrs"}
+  category_ai_chat_notcn_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.list"}
+  docker_ocd_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Docker/Docker_OCD_Domain.txt"}
+  linux_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/linux.list"}
+  category_dev_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-dev.list"}
+  developer_ocd_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Developer/Developer_OCD_Domain.txt"}
   
   # 互联网巨头服务
-  apple_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.mrs"}
-  apple_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs"}
-  apple_notcn_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple%40cn.mrs"}
-  onedrive_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs"}
-  microsoft_cn_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft%40cn.mrs"}
-  microsoft_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}
-  youtube_domian: {!!merge <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/youtube.mrs"}
-  google_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}
-  google_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"}
+  apple_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.list"}
+  apple_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.list"}
+  apple_notcn_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple%40cn.list"}
+  onedrive_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.list"}
+  microsoft_cn_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft%40cn.list"}
+  microsoft_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.list"}
+  youtube_domian: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.list"}
+  google_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.list"}
+  google_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.list"}
 
   # 流媒体服务
-  telegram_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"}
-  telegram_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"}
-  spotify_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs"}
-  tiktok_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"}
-  globalmedia_ocd_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/GlobalMedia/GlobalMedia_OCD_Domain.mrs"}
-  globalmedia_ocd_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/GlobalMedia/GlobalMedia_OCD_IP.mrs"}
-  category_media_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-media.mrs"}
+  telegram_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.list"}
+  telegram_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.list"}
+  spotify_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.list"}
+  tiktok_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.list"}
+  globalmedia_ocd_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/GlobalMedia/GlobalMedia_OCD_Domain.txt"}
+  globalmedia_ocd_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/GlobalMedia/GlobalMedia_OCD_IP.txt"}
+  category_media_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-media.list"}
 
   # 工具和实用服务
-  synology_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/synology.mrs"}
-  paypal_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs"}
-  speedtest_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/speedtest.mrs"}
+  synology_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/synology.list"}
+  paypal_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.list"}
+  speedtest_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/speedtest.list"}
   
   # 全局代理
-  proxy_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geosite/proxy.mrs"}
-  gfw_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"}
-  geolocation_notcn_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}
-  cn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
-  cn_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
+  proxy_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geosite/proxy.list"}
+  gfw_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.list"}
+  geolocation_notcn_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.list"}
+  cn_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.list"}
+  cn_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.list"}
 
   # 个人代理
-  mine_proxy_media: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy_Media.mrs"}
-  mine_proxy_intelligence: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy_Intelligence.mrs"}
-  mine_proxy_develop: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy_Develop.mrs"}
-  mine_proxy_develop_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy_Develop_IP.mrs"}
-  mine_proxy: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Proxy.mrs"}
+  mine_intelligence_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/intelligence_domain.txt"}
+  mine_develop_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/develop_domain.txt"}
+  mine_develop_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/develop_ip.txt"}
+  mine_proxy_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/proxy_domain.txt"}
   # 个人直连
-  mine_direct: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct.mrs"}
-  mine_direct_torrent: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct_Torrent.mrs"}
-  mine_direct_torrent_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/Direct_Torrent_IP.mrs"}
+  mine_direct_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/direct_domain.txt"}
+  mine_torrent_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/torrent_domain.txt"}
+  mine_torrent_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/torrent_ip.txt"}
+  mine_prox1y_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/proxy_ip.txt"}

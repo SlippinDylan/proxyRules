@@ -141,7 +141,6 @@ rules:
   - RULE-SET,mine_direct_domain,🎯 国内直连
   - RULE-SET,mine_torrent_domain,🎯 国内直连
   - RULE-SET,mine_proxy_domain,🚀 翻墙代理
-  - RULE-SET,proxylite,🚀 翻墙代理
   
   # AI和智能服务
   - RULE-SET,mine_intelligence_domain,🧠 Intelligence
@@ -206,7 +205,7 @@ rule-providers:
   onedrive_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs"}
   microsoft_cn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft%40cn.mrs"}
   microsoft_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}
-  youtube_domian: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/youtube.mrs"}
+  youtube_domian: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}
   google_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}
   google_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"}
 
@@ -236,10 +235,10 @@ rule-providers:
   mine_develop_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/develop_domain.mrs"}
   mine_develop_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/develop_ip.mrs"}
   mine_proxy_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/proxy_domain.mrs"}
+  mine_proxy_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/proxy_ip.mrs"}
   # 个人直连
   mine_direct_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/direct_domain.mrs"}
   mine_torrent_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/torrent_domain.mrs"}
   mine_torrent_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/torrent_ip.mrs"}
-  mine_proxy_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/proxy_ip.mrs"}
 
 hosts: {"*.slippindylan.com": 10.10.0.51}
