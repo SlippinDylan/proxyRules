@@ -43,7 +43,8 @@ proxies: [{name: "直接连接", type: direct, udp: true}]
 part1: {log-level: info, mode: rule, ipv6: true, port: 7890, unified-delay: true, tcp-concurrent: true, bind-address: "*", allow-lan: true}
 # 系统和性能配置
 part2: {find-process-mode: 'off', global-client-fingerprint: chrome, disable-keep-alive: false, keep-alive-interval: 15, keep-alive-idle: 600, profile: {store-selected: true, store-fake-ip: true, tracing: true, interval: 21600}}
-tun: {enable: true, stack: system, auto-route: true, auto-detect-interface: true}
+# 入站配置
+tun: {enable: true, stack: mixed, dns-hijack: ["any:53", "tcp://any:53"], auto-route: true, auto-redirect: true, auto-detect-interface: true}
 # GeoX数据配置
 part3: {geodata-mode: true, geodata-loader: standard, geox-url: {geosite: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat", geoip-mmdb: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.metadb", geoip-dat: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat", asn: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"}, geox-auto-update: true, geox-update-interval: 24}
 
@@ -58,7 +59,7 @@ sniffer:
   }
   force-domain: ["+.v2ex.com"]
   skip-domain: [
-    "rule-set:cn_domain,mine_direct_domain,private_domain,mine_torrent_domain", 
+    "rule-set:cn_domain,mine_direct,private_domain,mine_torrent_domain", 
     "+.push.apple.com", "+.apple.com", "+.wechat.com", "start.me","+.start.me",
     "+.ntp", "+.time",
     "+.qpic.cn", "+.wechatapp.com", "+.vivox.com", "+.oray.com", "+.sunlogin.net", 
@@ -79,7 +80,7 @@ dns:
   fake-ip-cache: true
   fake-ip-filter-mode: blacklist
   fake-ip-filter: [
-    "rule-set:cn_domain,mine_direct_domain,private_domain,mine_torrent_domain,docker_ocd_domain,category_dev_domain,developer_ocd_domain,linux_domain,mine_develop_domain", 
+    "rule-set:cn_domain,mine_direct,private_domain,mine_torrent_domain,docker_ocd_domain,category_dev_domain,developer_ocd_domain,linux_domain,mine_develop", 
     "+.services.googleapis.cn", "+.xn--ngstr-lra8j.com", 
     "keyword:ntp", "keyword:time", "+.ntp", "+.time",
     "+.yarnpkg.com", "+.ustclug.org", "mirrors.vsean.net", "+.vsean.net",
@@ -98,8 +99,8 @@ dns:
   nameserver: *domestic-dns
   nameserver-policy: {
     github.com: *foreign-dns, +.github.com: *foreign-dns, +.*.github.com: *foreign-dns, +.githubusercontent.com: *foreign-dns, +.debian.org: *foreign-dns, +.yarnpkg.com: *foreign-dns, +.ustclug.org: *foreign-dns, +.immortalwrt.org: *foreign-dns, +.openwrt.org: *foreign-dns, +.vsean.net: *foreign-dns,
-    "rule-set:private_domain,mine_direct_domain,mine_torrent_domain,cn_domain": *domestic-dns,
-    "rule-set:mine_proxy_domain,proxy_domain,gfw_domain": *foreign-dns
+    "rule-set:private_domain,mine_direct,mine_torrent_domain,cn_domain": *domestic-dns,
+    "rule-set:mine_proxy,proxy_domain,gfw_domain": *foreign-dns
   }
 
 proxy-groups:
@@ -144,16 +145,16 @@ rules:
   - SRC-IP-CIDR,127.0.0.1/32,🚀 翻墙代理
   - SRC-IP-CIDR,10.10.0.1/32,🚀 翻墙代理
   - RULE-SET,private_domain,🎯 国内直连
-  - RULE-SET,mine_direct_domain,🎯 国内直连
+  - RULE-SET,mine_direct,🎯 国内直连
+  - RULE-SET,mine_proxy,🚀 翻墙代理
   - RULE-SET,mine_torrent_domain,🎯 国内直连
-  - RULE-SET,mine_proxy_domain,🚀 翻墙代理
   
   # AI和智能服务
-  - RULE-SET,mine_intelligence_domain,🧠 Intelligence
+  - RULE-SET,mine_intelligence,🧠 Intelligence
   - RULE-SET,category_ai_chat_notcn_domain,🧠 Intelligence
   
   # 开发
-  - RULE-SET,mine_develop_domain,🦑 Develop
+  - RULE-SET,mine_develop,🦑 Develop
   - RULE-SET,docker_ocd_domain,🦑 Develop
   - RULE-SET,linux_domain,🦑 Develop
   - RULE-SET,category_dev_domain,🦑 Develop
@@ -184,12 +185,10 @@ rules:
   - RULE-SET,cn_domain,🎯 国内直连
 
   # IP规则
-  - RULE-SET,mine_develop_ip,🦑 Develop,no-resolve
   - RULE-SET,apple_ip,🍎 Apple
   - RULE-SET,globalmedia_ocd_ip,📺 国外流媒体,no-resolve
   - RULE-SET,google_ip,🅖 Google,no-resolve
   - RULE-SET,telegram_ip,🛩️ Telegram,no-resolve
-  - RULE-SET,mine_proxy_ip,🚀 翻墙代理,no-resolve
   - RULE-SET,mine_torrent_ip,🎯 国内直连
   - RULE-SET,cn_ip,🎯 国内直连
   - MATCH,🐠 漏网之鱼
@@ -237,13 +236,11 @@ rule-providers:
   cn_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
 
   # 个人代理
-  mine_intelligence_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/intelligence_domain.mrs"}
-  mine_develop_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/develop_domain.mrs"}
-  mine_develop_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/develop_ip.mrs"}
-  mine_proxy_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/proxy_domain.mrs"}
-  mine_proxy_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/proxy_ip.mrs"}
+  mine_intelligence: { <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/intelligence.list"}
+  mine_develop: { <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/develop.list"}
+  mine_proxy: { <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/proxy.list"}
   # 个人直连
-  mine_direct_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/direct_domain.mrs"}
+  mine_direct: { <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/direct.list"}
   mine_torrent_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/torrent_domain.mrs"}
   mine_torrent_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/torrent_ip.mrs"}
 
