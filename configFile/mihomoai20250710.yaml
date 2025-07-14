@@ -145,8 +145,8 @@ rules:
   - SRC-IP-CIDR,127.0.0.1/32,🚀 翻墙代理
   - SRC-IP-CIDR,10.10.0.1/32,🚀 翻墙代理
   - RULE-SET,private_domain,🎯 国内直连
-  - RULE-SET,mine_direct,🎯 国内直连
   - RULE-SET,mine_proxy,🚀 翻墙代理
+  - RULE-SET,mine_direct,🎯 国内直连
   - RULE-SET,mine_torrent_domain,🎯 国内直连
   
   # AI和智能服务
@@ -241,7 +241,7 @@ rule-providers:
   mine_proxy: { <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/proxy.list"}
   # 个人直连
   mine_direct: { <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/direct.list"}
-  mine_torrent_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/torrent_domain.mrs"}
-  mine_torrent_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/torrent_ip.mrs"}
+  mine_torrent_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/mrs/torrent_domain.mrs"}
+  mine_torrent_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/mrs/torrent_ip.mrs"}
 
 hosts: {"*.slippindylan.com": 10.10.0.51}

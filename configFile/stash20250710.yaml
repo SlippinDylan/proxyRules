@@ -72,7 +72,7 @@ dns:
     - rule-set:category_dev_domain
     - rule-set:develousr_domain
     - rule-set:linux_domain
-    - rule-set:mine_develop_domain
+    - rule-set:mine_develop
   default-nameserver: &basic_dns [119.29.29.29, tls://223.5.5.5, tls://1.12.12.12, "tls://[2402:4e00::]", "tls://[2400:3200::1]"]
   direct-nameserver: &direct_dns [119.29.29.29, 223.5.5.5]
   direct-nameserver-follow-policy: false
@@ -93,7 +93,7 @@ dns:
     'rule-set:mine_direct_domain': https://doh.pub/dns-query
     'rule-set:mine_torrent_domain': https://doh.pub/dns-query
     'rule-set:cn_domain': https://doh.pub/dns-query
-    'rule-set:mine_proxy_domain': tls://8.8.8.8
+    'rule-set:mine_proxy': tls://8.8.8.8
     'rule-set:proxy_domain': tls://8.8.8.8
     'rule-set:gfw_domain': tls://8.8.8.8
 
@@ -134,16 +134,16 @@ rules:
   - IP-CIDR,127.0.0.1/32,🚀 翻墙代理
   - IP-CIDR,10.10.0.1/32,🚀 翻墙代理
   - RULE-SET,private_domain,🎯 国内直连
+  - RULE-SET,mine_proxy,🚀 翻墙代理
   - RULE-SET,mine_direct_domain,🎯 国内直连
   - RULE-SET,mine_torrent_domain,🎯 国内直连
-  - RULE-SET,mine_proxy_domain,🚀 翻墙代理
   
   # AI和智能服务
-  - RULE-SET,mine_intelligence_domain,🧠 Intelligence
+  - RULE-SET,mine_intelligence,🧠 Intelligence
   - RULE-SET,category_ai_chat_notcn_domain,🧠 Intelligence
   
   # 开发
-  - RULE-SET,mine_develop_domain,🦑 Develop
+  - RULE-SET,mine_develop,🦑 Develop
   - RULE-SET,docker_ocd_domain,🦑 Develop
   - RULE-SET,linux_domain,🦑 Develop
   - RULE-SET,category_dev_domain,🦑 Develop
@@ -174,12 +174,10 @@ rules:
   - RULE-SET,cn_domain,🎯 国内直连
 
   # IP规则
-  - RULE-SET,mine_develop_ip,🦑 Develop,no-resolve
   - RULE-SET,apple_ip,🍎 Apple
   - RULE-SET,globalmedia_ocd_ip,📺 国外流媒体,no-resolve
   - RULE-SET,google_ip,🅖 Google,no-resolve
   - RULE-SET,telegram_ip,🛩️ Telegram,no-resolve
-  - RULE-SET,mine_prox1y_ip,🚀 翻墙代理
   - RULE-SET,mine_torrent_ip,🎯 国内直连
   - RULE-SET,cn_ip,🎯 国内直连
   - MATCH,🐠 漏网之鱼
@@ -227,12 +225,10 @@ rule-providers:
   cn_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.list"}
 
   # 个人代理
-  mine_intelligence_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/intelligence_domain.txt"}
-  mine_develop_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/develop_domain.txt"}
-  mine_develop_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/develop_ip.txt"}
-  mine_proxy_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/proxy_domain.txt"}
+  mine_intelligence: {!!merge <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/intelligence.list"}
+  mine_develop: {!!merge <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/develop.list"}
+  mine_proxy: {!!merge <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/proxy.list"}
   # 个人直连
-  mine_direct_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/direct_domain.txt"}
-  mine_torrent_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/torrent_domain.txt"}
-  mine_torrent_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/torrent_ip.txt"}
-  mine_prox1y_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/proxy_ip.txt"}
+  mine_direct: {!!merge <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/direct.list"}
+  mine_torrent_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/mrs/torrent_domain.mrs"}
+  mine_torrent_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/mrs/torrent_ip.mrs"}
