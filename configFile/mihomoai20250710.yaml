@@ -43,6 +43,7 @@ proxies: [{name: "直接连接", type: direct, udp: true}]
 part1: {log-level: info, mode: rule, ipv6: true, port: 7890, unified-delay: true, tcp-concurrent: true, bind-address: "*", allow-lan: true}
 # 系统和性能配置
 part2: {find-process-mode: 'off', global-client-fingerprint: chrome, disable-keep-alive: false, keep-alive-interval: 15, keep-alive-idle: 600, profile: {store-selected: true, store-fake-ip: true, tracing: true, interval: 21600}}
+tun: {enable: true, stack: system, auto-route: true, auto-detect-interface: true}
 # GeoX数据配置
 part3: {geodata-mode: true, geodata-loader: standard, geox-url: {geosite: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat", geoip-mmdb: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.metadb", geoip-dat: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat", asn: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"}, geox-auto-update: true, geox-update-interval: 24}
 
@@ -59,7 +60,7 @@ sniffer:
   skip-domain: [
     "rule-set:cn_domain,mine_direct_domain,private_domain,mine_torrent_domain", 
     "+.push.apple.com", "+.apple.com", "+.wechat.com", "start.me","+.start.me",
-    "+.ntp.tencent.com", "+.ntp1.aliyun.com", "time.*.com", "+.ntp.ntsc.ac.cn", "+.pool.ntp.org", "+.cn.ntp.org.cn", 
+    "+.ntp", "+.time",
     "+.qpic.cn", "+.wechatapp.com", "+.vivox.com", "+.oray.com", "+.sunlogin.net", 
     "+.msftconnecttest.com", "+.msftncsi.com", "Mijia Cloud", 
     "+.tsinghua.edu.cn", "+.slippindylan.com"
@@ -80,7 +81,7 @@ dns:
   fake-ip-filter: [
     "rule-set:cn_domain,mine_direct_domain,private_domain,mine_torrent_domain,docker_ocd_domain,category_dev_domain,developer_ocd_domain,linux_domain,mine_develop_domain", 
     "+.services.googleapis.cn", "+.xn--ngstr-lra8j.com", 
-    "+.ntp.tencent.com", "+.ntp1.aliyun.com", "time.*.com", "+.ntp.ntsc.ac.cn", "+.pool.ntp.org", "+.cn.ntp.org.cn", 
+    "keyword:ntp", "keyword:time", "+.ntp", "+.time",
     "+.yarnpkg.com", "+.ustclug.org", "mirrors.vsean.net", "+.vsean.net",
     "+.lan", "+.local", "geosite:cn", "+.slippindylan.com", "start.me","+.start.me",
   ]
@@ -136,7 +137,12 @@ proxy-groups:
 
 # 规则匹配
 rules:
+  - DST-PORT,123,DIRECT
+  - DOMAIN-KEYWORD,ntp,DIRECT
+  - DOMAIN-KEYWORD,time,DIRECT
   # 本机代理
+  - SRC-IP-CIDR,127.0.0.1/32,🚀 翻墙代理
+  - SRC-IP-CIDR,10.10.0.1/32,🚀 翻墙代理
   - RULE-SET,private_domain,🎯 国内直连
   - RULE-SET,mine_direct_domain,🎯 国内直连
   - RULE-SET,mine_torrent_domain,🎯 国内直连
