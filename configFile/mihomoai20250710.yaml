@@ -12,15 +12,15 @@ dns-servers:
   direct: &direct-dns [119.29.29.29, 223.5.5.5]
 # 节点配出规则锚点定义
 filters: 
-  as: &as_filter "(?i)^.*(?=.*(香港|HK|Hong Kong|HongKong|🇭🇰|台湾|TW|TWN|Taiwan|🇹🇼|日本|JP|Japan|Tokyo|🇯🇵|新加坡|狮城|Singapore|SG|🇸🇬))(?!.*(福利|新用户|邀请|网址|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍)).*$"
+  as: &as_filter "(?i)^.*(?=.*(香港|HK|Hong Kong|HongKong|🇭🇰|台湾|TW|TWN|Taiwan|🇹🇼|日本|JP|Japan|Tokyo|🇯🇵|韩国|🇰🇷|新加坡|狮城|Singapore|SG|🇸🇬))(?!.*(福利|新用户|邀请|网址|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍)).*$"
   ai: &ai_filter "(?i)^.*(?=.*(日本|JP|Japan|Tokyo|🇯🇵|美国|USA|US|America|United States|🇺🇸))(?!.*(福利|新用户|邀请|网址|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍)).*$"
   us: &us_filter "(?i)^.*(?=.*(美国|USA|US|America|United States|🇺🇸))(?!.*(福利|新用户|邀请|网址|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍)).*$"
   bak: &bak_filter "^((?!福利|新用户|邀请|网址|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍).)*$"
-  nas: &nas_filter "(?i)^((?!(香港|HK|Hong Kong|HongKong|🇭🇰|台湾|TW|TWN|Taiwan|🇹🇼|日本|JP|Japan|Tokyo|🇯🇵|新加坡|狮城|Singapore|SG|🇸🇬|美国|USA|US|America|United States|🇺🇸|福利|新用户|邀请|网址|com)).)*$"
+  nas: &nas_filter "(?i)^((?!(香港|HK|Hong Kong|HongKong|🇭🇰|台湾|TW|TWN|Taiwan|🇹🇼|日本|JP|Japan|Tokyo|🇯🇵|韩国|🇰🇷|新加坡|狮城|Singapore|SG|🇸🇬|美国|USA|US|America|United States|🇺🇸|福利|新用户|邀请|网址|com)).)*$"
   all: &all_filter "^((?!福利|新用户|邀请|网址|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍).)*$"
 # 出站策略锚点定义
-proxymain: &proxymain {type: select, proxies: [🌏 亚洲Smart, 🛰 全部节点, 🧱 备份Smart, 🎯 国内直连]}
-directmain: &directmain {type: select, proxies: [🎯 国内直连, 🌏 亚洲Smart, 🛰 全部节点, 🧱 备份Smart]}
+proxymain: &proxymain {type: select, proxies: [🌏 亚洲Smart, 🧱 备份Smart, 🛰 全部节点, 🎯 国内直连]}
+directmain: &directmain {type: select, proxies: [🎯 国内直连, 🌏 亚洲Smart, 🧱 备份Smart, 🛰 全部节点]}
 
 # 规则集锚点定义
 rule-anchor:
@@ -31,6 +31,9 @@ rule-anchor:
 # 机场订阅配置
 proxy-providers:
   flyingBird:
+    <<: *baseProvider
+    url: "订阅链接"
+  xingheyun:
     <<: *baseProvider
     url: "订阅链接"
   yiYuan:
@@ -117,24 +120,23 @@ proxy-groups:
   - {name: 🦑 Develop, <<: *proxymain}
   - {name: 🧠 Intelligence, type: select, proxies: [🤖 AISmart, 🛰 全部节点]}
   # 通讯和钱包
-  - {name: 🛩️ Telegram, type: smart, include-all: true, interval: 60, uselightgbm: false, collectdata: true, filter: *as_filter}
-  - {name: 💰 Wallet, type: select, include-all: true, interval: 60, filter: *all_filter}
+  - {name: 🛩️ Telegram, type: select, proxies: [🌏 亚洲Smart, 🧱 备份Smart]}
+  - {name: 💰 Wallet, type: select, include-all: true, first-test: true, interval: 60, filter: *all_filter}
   # 媒体和娱乐
   - {name: 🎵 Spotify, <<: *directmain}
-  - {name: 🎶 TikTok, type: smart, use: [flyingBird], interval: 60, uselightgbm: false, collectdata: true, filter: *us_filter}
+  - {name: 🎶 TikTok, type: select, proxies: [🇺🇸 美国Smart, 🛰 全部节点, 🧱 备份Smart]}
   - {name: 📺 国外流媒体, <<: *proxymain}
   # 其他
   - {name: ⏱ Speedtest, <<: *directmain}
   - {name: 🐠 漏网之鱼, type: select, proxies: [🌏 亚洲Smart, 🧱 备份Smart, 🎯 国内直连]}
 
-  - {name: 🌏 亚洲Smart, type: smart, use: [flyingBird], interval: 60, uselightgbm: false, collectdata: true, policy-priority: "(?i)香港|HK|Hong Kong|HongKong|🇭🇰:1.5;(?i)新加坡|狮城|Singapore|SG|🇸🇬:1.4;(?i)日本|JP|Japan|Tokyo|🇯🇵:1.3;(?i)台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|🇹🇼:1.2", filter: *as_filter}
-  - {name: 🤖 AISmart, type: smart, use: [flyingBird], interval: 60, uselightgbm: false, collectdata: true, policy-priority: "(?i)日本|JP|Japan|Tokyo|🇯🇵:1.3;(?i)新加坡|狮城|Singapore|SG|🇸🇬:1.2;(?i)美国|USA|US|America|United States|🇺🇸:1.1", filter: *ai_filter}
-  - {name: 🧱 备份Smart, type: smart, use: [yiYuan], interval: 60, uselightgbm: false, collectdata: true, policy-priority: "(?i)香港|HK|Hong Kong|HongKong|🇭🇰:1.5;(?i)新加坡|狮城|Singapore|SG|🇸🇬:1.4;(?i)日本|JP|Japan|Tokyo|🇯🇵:1.3;(?i)台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|🇹🇼:1.2", filter: *bak_filter}
+  - {name: 🌏 亚洲Smart, type: smart, use: [flyingBird,xingheyun], first-test: true, interval: 60, uselightgbm: false, collectdata: true, policy-priority: "(?i)香港|HK|Hong Kong|HongKong|🇭🇰:1.5;(?i)新加坡|狮城|Singapore|SG|🇸🇬:1.4;(?i)日本|JP|Japan|Tokyo|🇯🇵:1.3;(?i)台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|🇹🇼:1.2", filter: *as_filter}
+  - {name: 🤖 AISmart, type: smart, use: [flyingBird,xingheyun], first-test: true, interval: 60, uselightgbm: false, collectdata: true, policy-priority: "(?i)日本|JP|Japan|Tokyo|🇯🇵:1.3;(?i)新加坡|狮城|Singapore|SG|🇸🇬:1.2;(?i)美国|USA|US|America|United States|🇺🇸:1.1", filter: *ai_filter}
+  - {name: 🇺🇸 美国Smart, type: smart, use: [flyingBird,xingheyun], first-test: true, interval: 60, uselightgbm: false, collectdata: true, filter: *us_filter}
+  - {name: 🧱 备份Smart, type: smart, use: [xingheyun,yiYuan], first-test: true, interval: 60, uselightgbm: false, collectdata: true, policy-priority: "(?i)香港|HK|Hong Kong|HongKong|🇭🇰:1.5;(?i)新加坡|狮城|Singapore|SG|🇸🇬:1.4;(?i)日本|JP|Japan|Tokyo|🇯🇵:1.3;(?i)台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|🇹🇼:1.2", filter: *bak_filter}
 
-  - {name: 🌏 亚洲代理, type: select, include-all: true, interval: 60, filter: *as_filter}
-  - {name: 🇺🇸 美国代理, type: select, include-all: true, interval: 60, filter: *us_filter}
-  - {name: 🌍 环球节点, type: select, include-all: true, interval: 60, filter: *nas_filter}
-  - {name: 🛰 全部节点, type: select, include-all: true, interval: 60, filter: *all_filter}
+  - {name: 🌍 环球节点, type: select, include-all: true, first-test: true, interval: 60, filter: *nas_filter}
+  - {name: 🛰 全部节点, type: select, include-all: true, first-test: true, interval: 60, filter: *all_filter}
 
 # 规则匹配
 rules:
