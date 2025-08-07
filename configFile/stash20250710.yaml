@@ -1,5 +1,6 @@
 # 订阅更新和延迟测试相关
-base-provider-template: &baseProvider {type: http, interval: 3600, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 180, lazy: false, tolerance: 10}, proxy: 🎯 国内直连, override: {udp: true, skip-cert-verify: true}}
+direct-provider-template: &directProvider {type: http, interval: 3600, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 180, lazy: false, tolerance: 10}, proxy: 🎯 国内直连, header: {User-Agent: ["Clash", "mihomo", "Clash.meta"]}, override: {udp: true, skip-cert-verify: true}}
+proxy-provider-template: &proxyProvider {type: http, interval: 3600, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 180, lazy: false, tolerance: 10}, proxy: 🧱 备份节点, header: {User-Agent: ["Clash", "mihomo", "Clash.meta"]}, override: {udp: true, skip-cert-verify: true}}
 # 节点筛选相关
 filters:
   asia: &asia_filter "(?=.*(香港|HK|Hong Kong|HongKong|HONGKONG|🇭🇰|台湾|TW|TWN|Taiwan|🇹🇼|日本|JP|Japan|Tokyo|🇯🇵|新加坡|狮城|Singapore|SG|🇸🇬))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
@@ -9,25 +10,29 @@ filters:
   sg: &sg_filter "(?=.*(新加坡|狮城|Singapore|SG|🇸🇬))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
   us: &us_filter "(?=.*(美国|USA|US|America|United States|🇺🇸))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
   ai: &ai_filter "(?=.*(日本|JP|Japan|Tokyo|🇯🇵|美国|USA|US|America|United States|🇺🇸))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
+  home: &home_filter "(?=.*(家宽|家庭|住宅|home|🏠|家用))(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
   bak: &bak_filter "(?!.*(福利|新用户|直接|邀请|网址|com|0\\.[1-9]|([2-9](\\.\\d+)?倍)|([1-9]\\d倍)))"
   not_asia: &not_asia_filter "^((?!(香港|HK|Hong Kong|HongKong|HONGKONG|🇭🇰|台湾|TW|TWN|Taiwan|🇹🇼|日本|JP|Japan|Tokyo|🇯🇵|新加坡|狮城|Singapore|SG|🇸🇬|美国|USA|US|America|United States|🇺🇸|福利|新用户|直接|邀请|网址|com|\\[SS\\])).)*$"
   all: &all_filter "^((?!(福利|新用户|直接|邀请|网址|com|\\[SS\\])).)*$"
 # 策略组相关
-proxymain: &proxymain {type: select, proxies: [🌏 亚洲自动, 🛰 全部节点, 🎯 国内直连]}
-directmain: &directmain {type: select, proxies: [🎯 国内直连, 🌏 亚洲自动, 🛰 全部节点]}
-aimain: &aimain {type: select, proxies: [🤖 AI自动, 🌏 亚洲自动, 🛰 全部节点, 🎯 国内直连]}
+proxymain: &proxymain {type: select, proxies: [🪜 通用代理, 🏠 家宽节点, 🛰 全部节点]}
+directmain: &directmain {type: select, proxies: [🎯 国内直连, 🪜 通用代理, 🛰 全部节点]}
 # 规则集锚点定义
 rule-anchor:
   ip: &ip {type: http, interval: 21600, behavior: ipcidr, format: text}
   domain: &domain {type: http, interval: 21600, behavior: domain, format: text}
+  class: &class {type: http, interval: 21600, behavior: domain, format: text}
 
 # 机场订阅配置
 proxy-providers:
-  flyingBird:
-    !!merge <<: *baseProvider
+  tkv:
+    !!merge <<: *proxyProvider
     url: "订阅链接"
-  yiYuan:
-    !!merge <<: *baseProvider
+  xingheyun:
+    !!merge <<: *directProvider
+    url: "订阅链接"
+  guar:
+    !!merge <<: *directProvider
     url: "订阅链接"
 
 # 全局端口和网络配置
@@ -65,9 +70,8 @@ dns:
     - "start.me"
     - "+.start.me"
     - rule-set:cn_domain
-    - rule-set:mine_direct_domain
+    - rule-set:mine_direct
     - rule-set:private_domain
-    - rule-set:mine_torrent_domain
     - rule-set:docker_domain
     - rule-set:category_dev_domain
     - rule-set:develousr_domain
@@ -90,15 +94,13 @@ dns:
     '+.openwrt.org': tls://8.8.8.8
     '+.vsean.net': tls://8.8.8.8
     'rule-set:private_domain': https://doh.pub/dns-query
-    'rule-set:mine_direct_domain': https://doh.pub/dns-query
-    'rule-set:mine_torrent_domain': https://doh.pub/dns-query
+    'rule-set:mine_direct': https://doh.pub/dns-query
     'rule-set:cn_domain': https://doh.pub/dns-query
     'rule-set:mine_proxy': tls://8.8.8.8
     'rule-set:proxy_domain': tls://8.8.8.8
     'rule-set:gfw_domain': tls://8.8.8.8
 
 proxies: [{name: "直接连接", type: direct, udp: true}]
-
 proxy-groups:
   - {name: 🚀 翻墙代理, !!merge <<: *proxymain}
   - {name: 🎯 国内直连, type: select, proxies: [直接连接]}
@@ -108,41 +110,34 @@ proxy-groups:
   - {name: Ⓜ️ Microsoft, !!merge <<: *proxymain}
   - {name: 🔍 Google, !!merge <<: *proxymain}
   - {name: 🦑 Develop, !!merge <<: *proxymain}
-  - {name: 🧠 Intelligence, !!merge <<: *aimain}
-  - {name: 🛩️ Telegram, type: select, proxies: [🇸🇬 狮城自动, 🌏 亚洲自动, 🇺🇸 美国自动]}
-  - {name: 💰 Wallet, type: select, proxies: [🇹🇼 台湾自动, 🎯 国内直连, 🛰 全部节点]}
+  - {name: 🧠 Intelligence, type: select, proxies: [🤖 AI自动, 🏠 家宽节点, 🛰 全部节点]}
+  - {name: 🛩️ Telegram, type: select, proxies: [🇸🇬 狮城自动, 🪜 通用代理]}
+  - {name: 💰 Wallet, type: select, proxies: [ 🛰 全部节点, 🪜 通用代理]}
   - {name: 🎵 Spotify, !!merge <<: *directmain}
-  - {name: 🎶 TikTok, type: select, proxies: [🇺🇸 美国自动, 🌏 亚洲自动]}
+  - {name: 🎶 TikTok, type: select, proxies: [🇺🇸 美国自动, 🪜 通用代理, 🏠 家宽节点, 🛰 全部节点]}
   - {name: 📺 国外流媒体, !!merge <<: *proxymain}
   - {name: ⏱ Speedtest, !!merge <<: *directmain}
-  - {name: 🐠 漏网之鱼, type: select, proxies: [🧱 备份节点, 🌏 亚洲自动, 🇺🇸 美国自动, 🛰 全部节点, 🎯 国内直连]}
+  - {name: 🐠 漏网之鱼, type: select, proxies: [🪜 通用代理, 🛰 全部节点, 🎯 国内直连]}
 
-  - {name: 🌏 亚洲自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *asia_filter}
-  - {name: 🇭🇰 香港自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *hk_filter}
-  - {name: 🇹🇼 台湾自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *tw_filter}
-  - {name: 🇯🇵 日本自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *jp_filter}
-  - {name: 🇸🇬 狮城自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *sg_filter}
-  - {name: 🇺🇸 美国自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *us_filter}
-  - {name: 🤖 AI自动, type: url-test, use: [flyingBird], interval: 180, tolerance: 10, filter: *ai_filter}
-  - {name: 🧱 备份节点, type: fallback, use: [flyingBird, yiYuan], interval: 10, tolerance: 10, filter: *bak_filter}
+  - {name: 🪜 通用代理, type: select, proxies: [🌏 亚洲自动, 🧱 备份节点, 🏠 家宽节点, 🌍 环球节点, 🛰 全部节点]}
+  - {name: 🌏 亚洲自动, type: url-test, use: [tkv], interval: 180, tolerance: 10, filter: *asia_filter}
+  - {name: 🤖 AI自动, type: url-test, use: [tkv], interval: 180, tolerance: 10, filter: *ai_filter}
+  - {name: 🇸🇬 狮城自动, type: url-test, use: [tkv], interval: 180, tolerance: 10, filter: *sg_filter}
+  - {name: 🇺🇸 美国自动, type: url-test, use: [tkv], interval: 180, tolerance: 10, filter: *us_filter}
+  - {name: 🧱 备份节点, type: fallback, include-all: true, interval: 10, tolerance: 10, filter: *bak_filter}
+  - {name: 🏠 家宽节点, type: select, include-all: true, interval: 10, tolerance: 10, filter: *home_filter}
   - {name: 🌍 环球节点, type: select, include-all: true, filter: *not_asia_filter}
   - {name: 🛰 全部节点, type: select, include-all: true, filter: *all_filter}
 
 # 规则匹配
 rules:
-  # 本机代理
-  - IP-CIDR,127.0.0.1/32,🚀 翻墙代理
-  - IP-CIDR,10.10.0.1/32,🚀 翻墙代理
   - RULE-SET,private_domain,🎯 国内直连
   - RULE-SET,mine_proxy,🚀 翻墙代理
-  - RULE-SET,mine_direct_domain,🎯 国内直连
-  - RULE-SET,mine_torrent_domain,🎯 国内直连
+  - RULE-SET,mine_direct,🎯 国内直连
   
-  # AI和智能服务
   - RULE-SET,mine_intelligence,🧠 Intelligence
   - RULE-SET,category_ai_chat_notcn_domain,🧠 Intelligence
   
-  # 开发
   - RULE-SET,mine_develop,🦑 Develop
   - RULE-SET,docker_ocd_domain,🦑 Develop
   - RULE-SET,linux_domain,🦑 Develop
@@ -167,18 +162,15 @@ rules:
   - RULE-SET,paypal_domain,💰 Wallet
   - RULE-SET,speedtest_domain,⏱ Speedtest
 
-  # 全局代理
   - RULE-SET,proxy_domain,🚀 翻墙代理
   - RULE-SET,gfw_domain,🚀 翻墙代理
   - RULE-SET,geolocation_notcn_domain,🚀 翻墙代理
   - RULE-SET,cn_domain,🎯 国内直连
 
-  # IP规则
   - RULE-SET,apple_ip,🍎 Apple
   - RULE-SET,globalmedia_ocd_ip,📺 国外流媒体,no-resolve
   - RULE-SET,google_ip,🅖 Google,no-resolve
   - RULE-SET,telegram_ip,🛩️ Telegram,no-resolve
-  - RULE-SET,mine_torrent_ip,🎯 国内直连
   - RULE-SET,cn_ip,🎯 国内直连
   - MATCH,🐠 漏网之鱼
 
@@ -230,5 +222,3 @@ rule-providers:
   mine_proxy: {!!merge <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/proxy.list"}
   # 个人直连
   mine_direct: {!!merge <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/direct.list"}
-  mine_torrent_domain: {!!merge <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/mrs/torrent_domain.mrs"}
-  mine_torrent_ip: {!!merge <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/mrs/torrent_ip.mrs"}
