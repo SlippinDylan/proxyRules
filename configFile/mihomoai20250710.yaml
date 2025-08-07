@@ -63,15 +63,21 @@ sniffer:
     TLS: {ports: [443, 8443], override-destination: true},
     QUIC: {ports: [443, 8443], override-destination: true}
   }
-  force-domain: ["+.v2ex.com"]
+  # 嗅探的rule-set如果引用的规则集是 list 的，且其中有 IP，则直接报错
   skip-domain: [
-    "+.push.apple.com", "+.apple.com", "+.wechat.com", "start.me","+.start.me",
-    "+.ntp", "+.time",
-    "+.qpic.cn", "+.wechatapp.com", "+.vivox.com", "+.oray.com", "+.sunlogin.net", 
-    "+.msftconnecttest.com", "+.msftncsi.com", "Mijia Cloud", 
-    "+.tsinghua.edu.cn", "+.slippindylan.com", 
-    "rule-set:cn_domain,mine_direct,private_domain,mine_torrent_domain,alibaba_domain,aliyun_domain,tencent_domain,xiaohongshu_domain"
+    "+.push.apple.com", "+.apple.com", "+.wechat.com",
+    "+.ntp", "+.time", "keyword:ntp", "keyword:time",
+    "+.qpic.cn", "+.wechatapp.com", "+.vivox.com", 
+    "+.oray.com", "+.sunlogin.net",
+    "+.msftconnecttest.com", "+.msftncsi.com", "Mijia Cloud",
+    "+.tsinghua.edu.cn", "+.slippindylan.com",
+    "start.me", "+.start.me", "+.lan", "+.local",
+    "rule-set:cn_domain,private_domain,mine_torrent_domain,alibaba_domain,aliyun_domain,tencent_domain,xiaohongshu_domain,category_bank_cn,apple_domain,onedrive_domain,microsoft_cn_domain,synology_domain,speedtest_domain"
   ]
+  force-domain: [
+    "+.v2ex.com", "start.me", "+.start.me", 
+    "rule-set:mine_proxy,mine_intelligence,category_ai_chat_notcn_domain,mine_develop,docker_ocd_domain,linux_domain,category_dev_domain,developer_ocd_domain,microsoft_domain,youtube_domian,google_domain,telegram_domain,category_social_media_not_cn,category_communication,category_forums,spotify_domain,tiktok_domain,globalmedia_ocd_domain,category_media_domain,paypal_domain,proxy_domain,gfw_domain,geolocation_notcn_domain"
+    ]
 
 # DNS模块
 dns:
@@ -105,8 +111,8 @@ dns:
   nameserver: *domestic-dns
   nameserver-policy: {
     github.com: *foreign-dns, +.github.com: *foreign-dns, +.*.github.com: *foreign-dns, +.githubusercontent.com: *foreign-dns, +.debian.org: *foreign-dns, +.yarnpkg.com: *foreign-dns, +.ustclug.org: *foreign-dns, +.immortalwrt.org: *foreign-dns, +.openwrt.org: *foreign-dns, +.vsean.net: *foreign-dns,
-    "rule-set:private_domain,mine_direct,mine_torrent_domain,alibaba_domain,aliyun_domain,tencent_domain,xiaohongshu_domain,cn_domain": *domestic-dns,
-    "rule-set:mine_proxy,proxy_domain,gfw_domain": *foreign-dns
+    "rule-set:cn_domain,private_domain,mine_torrent_domain,alibaba_domain,aliyun_domain,tencent_domain,xiaohongshu_domain,category_bank_cn,apple_domain,onedrive_domain,microsoft_cn_domain,synology_domain,speedtest_domain": *domestic-dns,
+    "rule-set:mine_proxy,mine_intelligence,category_ai_chat_notcn_domain,mine_develop,docker_ocd_domain,linux_domain,category_dev_domain,developer_ocd_domain,youtube_domian,google_domain,telegram_domain,category_social_media_not_cn,category_communication,category_forums,tiktok_domain,globalmedia_ocd_domain,category_media_domain,paypal_domain,proxy_domain,gfw_domain,geolocation_notcn_domain": *foreign-dns
   }
 
 proxy-groups:
@@ -143,20 +149,25 @@ proxy-groups:
 
 # 规则匹配
 rules:
+  # 内网&本机服务代理
   - DST-PORT,123,DIRECT
   - DOMAIN-KEYWORD,ntp,DIRECT
   - DOMAIN-KEYWORD,time,DIRECT
-  # 本机代理
   - SRC-IP-CIDR,127.0.0.1/32,🚀 翻墙代理
   - SRC-IP-CIDR,10.10.0.1/32,🚀 翻墙代理
+  # 隐私保护
   - RULE-SET,private_domain,🎯 国内直连
+  # 个性化服务
   - RULE-SET,mine_proxy,🚀 翻墙代理
   - RULE-SET,mine_direct,🎯 国内直连
   - RULE-SET,mine_torrent_domain,🎯 国内直连
+  
+  # 大陆直连
   - RULE-SET,alibaba_domain,🎯 国内直连
   - RULE-SET,aliyun_domain,🎯 国内直连
   - RULE-SET,tencent_domain,🎯 国内直连
   - RULE-SET,xiaohongshu_domain,🎯 国内直连
+  - RULE-SET,category_bank_cn,🎯 国内直连
 
   # AI和智能服务
   - RULE-SET,mine_intelligence,🧠 Intelligence
@@ -177,7 +188,12 @@ rules:
   - RULE-SET,youtube_domian,📺 国外流媒体
   - RULE-SET,google_domain,🅖 Google
 
+  # 社交
   - RULE-SET,telegram_domain,🛩️ Telegram
+  - RULE-SET,category_social_media_not_cn,🛩️ Telegram
+  - RULE-SET,category_communication,🛩️ Telegram
+  - RULE-SET,category_forums,🛩️ Telegram
+  
   - RULE-SET,spotify_domain,🎵 Spotify
   - RULE-SET,tiktok_domain,🎶 TikTok
   - RULE-SET,globalmedia_ocd_domain,📺 国外流媒体
@@ -228,18 +244,26 @@ rule-providers:
   tencent_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent.mrs"}
   xiaohongshu_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xiaohongshu.mrs"}
 
-  # 流媒体服务
+  # 社交
   telegram_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"}
   telegram_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"}
+  category_social_media_not_cn: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-social-media-!cn.mrs"}
+  category_communication: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-communication.mrs"}
+  category_forums: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-forums.mrs"}
+  
+  # 流媒体服务
   spotify_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs"}
   tiktok_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"}
   globalmedia_ocd_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/GlobalMedia/GlobalMedia_OCD_Domain.mrs"}
   globalmedia_ocd_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/GlobalMedia/GlobalMedia_OCD_IP.mrs"}
   category_media_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-media.mrs"}
-
+  
+  # 金融服务
+  paypal_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs"}
+  category_bank_cn: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-bank-cn.mrs"}
+  
   # 工具和实用服务
   synology_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/synology.mrs"}
-  paypal_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs"}
   speedtest_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/speedtest.mrs"}
   
   # 全局代理

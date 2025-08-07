@@ -25,11 +25,14 @@ https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo-lite/geoip/apple.mrs
 # 金融
 https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/paypal.mrs
 
+https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/category-bank-cn.mrs
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/category-bank-cn.list
+
 # telegram
 https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/telegram.mrs
 https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geoip/telegram.mrs
 
-
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/category-communication.list
 # 媒体
 https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/category-media-cn.mrs
 https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/category-media.mrs
