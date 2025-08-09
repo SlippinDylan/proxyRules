@@ -67,15 +67,14 @@ sniffer:
   skip-domain: [
     "+.push.apple.com", "+.apple.com", "+.wechat.com",
     "+.ntp", "+.time", "keyword:ntp", "keyword:time",
-    "+.qpic.cn", "+.wechatapp.com", "+.vivox.com", 
-    "+.oray.com", "+.sunlogin.net",
-    "+.msftconnecttest.com", "+.msftncsi.com", "Mijia Cloud",
-    "+.tsinghua.edu.cn", "+.slippindylan.com",
-    "start.me", "+.start.me", "+.lan", "+.local",
+    "+.wechatapp.com", "+.qpic.cn", 
+    "+.oray.com", "+.sunlogin.net", "Mijia Cloud",
+    "+.tsinghua.edu.cn", "+.slippindylan.com","+.lan", "+.local", 
     "rule-set:cn_domain,private_domain,mine_torrent_domain,alibaba_domain,aliyun_domain,tencent_domain,xiaohongshu_domain,category_bank_cn,apple_domain,onedrive_domain,microsoft_cn_domain,synology_domain,speedtest_domain"
   ]
   force-domain: [
-    "+.v2ex.com", "start.me", "+.start.me", 
+    "+.v2ex.com", "+.vivox.com", "+.msftconnecttest.com", "+.msftncsi.com",
+    "start.me", "+.start.me", 
     "rule-set:mine_proxy,mine_intelligence,category_ai_chat_notcn_domain,mine_develop,docker_ocd_domain,linux_domain,category_dev_domain,developer_ocd_domain,microsoft_domain,youtube_domian,google_domain,telegram_domain,category_social_media_not_cn,category_communication,category_forums,spotify_domain,tiktok_domain,globalmedia_ocd_domain,category_media_domain,paypal_domain,proxy_domain,gfw_domain,geolocation_notcn_domain"
     ]
 
@@ -93,9 +92,9 @@ dns:
   fake-ip-filter-mode: blacklist
   fake-ip-filter: [
     "+.services.googleapis.cn", "+.xn--ngstr-lra8j.com", 
-    "keyword:ntp", "keyword:time", "+.ntp", "+.time",
-    "+.yarnpkg.com", "+.ustclug.org", "mirrors.vsean.net", "+.vsean.net",
-    "+.lan", "+.local", "geosite:cn", "+.slippindylan.com", "start.me","+.start.me",
+    "keyword:ntp", "keyword:time", "+.ntp", "+.time", 
+    "+.yarnpkg.com", "+.ustclug.org", "mirrors.vsean.net", "+.vsean.net", 
+    "+.lan", "+.local", "geosite:cn", "+.slippindylan.com", 
     "rule-set:cn_domain,mine_direct,private_domain,mine_torrent_domain,docker_ocd_domain,category_dev_domain,developer_ocd_domain,linux_domain,mine_develop"
   ]
   # DNS服务器配置
