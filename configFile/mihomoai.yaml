@@ -4,13 +4,13 @@ proxy-provider-template: &proxyProvider {type: http, interval: 3600, health-chec
 # DNS服务器配置锚点定义
 dns-servers: 
   # 默认 DNS, 用于解析 DNS 服务器 的域名,必须为 IP, 可为加密 DNS
-  default-nameserver: &defaultDNS [119.29.29.29, 223.5.5.5]
+  default-nameserver: &defaultDNS [119.29.29.29, 223.5.5.5, "[2402:4e00::]", "[2400:3200::1]"]
   # 代理节点域名解析服务器，仅用于解析代理节点的域名
-  proxy-server-nameserver: &proxyDNS [119.29.29.29, 223.5.5.5]
+  proxy-server-nameserver: &proxyDNS [119.29.29.29, 223.5.5.5, "[2402:4e00::]", "[2400:3200::1]"]
   # 用于 direct 出口域名解析的 DNS 服务器，如果不填则遵循 nameserver-policy、nameserver
-  direct-nameserver: &directDNS [119.29.29.29, 223.5.5.5, 2402:4e00::, 2400:3200::1]
+  direct-nameserver: &directDNS [119.29.29.29, 223.5.5.5, "[2402:4e00::]", "[2400:3200::1]"]
   # 默认的域名解析服务器，其他 dns 服务器都不行了用这个
-  nameserver: &genericDNS [119.29.29.29, 223.5.5.5, 2402:4e00::, 2400:3200::1]
+  nameserver: &genericDNS [119.29.29.29, 223.5.5.5, "[2402:4e00::]", "[2400:3200::1]"]
   # 国外DNS服务器 - 用于国外域名解析，走代理
   foreign-nameserver: &foreignDNS ["8.8.8.8#🚀 翻墙代理", "1.1.1.1#🚀 翻墙代理", "[2001:4860:4860::8888]#🚀 翻墙代理", "[2606:4700:4700::1111]#🚀 翻墙代理"]
 # 节点配出规则锚点定义
@@ -26,7 +26,7 @@ policy-priorities:
   ai: &ai_priority "(?i)(美国|USA|US|America|United States|🇺🇸|Verizon|AT&T|Comcast|Charter|CenturyLink|Cox|Spectrum|Xfinity|T-Mobile|Sprint|Level3|Cogent|QuadraNet|Psychz|Vultr|DigitalOcean|Linode|OVH|Choopa):1.5;(?i)(日本|JP|Japan|Tokyo|Osaka|🇯🇵|NTT|KDDI|SoftBank|IIJ|GMO|Sakura|BIGLOBE|OCN|Rakuten|BBiX|JPNE|ARTERIA):1.3;(?i)(新加坡|狮城|Singapore|SG|🇸🇬|Singtel|StarHub|M1|MyRepublic|ViewQwest|SuperInternet|Pacific Internet|Starhub):1"
   tg: &tg_priority "(?i)(新加坡|狮城|Singapore|SG|🇸🇬|Singtel|StarHub|M1|MyRepublic|ViewQwest|SuperInternet|Pacific Internet|Starhub):1.5;(?i)(香港|HK|Hong Kong|HongKong|🇭🇰|HKBN|HKT|PCCW|3HK|SmarTone|CSL|中国移动香港|CMHK|和记|Hutchison):1.3;(?i)(日本|JP|Japan|Tokyo|Osaka|🇯🇵|NTT|KDDI|SoftBank|IIJ|GMO|Sakura|BIGLOBE|OCN|Rakuten|BBiX|JPNE|ARTERIA):1.1;"
 # 出站策略锚点定义
-proxymain: &proxymain {type: select, proxies: [🪜 通用代理, 🏠 家宽节点, 🛰 全部节点, 🎯 国内直连]}
+proxymain: &proxymain {type: select, proxies: [🪜 通用代理, 🧱 CheapBakSmart, 🏠 家宽节点, 🛰 全部节点, 🎯 国内直连]}
 directmain: &directmain {type: select, proxies: [🎯 国内直连, 🪜 通用代理, 🏠 家宽节点, 🛰 全部节点]}
 # 规则集锚点定义
 rule-anchor:
@@ -39,7 +39,6 @@ proxy-providers:
     <<: *proxyProvider
     url: "订阅链接"
   xingheyun:
-    <<: *directProvider
     url: "订阅链接"
   guar:
     <<: *directProvider
@@ -122,7 +121,7 @@ proxy-groups:
   - {name: ☁️ MicrosoftCN, <<: *directmain}
   - {name: Ⓜ️ Microsoft, <<: *proxymain}
   - {name: 🅖 Google, <<: *proxymain}
-  - {name: 🛩️ Telegram, type: smart, use: [tkv], first-test: true, interval: 60, uselightgbm: false, collectdata: true, policy-priority: *tg_priority, filter: *as_filter}
+  - {name: 🛩️ Telegram, type: select, proxies: [🛩️ Telegram01, 🛩️ Telegram02]}
   # 工具软件
   - {name: 🦑 Develop, <<: *proxymain}
   - {name: 🧠 Intelligence, type: select, proxies: [🤖 AISmart, 🏠 家宽节点, 🛰 全部节点]}
@@ -140,6 +139,9 @@ proxy-groups:
   - {name: 🤖 AISmart, type: smart, use: [tkv], first-test: true, interval: 60, uselightgbm: false, collectdata: true, policy-priority: *ai_priority, filter: *ai_filter}
   - {name: 🇺🇸 美国Smart, type: smart, use: [tkv], first-test: true, interval: 60, uselightgbm: false, collectdata: true, filter: *us_filter}
   - {name: 🧱 备份Smart, type: smart, include-all: true, first-test: true, interval: 60, uselightgbm: false, collectdata: true, policy-priority: *asia_priority, filter: *all_filter}
+  - {name: 🧱 CheapBakSmart, type: smart, use: [xingheyun], first-test: true, interval: 60, uselightgbm: false, collectdata: true, policy-priority: *asia_priority, filter: *all_filter}
+  - {name: 🛩️ Telegram01, type: smart, use: [xingheyun], first-test: true, interval: 60, uselightgbm: false, collectdata: true, policy-priority: *tg_priority, filter: *as_filter}
+  - {name: 🛩️ Telegram02, type: smart, use: [tkv], first-test: true, interval: 60, uselightgbm: false, collectdata: true, policy-priority: *tg_priority, filter: *as_filter}
   - {name: 🏠 家宽节点, type: select, include-all: true, first-test: true, interval: 60, filter: *home_filter}
   - {name: 🌍 环球节点, type: select, include-all: true, first-test: true, interval: 60, filter: *nasia_filter}
   - {name: 🛰 全部节点, type: select, include-all: true, first-test: true, interval: 60, filter: *all_filter}
