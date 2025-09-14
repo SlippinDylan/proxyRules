@@ -1,7 +1,8 @@
-# 机场订阅模板锚点定义
+# 机场订阅模板通用点定义
 direct-provider-template: &directProvider {type: http, interval: 3600, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 180, lazy: false, tolerance: 10}, proxy: 🎯 国内直连, header: {User-Agent: ["Clash", "mihomo", "Clash.meta"]}, override: {udp: true, skip-cert-verify: true}}
-proxy-provider-template: &proxyProvider {type: http, interval: 3600, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 180, lazy: false, tolerance: 10}, proxy: 🧱 备份Smart, header: {User-Agent: ["Clash", "mihomo", "Clash.meta"]}, override: {udp: true, skip-cert-verify: true}}
-# DNS服务器配置锚点定义
+proxy-provider-template: &proxyProvider {type: http, interval: 3600, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 180, lazy: false, tolerance: 10}, proxy: 🧱 备用负载均衡, header: {User-Agent: ["Clash", "mihomo", "Clash.meta"]}, override: {udp: true, skip-cert-verify: true}}
+
+# DNS服务器配置通用点定义
 dns-servers: 
   # 默认 DNS, 用于解析 DNS 服务器 的域名,必须为 IP, 可为加密 DNS
   default-nameserver: &defaultDNS [119.29.29.29, 223.5.5.5, "[2402:4e00::]", "[2400:3200::1]"]
@@ -13,7 +14,8 @@ dns-servers:
   nameserver: &genericDNS [119.29.29.29, 223.5.5.5, "[2402:4e00::]", "[2400:3200::1]"]
   # 国外DNS服务器 - 用于国外域名解析，走代理
   foreign-nameserver: &foreignDNS ["8.8.8.8#🪜 通用代理", "1.1.1.1#🪜 通用代理", "[2001:4860:4860::8888]#🪜 通用代理", "[2606:4700:4700::1111]#🪜 通用代理"]
-# 节点配出规则锚点定义
+
+# 节点配出规则通用点定义
 filters:
   as: &as_filter "(?i)^.*(?=.*(香港|HK|Hong Kong|HongKong|🇭🇰|HKBN|HKT|PCCW|3HK|SmarTone|CSL|中国移动香港|CMHK|和记|Hutchison|台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|🇹🇼|中华电信|CHT|台湾大哥大|TWM|远传|FET|亚太电信|APT|台湾固网|TFN|So-net|日本|JP|Japan|Tokyo|Osaka|🇯🇵|NTT|KDDI|SoftBank|IIJ|GMO|Sakura|BIGLOBE|OCN|Rakuten|BBiX|JPNE|ARTERIA|新加坡|狮城|Singapore|SG|🇸🇬|Singtel|StarHub|M1|MyRepublic|ViewQwest|SuperInternet|Pacific Internet|Starhub|韩国|韩|KR|Korea|Korean|Seoul|首尔|釜山|Busan|🇰🇷|KT|SKT|LG U\\+|LGU|KINX|Naver|Kakao|Dacom|Dreamline))(?!.*(家宽|家庭|住宅|home|🏠|🛰|家用|福利|新用户|邀请|网址|过期|剩余|套餐|更新|丢失|TG|频道|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍)).*$"
   ai: &ai_filter "(?i)^.*(?=.*(美国|USA|US|America|United States|🇺🇸|Verizon|AT&T|Comcast|Charter|CenturyLink|Cox|Spectrum|Xfinity|T-Mobile|Sprint|Level3|Cogent|QuadraNet|Psychz|Vultr|DigitalOcean|Linode|OVH|Choopa|新加坡|狮城|Singapore|SG|🇸🇬|Singtel|StarHub|M1|MyRepublic|ViewQwest|SuperInternet|Pacific Internet|Starhub|日本|JP|Japan|Tokyo|Osaka|🇯🇵|NTT|KDDI|SoftBank|IIJ|GMO|Sakura|BIGLOBE|OCN|Rakuten|BBiX|JPNE|ARTERIA))(?!.*(家宽|家庭|住宅|home|🏠|🛰|家用|福利|新用户|邀请|网址|过期|剩余|套餐|更新|丢失|TG|频道|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍)).*$"
@@ -21,35 +23,35 @@ filters:
   nasia: &nasia_filter "(?i)^((?!(香港|HK|Hong Kong|HongKong|🇭🇰|HKBN|HKT|PCCW|3HK|SmarTone|CSL|中国移动香港|CMHK|和记|Hutchison|台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|🇹🇼|中华电信|CHT|台湾大哥大|TWM|远传|FET|亚太电信|APT|台湾固网|TFN|So-net|日本|JP|Japan|Tokyo|Osaka|🇯🇵|NTT|KDDI|SoftBank|IIJ|GMO|Sakura|BIGLOBE|OCN|Rakuten|BBiX|JPNE|ARTERIA|新加坡|狮城|Singapore|SG|🇸🇬|Singtel|StarHub|M1|MyRepublic|ViewQwest|SuperInternet|Pacific Internet|Starhub|韩国|韩|KR|Korea|Korean|Seoul|首尔|釜山|Busan|🇰🇷|KT|SKT|LG U\\+|LGU|KINX|Naver|Kakao|Dacom|Dreamline|美国|USA|US|America|United States|🇺🇸|Verizon|AT&T|Comcast|Charter|CenturyLink|Cox|Spectrum|Xfinity|T-Mobile|Sprint|Level3|Cogent|QuadraNet|Psychz|Vultr|DigitalOcean|Linode|OVH|Choopa|家宽|家庭|住宅|home|🏠|🛰|家用|福利|新用户|邀请|网址|过期|剩余|套餐|更新|丢失|TG|频道|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍)).)*$"
   home: &home_filter "(?i)^.*(?=.*(家宽|家庭|住宅|home|🏠|家用))(?!.*(福利|新用户|邀请|网址|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍)).*$"
   all: &all_filter "^((?!(家宽|家庭|住宅|home|🏠|🛰|家用|福利|新用户|邀请|网址|过期|剩余|套餐|更新|丢失|TG|频道|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍|直接|直连)).)*$"
-policy-priorities:
-  asia: &asia_priority "(?i)(香港|HK|Hong Kong|HongKong|🇭🇰|HKBN|HKT|PCCW|3HK|SmarTone|CSL|中国移动香港|CMHK|和记|Hutchison):1.5;(?i)(台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|🇹🇼|中华电信|CHT|台湾大哥大|TWM|远传|FET|亚太电信|APT|台湾固网|TFN|So-net):1.2;(?i)(日本|JP|Japan|Tokyo|Osaka|🇯🇵|NTT|KDDI|SoftBank|IIJ|GMO|Sakura|BIGLOBE|OCN|Rakuten|BBiX|JPNE|ARTERIA):1.4;(?i)(新加坡|狮城|Singapore|SG|🇸🇬|Singtel|StarHub|M1|MyRepublic|ViewQwest|SuperInternet|Pacific Internet|Starhub):1.3;(?i)(韩国|韩|KR|Korea|Korean|Seoul|首尔|釜山|Busan|🇰🇷|KT|SKT|LG U\\+|LGU|KINX|Naver|Kakao|Dacom|Dreamline):1.1"
-  ai: &ai_priority "(?i)(美国|USA|US|America|United States|🇺🇸|Verizon|AT&T|Comcast|Charter|CenturyLink|Cox|Spectrum|Xfinity|T-Mobile|Sprint|Level3|Cogent|QuadraNet|Psychz|Vultr|DigitalOcean|Linode|OVH|Choopa):1.5;(?i)(日本|JP|Japan|Tokyo|Osaka|🇯🇵|NTT|KDDI|SoftBank|IIJ|GMO|Sakura|BIGLOBE|OCN|Rakuten|BBiX|JPNE|ARTERIA):1.3;(?i)(新加坡|狮城|Singapore|SG|🇸🇬|Singtel|StarHub|M1|MyRepublic|ViewQwest|SuperInternet|Pacific Internet|Starhub):1"
-  tg: &tg_priority "(?i)(新加坡|狮城|Singapore|SG|🇸🇬|Singtel|StarHub|M1|MyRepublic|ViewQwest|SuperInternet|Pacific Internet|Starhub):1.5;(?i)(香港|HK|Hong Kong|HongKong|🇭🇰|HKBN|HKT|PCCW|3HK|SmarTone|CSL|中国移动香港|CMHK|和记|Hutchison):1.3;(?i)(日本|JP|Japan|Tokyo|Osaka|🇯🇵|NTT|KDDI|SoftBank|IIJ|GMO|Sakura|BIGLOBE|OCN|Rakuten|BBiX|JPNE|ARTERIA):1.1;"
-# 出站策略锚点定义
+
+# 出站策略通用点定义
 proxymain: &proxymain {type: select, proxies: [🪜 通用代理, 🏠 家宽节点, 🛰 全部节点, 🎯 国内直连]}
 directmain: &directmain {type: select, proxies: [🎯 国内直连, 🪜 通用代理, 🏠 家宽节点, 🛰 全部节点]}
-# 规则集锚点定义
+
+# 规则集通用点定义
 rule-anchor:
   domain: &domain {type: http, interval: 21600, behavior: domain, format: mrs}
   class: &class {type: http, interval: 21600, behavior: classical, format: text}
   ip: &ip {type: http, interval: 21600, behavior: ipcidr, format: mrs}
+
 # 机场订阅配置
 proxy-providers:
   tkv:
     <<: *proxyProvider
-    url: "订阅地址"
+    url: "订阅地址替换这里"
   guar:
     <<: *directProvider
-    url: "订阅地址"
+    url: "订阅地址替换这里"
 
 # 节点信息
 proxies: [{name: "直接连接", type: direct, udp: true}]
 # 全局端口和网络配置
 part1: {log-level: info, mode: rule, ipv6: true, port: 7890, unified-delay: true, tcp-concurrent: true, bind-address: "*", allow-lan: true}
 # 系统和性能配置
-part2: {find-process-mode: 'off', global-client-fingerprint: chrome, disable-keep-alive: false, keep-alive-interval: 15, keep-alive-idle: 600, profile: {store-selected: true, store-fake-ip: true, tracing: true, interval: 21600}}
+part2: {find-process-mode: 'off', global-client-fingerprint: chrome, disable-keep-alive: false, keep-alive-interval: 15, keep-alive-idle: 600, profile: {store-selected: true, store-fake-ip: true}}
 # 入站配置
 tun: {enable: true, stack: mixed, dns-hijack: ["any:53", "tcp://any:53"], auto-route: true, auto-redirect: true, auto-detect-interface: true}
+
 # GeoX数据配置
 part3: {geodata-mode: true, geodata-loader: standard, geox-url: {geosite: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat", geoip-mmdb: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.metadb", geoip-dat: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat", asn: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"}, geox-auto-update: true, geox-update-interval: 24}
 
@@ -74,7 +76,7 @@ sniffer:
     "+.v2ex.com", "+.vivox.com", "+.msftconnecttest.com", "+.msftncsi.com",
     "start.me", "+.start.me", 
     "rule-set:cn_domain,alibaba_domain,aliyun_domain,tencent_domain,xiaohongshu_domain,category_bank_cn,apple_domain,onedrive_domain,microsoft_cn_domain,synology_domain,speedtest_domain",
-    "rule-set:docker_ocd_domain,category_dev_domain,developer_ocd_domain,linux_domain,mine_develop",
+    "rule-set:category_dev_domain,developer_ocd_domain",
     "rule-set:mine_proxy,mine_intelligence,google_gemini_domain,category_ai_chat_notcn_domain,microsoft_domain,youtube_domian,google_domain,telegram_domain,category_social_media_not_cn,category_communication,category_forums,spotify_domain,tiktok_domain,globalmedia_ocd_domain,category_media_domain,paypal_domain,proxy_domain,gfw_domain,geolocation_notcn_domain"
     ]
 
@@ -97,7 +99,7 @@ dns:
     "+.yarnpkg.com", "+.ustclug.org", "mirrors.vsean.net", "+.vsean.net", 
     "+.lan", "+.local", "geosite:cn", "+.slippindylan.com", 
     "rule-set:cn_domain,private_domain,mine_torrent_domain,alibaba_domain,aliyun_domain,tencent_domain,xiaohongshu_domain,category_bank_cn,apple_domain,onedrive_domain,microsoft_cn_domain,synology_domain,speedtest_domain",
-    "rule-set:docker_ocd_domain,category_dev_domain,developer_ocd_domain,linux_domain,mine_develop"
+    "rule-set:category_dev_domain,developer_ocd_domain"
     ]
   default-nameserver: *defaultDNS
   proxy-server-nameserver: *proxyDNS
@@ -119,27 +121,27 @@ proxy-groups:
   - {name: ☁️ MicrosoftCN, <<: *directmain}
   - {name: Ⓜ️ Microsoft, <<: *proxymain}
   - {name: 🅖 Google, <<: *proxymain}
-  - {name: 🛩️ Telegram, type: smart, use: [tkv], first-test: true, interval: 60, uselightgbm: false, collectdata: false, policy-priority: *tg_priority, filter: *as_filter}
+  - {name: 🛩️ Telegram, type: url-test, use: [tkv], url: 'http://www.gstatic.com/generate_204', interval: 300, filter: *as_filter}
   # 工具软件
   - {name: 🦑 Develop, <<: *proxymain}
-  - {name: 🧠 Intelligence, type: select, proxies: [🤖 AISmart, 🏠 家宽节点, 🛰 全部节点]}
+  - {name: 🧠 Intelligence, type: select, proxies: [🤖 AI负载均衡, 🏠 家宽节点, 🛰 全部节点]}
   - {name: 💰 Wallet, type: select, proxies: [🛰 全部节点, 🏠 家宽节点]}
   - {name: 📺 国外流媒体, <<: *proxymain}
   - {name: 🎵 Spotify, <<: *directmain}
-  - {name: 🎶 TikTok, type: select, proxies: [🇺🇸 美国Smart, 🏠 家宽节点, 🛰 全部节点]}
+  - {name: 🎶 TikTok, type: select, proxies: [🇺🇸 美国负载均衡, 🏠 家宽节点, 🛰 全部节点]}
   # 其他
   - {name: ⏱ Speedtest, <<: *directmain}
   - {name: 🐠 漏网之鱼, <<: *proxymain}
 
-  # 智能代理策略组
-  - {name: 🪜 通用代理, type: select, proxies: [🌏 亚洲Smart, 🧱 备份Smart, 🏠 家宽节点, 🌍 环球节点, 🛰 全部节点]}
-  - {name: 🌏 亚洲Smart, type: smart, use: [tkv], first-test: true, interval: 60, uselightgbm: false, collectdata: false, policy-priority: *asia_priority, filter: *as_filter}
-  - {name: 🤖 AISmart, type: smart, use: [tkv], first-test: true, interval: 60, uselightgbm: false, collectdata: false, policy-priority: *ai_priority, filter: *ai_filter}
-  - {name: 🇺🇸 美国Smart, type: smart, use: [tkv], first-test: true, interval: 60, uselightgbm: false, collectdata: false, filter: *us_filter}
-  - {name: 🧱 备份Smart, type: smart, include-all: true, first-test: true, interval: 60, uselightgbm: false, collectdata: false, policy-priority: *asia_priority, filter: *all_filter}
-  - {name: 🏠 家宽节点, type: select, include-all: true, first-test: true, interval: 60, filter: *home_filter}
-  - {name: 🌍 环球节点, type: select, include-all: true, first-test: true, interval: 60, filter: *nasia_filter}
-  - {name: 🛰 全部节点, type: select, include-all: true, first-test: true, interval: 60, filter: *all_filter}
+  # 智能代理策略组（将smart替换为负载均衡）
+  - {name: 🪜 通用代理, type: select, proxies: [🌏 亚洲负载均衡, 🧱 备用负载均衡, 🏠 家宽节点, 🌍 环球节点, 🛰 全部节点]}
+  - {name: 🌏 亚洲负载均衡, type: load-balance, use: [tkv], url: 'http://www.gstatic.com/generate_204', interval: 300, strategy: consistent-hashing, filter: *as_filter}
+  - {name: 🤖 AI负载均衡, type: load-balance, use: [tkv], url: 'http://www.gstatic.com/generate_204', interval: 300, strategy: consistent-hashing, filter: *ai_filter}
+  - {name: 🇺🇸 美国负载均衡, type: load-balance, use: [tkv], url: 'http://www.gstatic.com/generate_204', interval: 300, strategy: consistent-hashing, filter: *us_filter}
+  - {name: 🧱 备用负载均衡, type: load-balance, include-all: true, url: 'http://www.gstatic.com/generate_204', interval: 300, strategy: consistent-hashing, filter: *all_filter}
+  - {name: 🏠 家宽节点, type: select, include-all: true, url: 'http://www.gstatic.com/generate_204', interval: 300, filter: *home_filter}
+  - {name: 🌍 环球节点, type: select, include-all: true, url: 'http://www.gstatic.com/generate_204', interval: 300, filter: *nasia_filter}
+  - {name: 🛰 全部节点, type: select, include-all: true, url: 'http://www.gstatic.com/generate_204', interval: 300, filter: *all_filter}
 
 # 规则匹配
 rules:
@@ -169,12 +171,8 @@ rules:
   - RULE-SET,category_ai_chat_notcn_domain,🧠 Intelligence
   
   # 开发
-  - RULE-SET,mine_develop,🦑 Develop
-  - RULE-SET,docker_ocd_domain,🦑 Develop
-  - RULE-SET,linux_domain,🦑 Develop
   - RULE-SET,category_dev_domain,🦑 Develop
   - RULE-SET,developer_ocd_domain,🦑 Develop
-  - RULE-SET,homebrew_domain,🦑 Develop
   
   - RULE-SET,apple_domain,🍎 Apple
   - RULE-SET,apple_notcn_domain, ApplePxy
@@ -220,11 +218,8 @@ rule-providers:
   # AI & 开发
   google_gemini_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/google-gemini.mrs"}
   category_ai_chat_notcn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs"}
-  docker_ocd_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Docker/Docker_OCD_Domain.mrs"}
-  linux_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/linux.mrs"}
   category_dev_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-dev.mrs"}
   developer_ocd_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Developer/Developer_OCD_Domain.mrs"}
-  homebrew_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/homebrew.mrs"}
   
   # 互联网(国外)
   apple_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.mrs"}
@@ -273,7 +268,7 @@ rule-providers:
 
   # 个人代理
   mine_intelligence: { <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/intelligence.list"}
-  mine_develop: { <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/develop.list"}
+  # mine_develop: { <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/develop.list"}
   mine_proxy: { <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/proxy.list"}
   # 个人直连
   mine_direct: { <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/direct.list"}
