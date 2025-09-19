@@ -38,6 +38,9 @@ proxy-providers:
   tkv:
     <<: *proxyProvider
     url: "订阅地址"
+  1yunti:
+    <<: *proxyProvider
+    url: "订阅地址"
   guar:
     <<: *directProvider
     url: "订阅地址"
@@ -133,9 +136,9 @@ proxy-groups:
 
   # 智能代理策略组
   - {name: 🪜 通用代理, type: select, proxies: [🌏 亚洲Smart, 🧱 备份Smart, 🏠 家宽节点, 🌍 环球节点, 🛰 全部节点]}
-  - {name: 🌏 亚洲Smart, type: smart, use: [tkv], first-test: true, interval: 60, uselightgbm: false, collectdata: false, policy-priority: *asia_priority, filter: *as_filter}
-  - {name: 🤖 AISmart, type: smart, use: [tkv], first-test: true, interval: 60, uselightgbm: false, collectdata: false, policy-priority: *ai_priority, filter: *ai_filter}
-  - {name: 🇺🇸 美国Smart, type: smart, use: [tkv], first-test: true, interval: 60, uselightgbm: false, collectdata: false, filter: *us_filter}
+  - {name: 🌏 亚洲Smart, type: smart, use: [tkv,1yunti], first-test: true, interval: 60, uselightgbm: false, collectdata: false, policy-priority: *asia_priority, filter: *as_filter}
+  - {name: 🤖 AISmart, type: smart, use: [tkv,1yunti], first-test: true, interval: 60, uselightgbm: false, collectdata: false, policy-priority: *ai_priority, filter: *ai_filter}
+  - {name: 🇺🇸 美国Smart, type: smart, use: [tkv,1yunti], first-test: true, interval: 60, uselightgbm: false, collectdata: false, filter: *us_filter}
   - {name: 🧱 备份Smart, type: smart, include-all: true, first-test: true, interval: 60, uselightgbm: false, collectdata: false, policy-priority: *asia_priority, filter: *all_filter}
   - {name: 🏠 家宽节点, type: select, include-all: true, first-test: true, interval: 60, filter: *home_filter}
   - {name: 🌍 环球节点, type: select, include-all: true, first-test: true, interval: 60, filter: *nasia_filter}
