@@ -1,10 +1,6 @@
 # 个人
 DOMAIN-SUFFIX,slippindylan.com
-# 公司
-DOMAIN,jshi9.com
-DOMAIN-SUFFIX,jshi9.com
-DOMAIN-SUFFIX,hntyxx.cn
-DOMAIN-SUFFIX,hnfjjzy.com
+
 # 代理
 DOMAIN,gh-proxy.com
 DOMAIN-SUFFIX,gh-proxy.com
