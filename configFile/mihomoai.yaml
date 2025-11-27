@@ -40,13 +40,13 @@ rule-anchor:
 proxy-providers:
   tkv:
     <<: *directProvider
-    url: "订阅地址"
+    url: "URL"
   flyingbird:
     <<: *directProvider
-    url: "订阅地址"
+    url: "URL"
   guar:
     <<: *directProvider
-    url: "订阅地址"
+    url: "URL"
 
 # 节点信息
 proxies: [{name: "直接连接", type: direct, udp: true}]
@@ -132,8 +132,8 @@ proxy-groups:
   - {name: 🅖 Google, <<: *proxymain}
 
   - {name: 🦑 Develop, <<: *proxymain}
-  - {name: 🔬 Anthropic, type: select, proxies: [🤖 AISmart, 🇯🇵 日本Smart, 🇺🇸 美国Smart, 🌍 环球节点, 🛰 所有节点]}
-  - {name: 🧠 Intelligence, type: select, proxies: [🤖 AISmart, 🇯🇵 日本Smart, 🇺🇸 美国Smart, 🌍 环球节点, 🛰 所有节点]}
+  - {name: 🔬 Anthropic, type: select, proxies: [🇯🇵 日本Smart, 🇺🇸 美国Smart, 🤖 AISmart, 🏠 家宽节点, 🌍 环球节点, 🛰 所有节点]}
+  - {name: 🧠 Intelligence, type: select, proxies: [🇯🇵 日本Smart, 🇺🇸 美国Smart, 🤖 AISmart, 🏠 家宽节点, 🌍 环球节点, 🛰 所有节点]}
 
   - {name: 🛩️ Telegram, type: select, proxies: [🛩️ TGSmart, 🇯🇵 日本Smart, 🇺🇸 美国Smart, 🏠 家宽节点, 🌍 环球节点, 🛰 所有节点]}
   - {name: 🎬 TikTok, type: select, proxies: [🇺🇸 美国Smart, 🇯🇵 日本Smart, 🏠 家宽节点, 🌍 环球节点, 🛰 所有节点]}
@@ -219,6 +219,7 @@ rules:
   - RULE-SET,cn_domain,🔗 直连主线
 
   # IP规则
+  - RULE-SET,ai_ip,🧠 Intelligence
   - RULE-SET,apple_ip,🍎 Apple
   - RULE-SET,globalmedia_ocd_ip,📺 流媒体,no-resolve
   - RULE-SET,google_ip,🅖 Google,no-resolve
@@ -230,10 +231,12 @@ rules:
 rule-providers:
   # 基础网络和隐私规则
   private_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
-  # AI & 开发
+  # AI
   anthropic_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/anthropic.mrs"}
   google_gemini_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-gemini.mrs"}
   category_ai_chat_notcn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs"}
+  ai_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/ai.mrs"}
+  # 开发
   docker_ocd_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Docker/Docker_OCD_Domain.mrs"}
   linux_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/linux.mrs"}
   category_dev_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-dev.mrs"}
