@@ -2,6 +2,7 @@
 DOMAIN-KEYWORD,1e100
 
 DOMAIN-SUFFIX,start.me
+DOMAIN-SUFFIX,1password.com
 
 # 国外DNS
 DOMAIN-SUFFIX,dns.google

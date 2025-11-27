@@ -4,3 +4,7 @@ DOMAIN-SUFFIX,slippindylan.com
 # 代理
 DOMAIN,gh-proxy.com
 DOMAIN-SUFFIX,gh-proxy.com
+
+# 时间同步
+DOMAIN-KEYWORD,ntp
+DOMAIN-KEYWORD,time
