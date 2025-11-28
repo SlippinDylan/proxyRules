@@ -40,13 +40,13 @@ rule-anchor:
 proxy-providers:
   tkv:
     <<: *directProvider
-    url: "URL"
+    url: "订阅链接"
   flyingbird:
     <<: *directProvider
-    url: "URL"
+    url: "订阅链接"
   guar:
     <<: *directProvider
-    url: "URL"
+    url: "订阅链接"
 
 # 节点信息
 proxies: [{name: "直接连接", type: direct, udp: true}]
@@ -58,6 +58,8 @@ part2: {find-process-mode: 'off', global-client-fingerprint: chrome, disable-kee
 tun: {enable: true, stack: mixed, dns-hijack: ["any:53", "tcp://any:53"], auto-route: true, auto-redirect: true, auto-detect-interface: true}
 # GeoX数据配置
 part3: {geodata-mode: true, geodata-loader: standard, geox-url: {geosite: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat", geoip-mmdb: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.metadb", geoip-dat: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat", asn: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"}, geox-auto-update: true, geox-update-interval: 24}
+# 自动同步时间
+# ntp: [{enable: true, write-to-system: false, server: time.apple.com, port: 123, interval: 30}]
 
 # 嗅探配置
 sniffer:
@@ -159,9 +161,11 @@ proxy-groups:
 # 规则匹配
 rules:
   # 内网&本机服务代理
-  - DST-PORT,123,DIRECT
   - SRC-IP-CIDR,127.0.0.1/32,🌐 国际代理
   - SRC-IP-CIDR,10.10.0.1/32,🌐 国际代理
+  - DST-PORT,123,DIRECT
+  - RULE-SET,category_ntp_cn_domain,🔗 直连主线
+  - RULE-SET,category_ntp_domain,🌐 国际代理
   # 隐私保护
   - RULE-SET,private_domain,🔗 直连主线
   # 个性化服务
@@ -182,12 +186,13 @@ rules:
   - RULE-SET,category_ai_chat_notcn_domain,🧠 Intelligence
   
   # 开发
-  - RULE-SET,mine_develop,🦑 Develop
+  - RULE-SET,github_domain,🦑 Develop
   - RULE-SET,docker_ocd_domain,🦑 Develop
   - RULE-SET,linux_domain,🦑 Develop
   - RULE-SET,category_dev_domain,🦑 Develop
   - RULE-SET,developer_ocd_domain,🦑 Develop
   - RULE-SET,homebrew_domain,🦑 Develop
+  - RULE-SET,mine_develop,🦑 Develop
   
   - RULE-SET,apple_domain,🍎 Apple
   - RULE-SET,apple_notcn_domain, ApplePxy
@@ -237,6 +242,7 @@ rule-providers:
   category_ai_chat_notcn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs"}
   ai_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/ai.mrs"}
   # 开发
+  github_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"}
   docker_ocd_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Docker/Docker_OCD_Domain.mrs"}
   linux_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/linux.mrs"}
   category_dev_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-dev.mrs"}
@@ -288,6 +294,9 @@ rule-providers:
   cn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
   cn_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
 
+  # 时间同步
+  category_ntp_cn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ntp%40cn.mrs"}
+  category_ntp_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ntp.mrs"}
   # 个人代理
   mine_develop: { <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/develop.list"}
   mine_proxy: { <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/master/ruleProvider/list/proxy.list"}
