@@ -27,7 +27,7 @@ policy-priorities:
 # 出站策略锚点定义
 proxymain: &proxymain {type: select, proxies: [🚀 代理主线, 🇭🇰 港澳台Smart, 🇯🇵 日本Smart, 🇸🇬 新加坡Smart, 🇺🇸 美国Smart, 🏠 家宽节点, 🌍 环球节点, 🛰 所有节点, 🔗 直连主线]}
 directmain: &directmain {type: select, proxies: [🔗 直连主线, 🚀 代理主线, 🌍 环球节点, 🛰 所有节点]}
-provider-use: &providerUse [flyingbird, tkv]
+provider-use: &providerUse [flyingbird]
 
 # 规则集锚点定义
 rule-anchor:
@@ -36,15 +36,12 @@ rule-anchor:
   ip: &ip {type: http, interval: 21600, behavior: ipcidr, format: mrs}
 # 机场订阅配置
 proxy-providers:
-  tkv:
-    <<: *directProvider
-    url: "订阅链接"
   flyingbird:
     <<: *directProvider
-    url: "订阅链接"
+    url: ""
   guar:
     <<: *directProvider
-    url: "订阅链接"
+    url: ""
 
 # 节点信息
 proxies: [{name: "直接连接", type: direct, udp: true}]
@@ -81,7 +78,7 @@ sniffer:
     "start.me", "+.start.me", 
     "rule-set:cn_domain,alibaba_domain,aliyun_domain,tencent_domain,xiaohongshu_domain,category_bank_cn,apple_domain,onedrive_domain,microsoft_cn_domain,synology_domain,speedtest_domain",
     "rule-set:docker_ocd_domain,category_dev_domain,developer_ocd_domain,linux_domain,mine_develop",
-    "rule-set:mine_proxy,google_gemini_domain,category_ai_chat_notcn_domain,microsoft_domain,youtube_domian,google_domain,telegram_domain,category_social_media_not_cn,category_communication,category_forums,spotify_domain,tiktok_domain,globalmedia_ocd_domain,category_media_domain,paypal_domain,proxy_domain,gfw_domain,geolocation_notcn_domain"
+    "rule-set:mine_proxy,google_gemini_domain,category_ai_chat_notcn_domain,microsoft_domain,youtube_domian,google_domain,telegram_domain,category_social_media_not_cn,category_communication,category_forums,spotify_domain,tiktok_domain,category_porn_domain,globalmedia_ocd_domain,category_media_domain,paypal_domain,proxy_domain,gfw_domain,geolocation_notcn_domain"
     ]
 
 # DNS模块
@@ -117,7 +114,7 @@ dns:
 
 proxy-groups:
   # ===== 顶层：通道控制 =====
-  - {name: 🚀 代理主线, type: select, proxies: [🇭🇰 港澳台Smart, 🇯🇵 日本Smart, 🇸🇬 新加坡Smart, 🇺🇸 美国Smart, 🧩 备份Smart, 🏠 家宽节点, 🌍 环球节点, 🛰 所有节点]}
+  - {name: 🚀 代理主线, type: select, proxies: [🇭🇰 港澳台Smart, 🇯🇵 日本Smart, 🇸🇬 新加坡Smart, 🇺🇸 美国Smart, 🧩 备份Smart, 🏠 家宽节点, 🌍 环球节点, 🛰 所有节点, 🔗 直连主线]}
   - {name: 🔗 直连主线, type: select, proxies: [直接连接]}
   # ===== 总服务策略（可绕过总阀）=====
   - {name: 🌐 国际代理, <<: *proxymain}
@@ -125,7 +122,7 @@ proxy-groups:
 
   # ===== 应用服务策略（可绕过总阀）=====
   - {name: 🍎 Apple, <<: *directmain}
-  - {name:  ApplePxy, <<: *proxymain}
+  - {name:  ApplePxy, <<: *directmain}
   - {name: ☁️ MicrosoftCN, <<: *directmain}
   - {name: Ⓜ️ Microsoft, <<: *proxymain}
   - {name: 🅖 Google, <<: *proxymain}
@@ -134,9 +131,10 @@ proxy-groups:
   - {name: 🧠 Intelligence, <<: *proxymain}
 
   - {name: 🛩️ Telegram, <<: *proxymain}
-  - {name: 🎬 TikTok, <<: *proxymain}
-  - {name: 🎵 Spotify, <<: *proxymain}
+  - {name: 🎮 Game, <<: *proxymain}
   - {name: 📺 流媒体, <<: *proxymain}
+  - {name: 🎵 Spotify, <<: *proxymain}
+  - {name: 🎬 TikTok, <<: *proxymain}
 
   - {name: 💰 Wallet, <<: *proxymain}
   - {name: ⏱ Speedtest, <<: *directmain}
@@ -154,14 +152,15 @@ proxy-groups:
 # 规则匹配
 rules:
   # 内网&本机服务代理
-  - SRC-IP-CIDR,127.0.0.1/32,🌐 国际代理
-  - SRC-IP-CIDR,10.10.0.1/32,🌐 国际代理
   - DST-PORT,123,DIRECT
   - RULE-SET,category_ntp_cn_domain,🔗 直连主线
   - RULE-SET,category_ntp_domain,🌐 国际代理
+  - SRC-IP-CIDR,127.0.0.1/32,🌐 国际代理
+  - SRC-IP-CIDR,10.10.0.1/32,🌐 国际代理
   # 隐私保护
   - RULE-SET,private_domain,🔗 直连主线
   # 个性化服务
+  # - DOMAIN-SUFFIX,newcli.com,🌐 国际代理
   - RULE-SET,mine_proxy,🌐 国际代理
   - RULE-SET,mine_direct,🔗 直连主线
   - RULE-SET,mine_torrent_domain,🔗 直连主线
@@ -200,9 +199,11 @@ rules:
   - RULE-SET,category_social_media_not_cn,🛩️ Telegram
   - RULE-SET,category_communication,🛩️ Telegram
   - RULE-SET,category_forums,🛩️ Telegram
-  
+
+  # 流媒体
   - RULE-SET,spotify_domain,🎵 Spotify
   - RULE-SET,tiktok_domain,🎬 TikTok
+  - RULE-SET,category_porn_domain,📺 流媒体
   - RULE-SET,globalmedia_ocd_domain,📺 流媒体
   - RULE-SET,category_media_domain,📺 流媒体
 
@@ -241,7 +242,6 @@ rule-providers:
   category_dev_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-dev.mrs"}
   developer_ocd_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Developer/Developer_OCD_Domain.mrs"}
   homebrew_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/homebrew.mrs"}
-  
   # 互联网(国外)
   apple_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.mrs"}
   apple_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs"}
@@ -257,36 +257,31 @@ rule-providers:
   aliyun_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/aliyun.mrs"}
   tencent_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent.mrs"}
   xiaohongshu_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xiaohongshu.mrs"}
-
   # 社交
   telegram_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"}
   telegram_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"}
   category_social_media_not_cn: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-social-media-!cn.mrs"}
   category_communication: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-communication.mrs"}
   category_forums: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-forums.mrs"}
-  
   # 流媒体服务
   spotify_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs"}
   tiktok_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"}
+  category_porn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-porn.mrs"}
   globalmedia_ocd_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/GlobalMedia/GlobalMedia_OCD_Domain.mrs"}
   globalmedia_ocd_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/GlobalMedia/GlobalMedia_OCD_IP.mrs"}
   category_media_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-media.mrs"}
-  
   # 金融服务
   paypal_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs"}
   category_bank_cn: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-bank-cn.mrs"}
-  
   # 工具和实用服务
   synology_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/synology.mrs"}
   speedtest_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/speedtest.mrs"}
-  
   # 全局代理
   proxy_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geosite/proxy.mrs"}
   gfw_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"}
   geolocation_notcn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}
   cn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
   cn_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
-
   # 时间同步
   category_ntp_cn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ntp%40cn.mrs"}
   category_ntp_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ntp.mrs"}
