@@ -11,6 +11,7 @@
 ## 当前重点
 
 - [configFile/mihomo.yaml](configFile/mihomo.yaml)：面向 OpenWrt 网关环境的 Mihomo 配置。
+- [configFile/mihomoForAndroid.yaml](configFile/mihomoForAndroid.yaml)：面向 Android 手机普通 Mihomo 内核的配置。
 - [configFile/stash.yaml](configFile/stash.yaml)：面向 iPhone / iPad Stash 的移动端配置。
 - [ruleProvider/](ruleProvider/)：给远程规则集引用的个人规则目录。
 
