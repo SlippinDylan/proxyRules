@@ -1,0 +1,310 @@
+# 机场订阅模板锚点定义
+direct-provider-template: &directProvider {type: http, interval: 3600, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 180, lazy: false, tolerance: 10}, proxy: 🔗 直连主线, header: {User-Agent: ["Clash", "mihomo", "Clash.meta"]}, override: {udp: true, skip-cert-verify: true}}
+proxy-provider-template: &proxyProvider {type: http, interval: 3600, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 180, lazy: false, tolerance: 10}, proxy: 🚀 代理主线, header: {User-Agent: ["Clash", "mihomo", "Clash.meta"]}, override: {udp: true, skip-cert-verify: true}}
+# DNS服务器配置锚点定义
+dns-servers: 
+  # 默认 DNS, 用于解析 DNS 服务器 的域名,必须为 IP, 可为加密 DNS
+  default-nameserver: &defaultDNS [221.7.92.98, 221.5.203.98, "2408:8663::2", "2408:8662::2", 119.29.29.29, 223.5.5.5]
+  # 代理节点域名解析服务器，仅用于解析代理节点的域名
+  proxy-server-nameserver: &proxyDNS [223.5.5.5, 119.29.29.29, "[2400:3200::1]"]
+  # 用于 direct 出口域名解析的 DNS 服务器，如果不填则遵循 nameserver-policy、nameserver
+  direct-nameserver: &directDNS [221.7.92.98, 221.5.203.98, "2408:8663::2", "2408:8662::2", 223.5.5.5]
+  # 默认的域名解析服务器，其他 dns 服务器都不行了用这个
+  nameserver: &genericDNS [221.7.92.98, 221.5.203.98, "2408:8663::2", "2408:8662::2", 223.5.5.5]
+  # 国外DNS服务器 - 用于国外域名解析，走代理
+  # foreign-nameserver: &foreignDNS ["8.8.8.8#🚀 代理主线", "1.1.1.1#🚀 代理主线", "[2001:4860:4860::8888]#🚀 代理主线", "[2606:4700:4700::1111]#🚀 代理主线"]
+# 节点配出规则锚点定义
+filters:
+  gmt: &gmt_filter "(?i)^.*(?=.*(🇭🇰|香港|HK|Hong Kong|HongKong|HKBN|HKT|PCCW|3HK|SmarTone|CSL|中国移动香港|CMHK|和记|Hutchison|🇲🇴|澳门|澳門|MO|Macau|Macao|澳門電訊|澳讯|CTM|澳门电讯|MacauCTM|澳門寬頻|A1|CMT|澳门宽频|🇹🇼|台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|中华电信|CHT|台湾大哥大|TWM|远传|FET|亚太电信|APT|台湾固网|TFN|So-net))(?!.*(Traffic|Expire|🏠|家宽|家庭|住宅|home|🛰|家用|福利|新用户|邀请|网址|最新|流量|过期|剩余|套餐|更新|丢失|TG|频道|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍|直接|直连)).*$"
+  jp: &jp_filter "(?i)^.*(?=.*(🇯🇵|日本|JP|Japan|Tokyo|Osaka|NTT|KDDI|SoftBank|IIJ|GMO|Sakura|BIGLOBE|OCN|Rakuten|BBiX|JPNE|ARTERIA))(?!.*(Traffic|Expire|🏠|家宽|家庭|住宅|home|🛰|家用|福利|新用户|邀请|网址|最新|流量|过期|剩余|套餐|更新|丢失|TG|频道|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍|直接|直连)).*$"
+  sj: &sj_filter "(?i)^.*(?=.*(🇸🇬|新加坡|狮城|Singapore|SG|Singtel|StarHub|M1|MyRepublic|ViewQwest|SuperInternet|Pacific Internet|Starhub))(?!.*(Traffic|Expire|🏠|家宽|家庭|住宅|home|🛰|家用|福利|新用户|邀请|网址|最新|流量|过期|剩余|套餐|更新|丢失|TG|频道|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍|直接|直连)).*$"
+  us: &us_filter "(?i)^.*(?=.*(🇺🇸|美国|USA|US|America|United States|Verizon|AT&T|Comcast|Charter|CenturyLink|Cox|Spectrum|Xfinity|T-Mobile|Sprint|Level3|Cogent|QuadraNet|Psychz|Vultr|DigitalOcean|Linode|OVH|Choopa))(?!.*(Traffic|Expire|🏠|家宽|家庭|住宅|home|🛰|家用|福利|新用户|邀请|网址|最新|流量|过期|剩余|套餐|更新|丢失|TG|频道|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍|直接|直连)).*$"
+  global: &global_filter "(?i)^((?!(Traffic|Expire|🇭🇰|香港|HK|Hong Kong|HongKong|HKBN|HKT|PCCW|3HK|SmarTone|CSL|中国移动香港|CMHK|和记|Hutchison|🇲🇴|澳门|澳門|MO|Macau|Macao|澳門電訊|澳讯|CTM|澳门电讯|MacauCTM|澳門寬頻|A1|CMT|澳门宽频|🇹🇼|台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|中华电信|CHT|台湾大哥大|TWM|远传|FET|亚太电信|APT|台湾固网|TFN|So-net|🇯🇵|日本|JP|Japan|Tokyo|Osaka|NTT|KDDI|SoftBank|IIJ|GMO|Sakura|BIGLOBE|OCN|Rakuten|BBiX|JPNE|ARTERIA|🇸🇬|新加坡|狮城|Singapore|SG|Singtel|StarHub|M1|MyRepublic|ViewQwest|SuperInternet|Pacific Internet|Starhub|🇺🇸|美国|USA|US|America|United States|Verizon|AT&T|Comcast|Charter|CenturyLink|Cox|Spectrum|Xfinity|T-Mobile|Sprint|Level3|Cogent|QuadraNet|Psychz|Vultr|DigitalOcean|Linode|OVH|Choopa|🏠|家宽|家庭|住宅|home|🛰|家用|福利|新用户|邀请|网址|最新|流量|过期|剩余|套餐|更新|丢失|TG|频道|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍|直接|直连)).)*$"
+  home: &home_filter "(?i)^.*(?=.*(家宽|家庭|住宅|home|🏠|家用))(?!.*(Traffic|Expire|福利|新用户|邀请|网址|最新|流量|过期|剩余|套餐|更新|丢失|TG|频道|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍|直接|直连)).*$"
+  all: &all_filter "^((?!(Traffic|Expire|🏠|家宽|家庭|住宅|home|🛰|家用|福利|新用户|邀请|网址|最新|流量|过期|剩余|套餐|更新|丢失|TG|频道|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍|直接|直连)).)*$"
+policy-priorities:
+  gmt: &gmt_priority "(?i)(🇭🇰|香港|HK|Hong Kong|HongKong|HKBN|HKT|PCCW|3HK|SmarTone|CSL|中国移动香港|CMHK|和记|Hutchison):1.5;(?i)(🇲🇴|澳门|澳門|MO|Macau|Macao|澳門電訊|澳讯|CTM|澳门电讯|MacauCTM|澳門寬頻|A1|CMT|澳门宽频):1.4;(?i)(🇯🇵|日本|JP|Japan|Tokyo|Osaka|NTT|KDDI|SoftBank|IIJ|GMO|Sakura|BIGLOBE|OCN|Rakuten|BBiX|JPNE|ARTERIA):1.3;(?i)(🇸🇬|新加坡|狮城|Singapore|SG|Singtel|StarHub|M1|MyRepublic|ViewQwest|SuperInternet|Pacific Internet|Starhub):1.2;(?i)(🇹🇼|台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|中华电信|CHT|台湾大哥大|TWM|远传|FET|亚太电信|APT|台湾固网|TFN|So-net):1.1;"
+# 出站策略锚点定义
+proxymain: &proxymain {type: select, proxies: [🚀 代理主线, 🇭🇰 港澳台Smart, 🇯🇵 日本Smart, 🇸🇬 新加坡Smart, 🇺🇸 美国Smart, 🏠 家宽节点, 🌍 环球节点, 🛰 所有节点, 🔗 直连主线]}
+directmain: &directmain {type: select, proxies: [🔗 直连主线, 🚀 代理主线, 🌍 环球节点, 🛰 所有节点]}
+provider-main: &mainUse [wd-gold,]
+provider-backup-pure: &backupUse [wd-gold, guar]
+provider-all: &allUse [wd-gold, guar]
+
+#
+# 规则集锚点定义
+rule-anchor:
+  domain: &domain {type: http, interval: 21600, behavior: domain, format: mrs}
+  class: &class {type: http, interval: 21600, behavior: classical, format: text}
+  ip: &ip {type: http, interval: 21600, behavior: ipcidr, format: mrs}
+# 机场订阅配置
+proxy-providers:
+  wd-gold:
+    <<: *directProvider
+    url: "订阅链接"
+  guar:
+    <<: *directProvider
+    url: "订阅链接"
+
+# 节点信息
+proxies: [{name: "直接连接", type: direct, udp: true}]
+
+# 全局端口和网络配置
+log-level: info
+mode: rule
+ipv6: true
+port: 7890
+unified-delay: true
+tcp-concurrent: true
+bind-address: "*"
+allow-lan: true
+
+# 系统和性能配置 (删除了会报错的 global-client-fingerprint)
+find-process-mode: 'off'
+disable-keep-alive: false
+keep-alive-interval: 15
+keep-alive-idle: 600
+profile: {store-selected: true, store-fake-ip: true, tracing: true, interval: 21600}
+
+# 入站配置 (🔥核心恢复：原封不动保留你的双轨监听和 auto-route: true，这是你能上网的根基！)
+tun: {enable: true, stack: mixed, dns-hijack: ["any:53", "tcp://any:53"], auto-route: true, auto-redirect: true, auto-detect-interface: true}
+listeners: [{name: redir-in, type: redir, port: 7891, udp: false}, {name: tproxy-in, type: tproxy, port: 7892, udp: true}, {name: tun-in, type: tun, device: immortalwrt, stack: mixed, auto-route: false, auto-redirect: false, auto-detect-interface: false}]
+
+# GeoX数据配置 (🔥核心恢复：强制设为 false，因为你原来 part3 没生效时就是 false，改成 true 你的规则会瘫痪)
+geodata-mode: false
+geodata-loader: standard
+geox-url: {geosite: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat", geoip-mmdb: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.metadb", geoip-dat: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat", asn: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"}
+geox-auto-update: true
+geox-update-interval: 24
+
+# 自动同步时间
+ntp: {enable: true, write-to-system: false, server: "time.apple.com", port: 123, interval: 30}
+
+# 嗅探配置
+sniffer:
+  enable: true
+  # 端口嗅探设置
+  sniff: {
+    HTTP: {ports: [80, 8080-8880], override-destination: true},
+    TLS: {ports: [443, 8443], override-destination: true},
+    QUIC: {ports: [443, 8443], override-destination: true}
+  }
+  # 嗅探的rule-set如果引用的规则集是 list 的，且其中有 IP，则直接报错
+  skip-domain: [
+    "+.push.apple.com", "+.apple.com", "+.wechat.com",
+    "+.ntp", "+.time", "keyword:ntp", "keyword:time",
+    "+.wechatapp.com", "+.qpic.cn", 
+    "+.oray.com", "+.sunlogin.net", "Mijia Cloud",
+    "+.tsinghua.edu.cn","+.lan", "+.local",
+  ]
+  force-domain: [
+    "+.v2ex.com", "+.vivox.com", "+.msftconnecttest.com", "+.msftncsi.com",
+    "start.me", "+.start.me", 
+    "rule-set:cn_domain,category_bank_cn,apple_cn_domain,onedrive_domain,microsoft_cn_domain,synology_domain,speedtest_domain",
+    "rule-set:docker_ocd_domain,category_dev_domain,developer_ocd_domain,linux_domain,mine_develop",
+    "rule-set:mine_proxy,google_gemini_domain,category_ai_chat_notcn_domain,microsoft_domain,youtube_domian,google_domain,telegram_domain,category_social_media_not_cn,category_communication,category_forums,spotify_domain,tiktok_domain,category_porn_domain,globalmedia_ocd_domain,category_media_domain,paypal_domain,proxy_domain,gfw_domain,geolocation_notcn_domain"
+    ]
+
+# DNS模块
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  ipv6: true
+  respect-rules: true
+  prefer-h3: false
+  doh-priority-http3: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-cache: true
+  fake-ip-filter-mode: blacklist
+  cache-algorithm: arc
+  fake-ip-filter: [
+    "+.services.googleapis.cn", "+.xn--ngstr-lra8j.com", 
+    "keyword:ntp", "keyword:time", "+.ntp", "+.time", 
+    "+.yarnpkg.com", "+.ustclug.org", "mirrors.vsean.net", "+.vsean.net", 
+    "+.lan", "+.local", "geosite:cn", "+.tailscale.com",
+    "rule-set:cn_domain,private_domain,mine_torrent,category_bank_cn,apple_cn_domain,onedrive_domain,microsoft_cn_domain,synology_domain,speedtest_domain",
+    "rule-set:docker_ocd_domain,category_dev_domain,developer_ocd_domain,linux_domain,mine_develop"
+    ]
+  default-nameserver: *defaultDNS
+  proxy-server-nameserver: *proxyDNS
+  direct-nameserver: *directDNS
+  #是否遵循 nameserver-policy，默认为不遵守，仅当 direct-nameserver 不为空时生效
+  direct-nameserver-follow-policy: false
+  nameserver: *genericDNS
+  nameserver-policy: {
+      "rule-set:cn_domain,private_domain,mine_torrent,category_bank_cn,apple_cn_domain,onedrive_domain,microsoft_cn_domain,synology_domain,speedtest_domain": *genericDNS
+    }
+
+proxy-groups:
+  # ===== 顶层：通道控制 =====
+  - {name: 🚀 代理主线, type: select, proxies: [🇭🇰 港澳台Smart, 🇯🇵 日本Smart, 🇸🇬 新加坡Smart, 🇺🇸 美国Smart, 🧩 备份Smart, 🏠 家宽节点, 🌍 环球节点, 🛰 所有节点, 🔗 直连主线]}
+  - {name: 🔗 直连主线, type: select, proxies: [直接连接]}
+  # ===== 总服务策略（可绕过总阀）=====
+  - {name: 🌐 国际代理, <<: *proxymain}
+  - {name: 🐠 漏网之鱼, <<: *proxymain}
+
+  # ===== 应用服务策略（可绕过总阀）=====
+  - {name: 🍎 Apple, <<: *directmain}
+  - {name: 🍎 ApplePxy, <<: *directmain}
+  - {name: ☁️ MicrosoftCN, <<: *directmain}
+  - {name: Ⓜ️ Microsoft, <<: *proxymain}
+  - {name: 🅖 Google, <<: *proxymain}
+
+  - {name: 🦑 Develop, <<: *proxymain}
+  - {name: 🧠 Intelligence, <<: *proxymain}
+
+  - {name: 🛩️ Telegram, <<: *proxymain}
+  - {name: 📺 流媒体, <<: *proxymain}
+  - {name: 🎵 Spotify, <<: *proxymain}
+  - {name: 🎬 TikTok, <<: *proxymain}
+
+  - {name: 💰 Wallet, <<: *proxymain}
+  - {name: ⏱ Speedtest, <<: *directmain}
+
+  # ===== 节点池 =====
+  - {name: 🇭🇰 港澳台Smart, type: smart, use: *mainUse, first-test: true, interval: 60, uselightgbm: false, collectdata: false, policy-priority: *gmt_priority, filter: *gmt_filter}
+  - {name: 🇯🇵 日本Smart, type: smart, use: *mainUse, first-test: true, interval: 60, uselightgbm: false, collectdata: false, filter: *jp_filter}
+  - {name: 🇸🇬 新加坡Smart, type: smart, use: *mainUse, first-test: true, interval: 60, uselightgbm: false, collectdata: false, filter: *sj_filter}
+  - {name: 🇺🇸 美国Smart, type: smart, use: *mainUse, first-test: true, interval: 60, uselightgbm: false, collectdata: false, filter: *us_filter}
+  - {name: 🧩 备份Smart, type: smart, use: *backupUse, first-test: true, interval: 60, uselightgbm: false, collectdata: false, policy-priority: *gmt_priority, filter: *all_filter}
+  - {name: 🏠 家宽节点, type: select, use: *allUse, first-test: true, interval: 60, filter: *home_filter}
+  - {name: 🌍 环球节点, type: select, use: *allUse, first-test: true, interval: 60, filter: *global_filter}
+  - {name: 🛰 所有节点, type: select, use: *allUse, first-test: true, interval: 60, filter: *all_filter}
+
+# 规则匹配
+rules:
+  # 内网设备
+  - SRC-IP-CIDR,10.10.0.31/32,🔗 直连主线
+  - SRC-IP-CIDR,10.10.0.32/32,🔗 直连主线
+  - SRC-IP-CIDR,10.10.0.33/32,🔗 直连主线
+  - SRC-IP-CIDR,10.10.0.34/32,🔗 直连主线
+
+  # 时间
+  - DST-PORT,123,DIRECT
+  - RULE-SET,category_ntp_cn_domain,🔗 直连主线
+  - RULE-SET,category_ntp_domain,🌐 国际代理
+
+  # 隐私保护
+  - RULE-SET,private_domain,🔗 直连主线
+  # 个人规则
+  - RULE-SET,mine_proxy,🌐 国际代理
+  - RULE-SET,mine_direct,🔗 直连主线
+  - RULE-SET,mine_torrent,🔗 直连主线
+
+  # AI和智能服务
+  - RULE-SET,anthropic_domain,🧠 Intelligence
+  - RULE-SET,google_gemini_domain,🧠 Intelligence
+  - RULE-SET,category_ai_chat_notcn_domain,🧠 Intelligence
+  
+  # 开发
+  - RULE-SET,github_domain,🦑 Develop
+  - RULE-SET,docker_ocd_domain,🦑 Develop
+  - RULE-SET,linux_domain,🦑 Develop
+  - RULE-SET,category_dev_domain,🦑 Develop
+  - RULE-SET,developer_ocd_domain,🦑 Develop
+  - RULE-SET,homebrew_domain,🦑 Develop
+  - RULE-SET,mine_develop,🦑 Develop
+  
+  - RULE-SET,apple_cn_domain,🍎 Apple
+  - RULE-SET,apple_domain,🍎 ApplePxy
+  - RULE-SET,onedrive_domain,☁️ MicrosoftCN
+  - RULE-SET,microsoft_cn_domain,☁️ MicrosoftCN
+  - RULE-SET,microsoft_domain,Ⓜ️ Microsoft
+  - RULE-SET,youtube_domian,📺 流媒体
+  - RULE-SET,google_domain,🅖 Google
+
+  # 社交
+  - RULE-SET,telegram_domain,🛩️ Telegram
+  - RULE-SET,category_social_media_not_cn,🛩️ Telegram
+  - RULE-SET,category_communication,🛩️ Telegram
+  - RULE-SET,category_forums,🛩️ Telegram
+
+  # 流媒体
+  - RULE-SET,spotify_domain,🎵 Spotify
+  - RULE-SET,tiktok_domain,🎬 TikTok
+  - RULE-SET,category_porn_domain,📺 流媒体
+  - RULE-SET,globalmedia_ocd_domain,📺 流媒体
+  - RULE-SET,category_media_domain,📺 流媒体
+
+  - RULE-SET,synology_domain,🔗 直连主线
+  - RULE-SET,category_bank_cn,🔗 直连主线
+  - RULE-SET,paypal_domain,💰 Wallet
+  - RULE-SET,speedtest_domain,⏱ Speedtest
+
+  # 全局代理
+  - RULE-SET,proxy_domain,🌐 国际代理
+  - RULE-SET,gfw_domain,🌐 国际代理
+  - RULE-SET,geolocation_notcn_domain,🌐 国际代理
+  - RULE-SET,cn_domain,🔗 直连主线
+
+  # IP规则
+  - RULE-SET,ai_ip,🧠 Intelligence
+  - RULE-SET,apple_ip,🍎 Apple
+  - RULE-SET,globalmedia_ocd_ip,📺 流媒体,no-resolve
+  - RULE-SET,google_ip,🅖 Google,no-resolve
+  - RULE-SET,telegram_ip,🛩️ Telegram,no-resolve
+  - RULE-SET,cn_ip,🔗 直连主线
+  - MATCH,🐠 漏网之鱼
+
+rule-providers:
+  # 基础网络和隐私规则
+  private_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
+  # AI
+  anthropic_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/anthropic.mrs"}
+  google_gemini_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-gemini.mrs"}
+  category_ai_chat_notcn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs"}
+  ai_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/ai.mrs"}
+  # 开发
+  github_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"}
+  docker_ocd_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Docker/Docker_OCD_Domain.mrs"}
+  linux_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/linux.mrs"}
+  category_dev_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-dev.mrs"}
+  developer_ocd_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Developer/Developer_OCD_Domain.mrs"}
+  homebrew_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/homebrew.mrs"}
+  # 互联网(国外)
+  apple_cn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple%40cn.mrs"}
+  apple_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.mrs"}
+  apple_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs"}
+  onedrive_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs"}
+  microsoft_cn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft%40cn.mrs"}
+  microsoft_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}
+  youtube_domian: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}
+  google_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}
+  google_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"}
+  # 社交
+  telegram_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"}
+  telegram_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"}
+  category_social_media_not_cn: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-social-media-!cn.mrs"}
+  category_communication: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-communication.mrs"}
+  category_forums: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-forums.mrs"}
+  # 流媒体服务
+  spotify_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs"}
+  tiktok_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"}
+  category_porn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-porn.mrs"}
+  globalmedia_ocd_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/GlobalMedia/GlobalMedia_OCD_Domain.mrs"}
+  globalmedia_ocd_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/GlobalMedia/GlobalMedia_OCD_IP.mrs"}
+  category_media_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-media.mrs"}
+  # 金融服务
+  paypal_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs"}
+  category_bank_cn: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-bank-cn.mrs"}
+  # 工具和实用服务
+  synology_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/synology.mrs"}
+  speedtest_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/speedtest.mrs"}
+  # 全局代理
+  proxy_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geosite/proxy.mrs"}
+  gfw_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"}
+  geolocation_notcn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}
+  cn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
+  cn_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
+  # 时间同步
+  category_ntp_cn_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ntp%40cn.mrs"}
+  category_ntp_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ntp.mrs"}
+  # 个人代理
+  mine_develop: { <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/main/ruleProvider/develop.list"}
+  mine_proxy: { <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/main/ruleProvider/proxy.list"}
+  # 个人直连
+  mine_direct: { <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/main/ruleProvider/direct.list"}
+  mine_torrent: { <<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/main/ruleProvider/torrent.list"}
+
+hosts: {"*.slippindylan.com": 10.10.0.51}

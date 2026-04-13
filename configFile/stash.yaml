@@ -1,0 +1,350 @@
+# =========================================================
+# Stash 配置文件
+# 来源：configFile/mihomo.yaml
+# 适用场景：外出时手机使用移动网络，通过 Stash 科学上网
+# 参考文档：https://stash.wiki/
+# =========================================================
+
+# ----------------------------------------------------------
+# YAML 锚点 — 节点过滤正则（供 proxy-groups 的 filter 字段引用）
+# ----------------------------------------------------------
+filters:
+  gmt: &gmt_filter "(?i)^.*(?=.*(🇭🇰|香港|HK|Hong Kong|HongKong|HKBN|HKT|PCCW|3HK|SmarTone|CSL|中国移动香港|CMHK|和记|Hutchison|🇲🇴|澳门|澳門|MO|Macau|Macao|澳門電訊|澳讯|CTM|澳门电讯|MacauCTM|澳門寬頻|A1|CMT|澳门宽频|🇹🇼|台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|中华电信|CHT|台湾大哥大|TWM|远传|FET|亚太电信|APT|台湾固网|TFN|So-net))(?!.*(Traffic|Expire|🏠|家宽|家庭|住宅|home|🛰|家用|福利|新用户|邀请|网址|最新|流量|过期|剩余|套餐|更新|丢失|TG|频道|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍|直接|直连)).*$"
+  jp: &jp_filter "(?i)^.*(?=.*(🇯🇵|日本|JP|Japan|Tokyo|Osaka|NTT|KDDI|SoftBank|IIJ|GMO|Sakura|BIGLOBE|OCN|Rakuten|BBiX|JPNE|ARTERIA))(?!.*(Traffic|Expire|🏠|家宽|家庭|住宅|home|🛰|家用|福利|新用户|邀请|网址|最新|流量|过期|剩余|套餐|更新|丢失|TG|频道|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍|直接|直连)).*$"
+  sg: &sg_filter "(?i)^.*(?=.*(🇸🇬|新加坡|狮城|Singapore|SG|Singtel|StarHub|M1|MyRepublic|ViewQwest|SuperInternet|Pacific Internet|Starhub))(?!.*(Traffic|Expire|🏠|家宽|家庭|住宅|home|🛰|家用|福利|新用户|邀请|网址|最新|流量|过期|剩余|套餐|更新|丢失|TG|频道|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍|直接|直连)).*$"
+  us: &us_filter "(?i)^.*(?=.*(🇺🇸|美国|USA|US|America|United States|Verizon|AT&T|Comcast|Charter|CenturyLink|Cox|Spectrum|Xfinity|T-Mobile|Sprint|Level3|Cogent|QuadraNet|Psychz|Vultr|DigitalOcean|Linode|OVH|Choopa))(?!.*(Traffic|Expire|🏠|家宽|家庭|住宅|home|🛰|家用|福利|新用户|邀请|网址|最新|流量|过期|剩余|套餐|更新|丢失|TG|频道|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍|直接|直连)).*$"
+  home: &home_filter "(?i)^.*(?=.*(家宽|家庭|住宅|home|🏠|家用))(?!.*(Traffic|Expire|福利|新用户|邀请|网址|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍|直接|直连)).*$"
+  global: &global_filter "(?i)^((?!(Traffic|Expire|🇭🇰|香港|HK|Hong Kong|HongKong|HKBN|HKT|PCCW|3HK|SmarTone|CSL|中国移动香港|CMHK|和记|Hutchison|🇲🇴|澳门|澳門|MO|Macau|Macao|澳門電訊|澳讯|CTM|澳门电讯|MacauCTM|澳門寬頻|A1|CMT|澳门宽频|🇹🇼|台湾|TW|TWN|Taiwan|Taipei|HiNet|Taoyuan|Tainan|Taichung|中华电信|CHT|台湾大哥大|TWM|远传|FET|亚太电信|APT|台湾固网|TFN|So-net|🇯🇵|日本|JP|Japan|Tokyo|Osaka|NTT|KDDI|SoftBank|IIJ|GMO|Sakura|BIGLOBE|OCN|Rakuten|BBiX|JPNE|ARTERIA|🇸🇬|新加坡|狮城|Singapore|SG|Singtel|StarHub|M1|MyRepublic|ViewQwest|SuperInternet|Pacific Internet|Starhub|🇺🇸|美国|USA|US|America|United States|Verizon|AT&T|Comcast|Charter|CenturyLink|Cox|Spectrum|Xfinity|T-Mobile|Sprint|Level3|Cogent|QuadraNet|Psychz|Vultr|DigitalOcean|Linode|OVH|Choopa|🏠|家宽|家庭|住宅|home|🛰|家用|福利|新用户|邀请|网址|最新|流量|过期|剩余|套餐|更新|丢失|TG|频道|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍|直接|直连)).)*$"
+  all: &all_filter "^((?!(Traffic|Expire|🏠|家宽|家庭|住宅|home|🛰|家用|福利|新用户|邀请|网址|最新|流量|过期|剩余|套餐|更新|丢失|TG|频道|com|0\\.[1-9]|[2-9](\\.\\d+)?倍|[1-9]\\d倍|直接|直连)).)*$"
+
+# ----------------------------------------------------------
+# YAML 锚点 — 策略组模板
+# ----------------------------------------------------------
+group-template:
+  proxy-main: &proxyMain {type: select, proxies: [🚀 代理主线, 🇯🇵 日本, 🇸🇬 新加坡, 🇺🇸 美国, 🏠 家宽节点, 🌍 环球节点, 🛰 所有节点, 🔗 直连主线]}
+  direct-main: &directMain {type: select, proxies: [🔗 直连主线, 🚀 代理主线, 🇯🇵 日本, 🇸🇬 新加坡, 🇺🇸 美国, 🌍 环球节点, 🛰 所有节点]}
+
+# ----------------------------------------------------------
+# YAML 锚点 — 规则集模板
+# Stash 支持的 behavior 类型：
+#   domain    + format: text — 纯文本域名/通配符列表（MetaCubeX .list、peiyingyao Domain.txt）
+#   ipcidr    + format: text — 纯文本 IPv4/IPv6 CIDR 列表（MetaCubeX geoip .list、peiyingyao IP.txt）
+#   classical + format: text — 通用 Clash 规则行（DOMAIN-SUFFIX / IP-CIDR 等混合类型）
+# 参考：https://stash.wiki/rules/rule-set
+# ----------------------------------------------------------
+rule-providers-template:
+  domain:      &domain      {type: http, interval: 21600, behavior: domain, format: text}
+  domain-text: &domainText  {type: http, interval: 21600, behavior: domain, format: text}
+  classical:   &classical   {type: http, interval: 21600, behavior: classical, format: text}
+  ipcidr:      &ipcidr      {type: http, interval: 21600, behavior: ipcidr, format: text}
+  ipcidr-text: &ipcidrText  {type: http, interval: 21600, behavior: ipcidr, format: text}
+
+# ----------------------------------------------------------
+# 机场订阅（远程代理集 / Proxy Providers）
+# 参考：https://stash.wiki/proxy-protocols/proxy-providers
+# 填入你的机场订阅 URL（Clash/Stash 格式）
+# ----------------------------------------------------------
+proxy-providers:
+  wd-gold: {url: "订阅链接", interval: 3600}
+  guar: {url: "订阅链接", interval: 3600}
+
+proxies:
+  - {name: "直接连接", type: direct, udp: true}
+
+# ----------------------------------------------------------
+# 全局基础配置
+# 参考：https://stash.wiki/ 配置样例章节
+# ----------------------------------------------------------
+mode: rule       # 分流模式：rule（规则）/ global（全局代理）/ direct（全局直连）
+log-level: info  # 日志级别：silent / info / warning / error / debug
+ipv6: true
+
+# ----------------------------------------------------------
+# DNS 配置
+# 参考：https://stash.wiki/ 配置样例 DNS 章节
+# Stash 手机版作为 iOS Network Extension 运行，
+# 无需 listen、direct-nameserver 等路由器专用字段
+# ----------------------------------------------------------
+dns:
+  enable: true
+  ipv6: true
+  # Fake-IP 模式：大多数连接走代理时延迟更低
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  # 引导 DNS：仅用于解析 nameserver 本身的域名，必须填 IP
+  default-nameserver: [119.29.29.29, 223.5.5.5]  # 腾讯 DNSPod / 阿里 AliDNS（国内）
+  # 主要 DNS 解析服务器，支持 DoH / DoT
+  # Stash 建议配置不超过 2 个，以降低功耗
+  nameserver: ["https://doh.pub/dns-query", "https://dns.alidns.com/dns-query"]  # DNSPod DoH / AliDNS DoH
+  # 跳过 DoH/DoT 证书验证（解决部分国内 DNS 兼容性问题）
+  skip-cert-verify: true
+  # 按域名指定 DNS 服务器（国内域名走国内 DNS，避免污染）
+  # 注意：Stash 官方文档仅支持明确域名格式，不支持 rule-set: 引用
+  nameserver-policy:
+    "+.cn":            https://doh.pub/dns-query
+    "+.apple.com":     https://doh.pub/dns-query
+    "+.icloud.com":    https://doh.pub/dns-query
+    "+.baidu.com":     https://doh.pub/dns-query
+    "+.taobao.com":    https://doh.pub/dns-query
+    "+.tmall.com":     https://doh.pub/dns-query
+    "+.alipay.com":    https://doh.pub/dns-query
+    "+.qq.com":        https://doh.pub/dns-query
+    "+.wechat.com":    https://doh.pub/dns-query
+    "+.weixin.qq.com": https://doh.pub/dns-query
+    "+.tencent.com":   https://doh.pub/dns-query
+    "+.jd.com":        https://doh.pub/dns-query
+    "+.bilibili.com":  https://doh.pub/dns-query
+    "+.youku.com":     https://doh.pub/dns-query
+    "+.iqiyi.com":     https://doh.pub/dns-query
+    "+.163.com":       https://doh.pub/dns-query
+    "+.126.com":       https://doh.pub/dns-query
+    "+.zhihu.com":     https://doh.pub/dns-query
+    "+.weibo.com":     https://doh.pub/dns-query
+
+  # Fake-IP 白名单：以下域名返回真实 IP，不使用 Fake-IP
+  # 参考 Stash 官方示例中的常见域名
+  fake-ip-filter:
+    # NTP 时间同步（必须直连，否则系统时钟无法同步）
+    - "+.ntp"
+    - "+.time"
+    - "time.*.com"
+    - "time.*.gov"
+    - "time.*.edu.cn"
+    - "ntp.*.com"
+    - "pool.ntp.org"
+    # STUN（WebRTC、游戏语音等实时通信）
+    - "+.stun.*.*"
+    - "+.stun.*.*.*"
+    - "+.stun.*.*.*.*"
+    - "+.stun.*.*.*.*.*"
+    # Microsoft 连通性检测（避免 Windows 误判无网络）
+    - "*.msftncsi.com"
+    - "*.msftconnecttest.com"
+    # 常用国内服务（避免 Fake-IP 导致国内 App 访问异常）
+    - "+.services.googleapis.cn"
+    - "+.xn--ngstr-lra8j.com"
+    - "+.cn"
+    - "+.apple.com"
+    - "+.icloud.com"
+    - "+.baidu.com"
+    - "+.taobao.com"
+    - "+.tmall.com"
+    - "+.alipay.com"
+    - "+.qq.com"
+    - "+.wechat.com"
+    - "+.weixin.qq.com"
+    - "+.tencent.com"
+    - "+.jd.com"
+    - "+.bilibili.com"
+    - "+.youku.com"
+    - "+.iqiyi.com"
+    - "+.163.com"
+    - "+.126.com"
+    - "+.zhihu.com"
+    - "+.weibo.com"
+    # 开发/镜像站（直连）
+    - "+.yarnpkg.com"
+    - "+.ustclug.org"
+    - "mirrors.vsean.net"
+    - "+.vsean.net"
+
+# ----------------------------------------------------------
+# 策略组（Proxy Groups）
+# 参考：https://stash.wiki/proxy-protocols/proxy-groups
+#
+# Stash 支持的类型：select / url-test / fallback / load-balance
+# 注意：Mihomo 专属的 smart 类型在 Stash 中不可用，改用 url-test
+# ----------------------------------------------------------
+proxy-groups:
+  # ===== 顶层：通道控制 =====
+  - {name: 🚀 代理主线, type: select, proxies: [🇭🇰 港澳台, 🇯🇵 日本, 🇸🇬 新加坡, 🇺🇸 美国, 🧩 备份节点, 🏠 家宽节点, 🌍 环球节点, 🛰 所有节点, 🔗 直连主线]}
+  - {name: 🔗 直连主线, type: select, proxies: [直接连接]}
+  # ===== 应用服务策略 =====
+  - {name: 🌐 国际代理, <<: *proxyMain}
+  - {name: 🐠 漏网之鱼, <<: *proxyMain}
+  - {name: 🍎 Apple,      <<: *directMain}
+  - {name: 🍎 ApplePxy,   <<: *directMain}
+  - {name: ☁️ MicrosoftCN, <<: *directMain}
+  - {name: Ⓜ️ Microsoft,  <<: *proxyMain}
+  - {name: 🅖 Google,     <<: *proxyMain}
+  - {name: 🦑 Develop,    <<: *proxyMain}
+  - {name: 🧠 Intelligence,    <<: *proxyMain}
+  - {name: 🛩️ Telegram,   <<: *proxyMain}
+  - {name: 📺 流媒体,     <<: *proxyMain}
+  - {name: 🎵 Spotify,    <<: *proxyMain}
+  - {name: 🎬 TikTok,     <<: *proxyMain}
+  - {name: 💰 Wallet,     <<: *proxyMain}
+  - {name: ⏱ Speedtest,  <<: *directMain}
+
+  # ===== 节点池 =====
+  # url-test：自动选延迟最低节点；tolerance 为容忍抖动值（ms）
+  # 参考：https://stash.wiki/proxy-protocols/proxy-groups#url-test
+  - {name: 🇭🇰 港澳台, type: url-test, use: [wd-gold], interval: 180, tolerance: 10, filter: *gmt_filter}
+  - {name: 🇯🇵 日本, type: url-test, use: [wd-gold], interval: 180, tolerance: 10, filter: *jp_filter}
+  - {name: 🇸🇬 新加坡, type: url-test, use: [wd-gold], interval: 180, tolerance: 10, filter: *sg_filter}
+  - {name: 🇺🇸 美国, type: url-test, use: [wd-gold], interval: 180, tolerance: 10, filter: *us_filter}
+  # fallback：按列表顺序选首个可用节点（备用）
+  # 参考：https://stash.wiki/proxy-protocols/proxy-groups#fallback
+  - {name: 🧩 备份节点, type: fallback, use: [wd-gold, guar], interval: 180, tolerance: 10, filter: *all_filter}
+  # include-all: true 自动引用所有 proxies & proxy-providers 中的节点
+  # 参考：https://stash.wiki/proxy-protocols/proxy-groups（灵活组合代理章节）
+  - {name: 🏠 家宽节点, type: select, include-all: true, filter: *home_filter}
+  - {name: 🌍 环球节点, type: select, include-all: true, filter: *global_filter}
+  - {name: 🛰 所有节点, type: select, include-all: true, filter: *all_filter}
+
+# ----------------------------------------------------------
+# 分流规则（Rules）
+# 参考：https://stash.wiki/rules/rule-types
+# 从上到下依次匹配，首条命中的规则生效
+# ----------------------------------------------------------
+rules:
+  # NTP 时间服务（直连，避免时钟同步失败）
+  - DST-PORT,123,DIRECT
+  - RULE-SET,category_ntp_cn_domain,🔗 直连主线
+  - RULE-SET,category_ntp_domain,🌐 国际代理
+
+  # 私有地址直连
+  - RULE-SET,private_domain,🔗 直连主线
+
+  # 个人自定义规则（优先级最高，放在通用规则前面）
+  - RULE-SET,mine_proxy,🌐 国际代理
+  - RULE-SET,mine_direct,🔗 直连主线
+  - RULE-SET,mine_torrent,🔗 直连主线
+
+  # AI 智能服务
+  - RULE-SET,anthropic_domain,🧠 Intelligence
+  - RULE-SET,google_gemini_domain,🧠 Intelligence
+  - RULE-SET,category_ai_chat_notcn_domain,🧠 Intelligence
+
+  # 开发工具
+  - RULE-SET,github_domain,🦑 Develop
+  - RULE-SET,docker_ocd_domain,🦑 Develop
+  - RULE-SET,linux_domain,🦑 Develop
+  - RULE-SET,category_dev_domain,🦑 Develop
+  - RULE-SET,developer_ocd_domain,🦑 Develop
+  - RULE-SET,homebrew_domain,🦑 Develop
+  - RULE-SET,mine_develop,🦑 Develop
+
+  # Apple
+  - RULE-SET,apple_cn_domain,🍎 Apple
+  - RULE-SET,apple_domain,🍎 ApplePxy
+
+  # Microsoft
+  - RULE-SET,onedrive_domain,☁️ MicrosoftCN
+  - RULE-SET,microsoft_cn_domain,☁️ MicrosoftCN
+  - RULE-SET,microsoft_domain,Ⓜ️ Microsoft
+
+  # Google / YouTube
+  - RULE-SET,youtube_domian,📺 流媒体
+  - RULE-SET,google_domain,🅖 Google
+
+  # 社交通讯
+  - RULE-SET,telegram_domain,🛩️ Telegram
+  - RULE-SET,category_social_media_not_cn,🛩️ Telegram
+  - RULE-SET,category_communication,🛩️ Telegram
+  - RULE-SET,category_forums,🛩️ Telegram
+
+  # 流媒体
+  - RULE-SET,spotify_domain,🎵 Spotify
+  - RULE-SET,tiktok_domain,🎬 TikTok
+  - RULE-SET,category_porn_domain,📺 流媒体
+  - RULE-SET,globalmedia_ocd_domain,📺 流媒体
+  - RULE-SET,category_media_domain,📺 流媒体
+
+  # 直连服务
+  - RULE-SET,synology_domain,🔗 直连主线
+  - RULE-SET,category_bank_cn,🔗 直连主线
+
+  # 金融 / 测速
+  - RULE-SET,paypal_domain,💰 Wallet
+  - RULE-SET,speedtest_domain,⏱ Speedtest
+
+  # 全局代理兜底域名
+  - RULE-SET,proxy_domain,🌐 国际代理
+  - RULE-SET,gfw_domain,🌐 国际代理
+  - RULE-SET,geolocation_notcn_domain,🌐 国际代理
+
+  # 国内域名直连
+  - RULE-SET,cn_domain,🔗 直连主线
+
+  # IP 规则（no-resolve：不触发额外 DNS 解析）
+  - RULE-SET,ai_ip,🧠 Intelligence
+  - RULE-SET,apple_ip,🍎 Apple
+  - RULE-SET,globalmedia_ocd_ip,📺 流媒体,no-resolve
+  - RULE-SET,google_ip,🅖 Google,no-resolve
+  - RULE-SET,telegram_ip,🛩️ Telegram,no-resolve
+  - RULE-SET,cn_ip,🔗 直连主线
+
+  # 最终兜底
+  - MATCH,🐠 漏网之鱼
+
+# ----------------------------------------------------------
+# 规则集合（Rule Providers）
+# behavior / format 与 URL 内容对应：
+#   domain    + text ← MetaCubeX geosite .list、peiyingyao Domain.txt（域名/通配符）
+#   ipcidr    + text ← MetaCubeX geoip .list、peiyingyao IP.txt（CIDR）
+#   classical + text ← SlippinDylan .list（DOMAIN-SUFFIX/IP-CIDR 等 Clash 规则行）
+# 参考：https://stash.wiki/rules/rule-set
+# ----------------------------------------------------------
+rule-providers:
+
+  # 私有地址
+  private_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list"}
+  # AI 服务
+  anthropic_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/anthropic.list"}
+  google_gemini_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-gemini.list"}
+  category_ai_chat_notcn_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.list"}
+  ai_ip: {<<: *ipcidr, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/ai.list"}
+  # 开发工具
+  github_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.list"}
+  docker_ocd_domain: {<<: *domainText, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Docker/Docker_OCD_Domain.txt"}
+  linux_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/linux.list"}
+  category_dev_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-dev.list"}
+  developer_ocd_domain: {<<: *domainText, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/Developer/Developer_OCD_Domain.txt"}
+  homebrew_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/homebrew.list"}
+  # Apple
+  apple_cn_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple%40cn.list"}
+  apple_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.list"}
+  apple_ip: {<<: *ipcidr, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.list"}
+  # Microsoft
+  onedrive_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.list"}
+  microsoft_cn_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft%40cn.list"}
+  microsoft_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.list"}
+  # Google / YouTube
+  youtube_domian: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.list"}
+  google_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.list"}
+  google_ip: {<<: *ipcidr, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.list"}
+  # 社交通讯
+  telegram_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.list"}
+  telegram_ip: {<<: *ipcidr, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.list"}
+  category_social_media_not_cn: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-social-media-!cn.list"}
+  category_communication: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-communication.list"}
+  category_forums: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-forums.list"}
+  # 流媒体
+  spotify_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.list"}
+  tiktok_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.list"}
+  category_porn_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-porn.list"}
+  globalmedia_ocd_domain: {<<: *domainText, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/GlobalMedia/GlobalMedia_OCD_Domain.txt"}
+  globalmedia_ocd_ip: {<<: *ipcidrText, url: "https://gh-proxy.com/raw.githubusercontent.com/peiyingyao/Rule-for-OCD/master/rule/Clash/GlobalMedia/GlobalMedia_OCD_IP.txt"}
+  category_media_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-media.list"}
+  # 金融服务
+  paypal_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.list"}
+  category_bank_cn: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-bank-cn.list"}
+  # 工具 / 直连
+  synology_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/synology.list"}
+  speedtest_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/speedtest.list"}
+  # 全局代理
+  proxy_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geosite/proxy.list"}
+  gfw_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.list"}
+  geolocation_notcn_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.list"}
+  # 国内直连
+  cn_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.list"}
+  cn_ip: {<<: *ipcidr, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.list"}
+  # NTP 时间服务
+  category_ntp_cn_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ntp%40cn.list"}
+  category_ntp_domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ntp.list"}
+  # 个人自定义规则（classical 格式，含 DOMAIN-SUFFIX / IP-CIDR 等混合类型）
+  mine_develop: {<<: *classical, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/main/ruleProvider/develop.list"}
+  mine_proxy: {<<: *classical, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/main/ruleProvider/proxy.list"}
+  mine_direct: {<<: *classical, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/main/ruleProvider/direct.list"}
+  mine_torrent: {<<: *classical, url: "https://gh-proxy.com/raw.githubusercontent.com/SlippinDylan/proxyRules/main/ruleProvider/torrent.list"}
